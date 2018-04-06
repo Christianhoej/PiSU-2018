@@ -1,5 +1,5 @@
 package Test;
 
-public class CardRecieve {
+public class CardRecieve extends ChanceCard {
 
 }
