@@ -2,8 +2,10 @@ package Test;
 
 public class Chance extends Fields {
 	
-	public Chance(int position, String fieldName) {
-		super(position, fieldName);
+	
+
+	public Chance(int fieldNumber, String fieldName) {
+		super(fieldNumber, fieldName);
 		// TODO Auto-generated constructor stub
 	}
 
