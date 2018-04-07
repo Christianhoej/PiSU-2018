@@ -5,7 +5,7 @@ import Test.Account;
 public class Player {
 
 	private String name;
-	private int position;
+	protected int position;
 	private boolean broke;
 	private boolean winner;
 	private boolean inPrison;
