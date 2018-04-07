@@ -7,4 +7,7 @@ public class RealEstate extends Property {
 		// TODO Auto-generated constructor stub
 	}
 
-}
+	
+	}
+
+
