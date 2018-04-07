@@ -5,11 +5,11 @@ import Test.Account;
 public class Player {
 
 	private String name;
+	private Account account;
 	protected int position;
 	private boolean broke;
 	private boolean winner;
 	private boolean inPrison;
-	private Account account;
 
 	public Player(String name, int balance, int position, boolean broke, boolean winner, boolean inPrison) {
 		this.name = name;
