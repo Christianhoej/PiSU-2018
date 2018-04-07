@@ -2,21 +2,20 @@ package Test;
 
 public class Fields {
 
-	protected int position; //position ift feltets nummer, eller for spilleren??
+	protected int fieldNumber; 
 	protected String fieldName;
-	//protected int fieldNumber;
 
-	public Fields(int position, String fieldName) {
-		this.position = position;
+	public Fields(int fieldNumber, String fieldName) {
+		this.fieldNumber = fieldNumber;
 		this.fieldName = fieldName;
 	}
 
-	protected int getPosition() {
-		return position;
+	protected int getFieldNumber() {
+		return fieldNumber;
 	}
 
-	protected void setPosition(int position) {
-		this.position = position;
+	protected void setFieldNumber(int fieldNumber) {
+		this.fieldNumber = fieldNumber;
 	}
 
 	protected String getFieldName() {
