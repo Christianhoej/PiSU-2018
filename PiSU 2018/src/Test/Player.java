@@ -53,8 +53,13 @@ public class Player {
 	
 	public boolean inPrison() {
 		return inPrison;
-		
 	}
+	
+	public void setInPrison(boolean inPrison) {
+		this.inPrison=inPrison;
+	}
+	
+	
 }
 
 //Delvist taget fra CDIO3 - not done - Yoss
