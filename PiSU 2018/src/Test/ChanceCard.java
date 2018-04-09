@@ -13,11 +13,18 @@ public class ChanceCard {
 	protected String text;
 	protected int cardNumber;
 	
-	
+	/**
+	 * Constructor 
+	 * @param cardNumber
+	 * @param text
+	 */
 	public ChanceCard (int cardNumber, String text) {
 		this.cardNumber = cardNumber;
 		this.text = text;
 	}
 	
+	public void drawCard () {
+		
+	}
 	
 }

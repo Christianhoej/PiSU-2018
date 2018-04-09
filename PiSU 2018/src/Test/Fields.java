@@ -26,6 +26,10 @@ public class Fields {
 	protected void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
+	
+	public void landOnField(Player player) {
+		
+	}
 
 }
 
