@@ -1,7 +1,7 @@
 package Test;
 
 import Test.Player;
-import 
+import Test.Account;
 
 public class Property extends Fields {
 
@@ -45,9 +45,14 @@ public class Property extends Fields {
 	public void setOwner(Player player) {
 		this.owner = player;
 	}
+	public String getName() {
+		return fieldName;
+	}
 	
 	public void auction() {
-		gui.showMessage()
+		//Gui besked
+		//gui.showmessage(getName() + "is up for auction!");
+		//Skal implementeres. 
 	}
 	
 	@Override
@@ -67,6 +72,15 @@ public class Property extends Fields {
 			//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 			//Sætte ejendommen på auktion. 
 		else if (forSale==false) {
+			if (owner.inPrison()==true) {
+				gui.showMessage("Ejeren er i fængsel, du slipper denne gang!")
+			}
+			else {
+				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price)
+				getOwner().getAccount().addCash(price);
+				player.getAccount().subtractCash(price);
+				//Implementer: Tjek om spiller er broke. 
+			}
 			
 		}
 	}
