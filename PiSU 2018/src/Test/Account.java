@@ -14,8 +14,12 @@ import java.util.Set;
 
 
 public class Account {
-	private int cash=30000;
+	private int cash;
 	private int assets=0;
+
+	private int prisonCard=0;
+	private int totalValue=0;
+
 	private boolean broke;
 	private Property property;
 	private Property ownedProperties;
@@ -85,13 +89,17 @@ public class Account {
 	public int getCash() {
 		return cash;
 	}
-	public void setCash(int cash) {
-		this.cash = cash;
-	}
+	
 	public int getAssets() {
 		return assets;
 	}
-	public void setAssets(int assets) {
-		this.assets = assets;
-	}	
+	
+	
+	public void updatePrisonCard(int prisonCard) {
+		this.prisonCard += prisonCard;
+	}
+	
+	public int getPrisonCard() {
+		return prisonCard;
+	}
 }
