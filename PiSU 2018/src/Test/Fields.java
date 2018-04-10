@@ -1,6 +1,7 @@
 package Test;
 
-public class Fields {
+//Bør klassen være abstract?
+public abstract class Fields {
 
 	protected int fieldNumber; 
 	protected String fieldName;
@@ -28,9 +29,10 @@ public class Fields {
 	}
 	
 	public void landOnField(Player player) {
-		
 	}
 
-}
+	public abstract String toString(); 
+		
+	}
 
 
