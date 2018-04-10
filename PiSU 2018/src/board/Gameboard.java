@@ -18,7 +18,7 @@ public class Gameboard {
 		int i =0;
 		fields[i++] = new GUI_Start("Start", "Modtag: 4000", "Modtag kr. 4000,-\nnår de passerer start", Color.RED, Color.BLACK);
         fields[i++] = new GUI_Street("Rødovrevej", "Pris:  1200", "Rødovrevej", "Leje:  50", new Color(75, 155, 225), Color.BLACK);
-        fields[i++] = new GUI_Chance("?", "Prøv lykken", "Ta' et chancekort.", new Color(204, 204, 204), Color.BLACK);
+        fields[i++] = new GUI_Chance("?", "Prøv lykken", "Tag et chancekort.", new Color(204, 204, 204), Color.BLACK);
         fields[i++] = new GUI_Street("Hvidovrevej", "Pris:  1200", "Hvidovrevej", "Leje:  50", new Color(75, 155, 225), Color.BLACK);
         fields[i++] = new GUI_Tax("Betal\nindkomst-\nskat", "10% el. 4000", "Betal indkomstskat\n10% eller kr. 4000,-", Color.GRAY, Color.BLACK);
         fields[i++] = new GUI_Shipping("default", "Helsingør - Helsingborg", "Pris:  4000", "Helsingør - Helsingborg", "Leje:  500", Color.WHITE, Color.BLACK);
