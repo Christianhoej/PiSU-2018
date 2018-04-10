@@ -13,7 +13,7 @@ public class Player {
 
 	public Player(String name, int balance, int position, boolean broke, boolean winner, boolean inPrison) {
 		this.name = name;
-		this.account = new Account();
+		this.account = new Account(balance);
 		this.position = position;
 		this.broke = broke;
 		this.winner = winner;	
