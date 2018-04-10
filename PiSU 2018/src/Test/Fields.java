@@ -2,7 +2,7 @@ package Test;
 
 //Bør klassen være abstract?
 public abstract class Fields {
-
+//asd
 	protected int fieldNumber; 
 	protected String fieldName;
 
