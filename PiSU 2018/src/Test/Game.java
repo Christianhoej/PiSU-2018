@@ -12,7 +12,9 @@ public class Game {
 		setUpGame();
 		
 		while (winner.testIfWinner(player) == false){
+			// hvor mange spillere skal spille?
 			
+			// Opret spillere 
 		} 
 		
 	}
