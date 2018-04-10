@@ -66,9 +66,12 @@ public class Account {
 		}
 	}
 	
-	public void addProperty(Property property) {
-		ownedProperties.add(property);
+	public void addOwnedProperty(Property property) {
+		ownedProperties.addProperty(property);
+		
 	}
+	
+	public void removeOwnedProperty(Property property)
 	
 	
 	public void pawn() {
