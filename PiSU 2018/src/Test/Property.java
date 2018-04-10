@@ -63,7 +63,6 @@ public class Property extends Fields {
 		//gui.showmessage(getFieldName() + "is up for auction!");
 		//Skal implementeres. 
 		
-		
 	}
 	
 	@Override
