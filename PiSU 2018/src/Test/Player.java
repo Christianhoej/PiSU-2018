@@ -6,12 +6,13 @@ public class Player {
 
 	private String name;
 	private Account account;
-	protected int position;
+	protected Fields position;
 	private boolean broke;
 	private boolean winner;
 	private boolean inPrison;
 	private int amount;
 	private int[] ownedProperties = new int[32];
+
 
 	public Player(String name/*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
 		this.name = name;
@@ -20,6 +21,7 @@ public class Player {
 //		this.broke = broke;
 //		this.winner = winner;	
 //		this.inPrison = inPrison;
+
 	}
 	public String getName() {
 		return name;
@@ -33,7 +35,7 @@ public class Player {
 		return position;
 	}
 	
-	public void setPosition(int position) {
+	public void setPosition(Fields position) {
 		this.position = position;
 	}
 

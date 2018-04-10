@@ -2,7 +2,7 @@ package Test;
 
 public class Chance extends Fields {
 	
-	
+	//TEst321$132r
 
 	public Chance(int fieldNumber, String fieldName) {
 		super(fieldNumber, fieldName);

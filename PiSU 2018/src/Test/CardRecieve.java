@@ -5,12 +5,25 @@ package Test;
  * @author Christian ++
  *
  */
+
+import Test.Player;
+
 public class CardRecieve extends ChanceCard {
 
-	private int noget;
+	private int amount;
 	
-	public CardRecieve(int cardNumber, String text, int noget) {
-		super(cardNumber, text);
+	public void receiveMoney(Player player, int amount) {
+		player.getAccount().addCash(amount);
 	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	
+	
 	
 }
