@@ -14,7 +14,7 @@ import gui_fields.GUI_Tax;
 public class Gameboard {
 
 	private GUI_Field[] fields = new GUI_Field[40];	
-	public GUI_Field[] lavBræt() {
+	public GUI_Field[] makeBoard() {
 		int i =0;
 		fields[i++] = new GUI_Start("Start", "Modtag: 4000", "Modtag kr. 4000,-\nnår de passerer start", Color.RED, Color.BLACK);
         fields[i++] = new GUI_Street("Rødovrevej", "Pris:  1200", "Rødovrevej", "Leje:  50", new Color(75, 155, 225), Color.BLACK);
