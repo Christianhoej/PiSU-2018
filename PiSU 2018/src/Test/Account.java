@@ -8,8 +8,10 @@ package Test;
  *
  */
 public class Account {
-	private int cash=30000;
+	private int cash;
 	private int assets=0;
+	private int prisonCard=0;
+	private int totalValue=0;
 	
 	/**
 	 * Constructor for Account. 
@@ -51,13 +53,17 @@ public class Account {
 	public int getCash() {
 		return cash;
 	}
-	public void setCash(int cash) {
-		this.cash = cash;
-	}
+	
 	public int getAssets() {
 		return assets;
 	}
-	public void setAssets(int assets) {
-		this.assets = assets;
-	}	
+	
+	
+	public void updatePrisonCard(int prisonCard) {
+		this.prisonCard += prisonCard;
+	}
+	
+	public int getPrisonCard() {
+		return prisonCard;
+	}
 }

@@ -10,14 +10,16 @@ public class Player {
 	private boolean broke;
 	private boolean winner;
 	private boolean inPrison;
+	private int amount;
+	private int[] ownedProperties = new int[32];
 
-	public Player(String name, int balance, int position, boolean broke, boolean winner, boolean inPrison) {
+	public Player(String name/*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
 		this.name = name;
-		this.account = new Account();
-		this.position = position;
-		this.broke = broke;
-		this.winner = winner;	
-		this.inPrison = inPrison;
+		this.account = new Account(30000);
+//		this.position = position;
+//		this.broke = broke;
+//		this.winner = winner;	
+//		this.inPrison = inPrison;
 	}
 	public String getName() {
 		return name;
@@ -43,20 +45,51 @@ public class Player {
 		this.account = account;
 	}
 	
-	public boolean getBroke() {
+	public void subtractCash(int amount) {
+		account.subtractCash(amount);
+	}
+	
+	public void addCash(int amount) {
+		account.addCash(amount);
+	}
+	
+	public void subtractAssets(int amount) {
+		account.subtractAssets(amount);
+	}
+	
+	public void addAssets(int amount) {
+		account.addAssets(amount);
+	}
+	
+	public int getTotalValue() {
+		return account.getCash()+account.getAssets();
+	}
+	
+	public boolean isBroke() {
 		return broke;
 	}
+	
+	public void setBroke(boolean broke) {
+		this.broke = broke;
+	}
 
-	public boolean getWinner() {
+	public boolean isWinner() {
 		return winner;
 	}
 	
-	public boolean inPrison() {
+	public void setWinner(boolean winner) {
+		this.winner = winner;
+	}
+	public boolean isPrison() {
 		return inPrison;
 	}
 	
 	public void setInPrison(boolean inPrison) {
 		this.inPrison=inPrison;
+	}
+	
+	public void addOwnedProperties(int fieldNumber) {
+		ownedProperties[fieldNumber] = 1;
 	}
 	
 	
