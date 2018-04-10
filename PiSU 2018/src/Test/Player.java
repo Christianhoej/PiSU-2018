@@ -6,12 +6,12 @@ public class Player {
 
 	private String name;
 	private Account account;
-	protected int position;
+	protected Fields position;
 	private boolean broke;
 	private boolean winner;
 	private boolean inPrison;
 
-	public Player(String name, int balance, int position, boolean broke, boolean winner, boolean inPrison) {
+	public Player(String name, int balance, Fields position, boolean broke, boolean winner, boolean inPrison) {
 		this.name = name;
 		this.account = new Account(balance);
 		this.position = position;
@@ -31,7 +31,7 @@ public class Player {
 		return position;
 	}
 	
-	public void setPosition(int position) {
+	public void setPosition(Fields position) {
 		this.position = position;
 	}
 
