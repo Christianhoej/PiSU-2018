@@ -7,7 +7,7 @@ public class DiceCup {
 	public DiceCup(int i) {
 		dice = new Dice[i];
 		for (int j = 0; j < dice.length; j++) {
-			dice[j] = new Dice(6);
+			dice[j] = new Dice();
 		}
 	}
 	
