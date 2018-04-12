@@ -19,6 +19,7 @@ public class Player {
 //		this.broke = broke;
 //		this.winner = winner;	
 //		this.inPrison = inPrison;
+
 	}
 	public String getName() {
 		return name;
@@ -39,7 +40,7 @@ public class Player {
 		return acc;
 	}
 	
-	public void setPosition(int position) {
+	public void setPosition(Fields position) {
 		this.position = position;
 	}
 	

@@ -1,5 +1,6 @@
 package Test;
 /**
+
  * @author Christian
  * Contains methods and attributes for the players account.
  * This includes the players amount of cash and assets.
@@ -7,6 +8,12 @@ package Test;
  * The class will possibly contain the method for deciding whether the player is broke or not. 
  *
  */
+
+import Test.Player;
+import Test.Property;
+import java.util.Set;
+
+
 public class Account {
 	private int cash;
 	private int assetValue=0;
@@ -36,8 +43,10 @@ public class Account {
 	 * Add assets to the players account.
 	 * @param assets
 	 */
+
 	public void updateAssetValue(int assets) {
 		this.assetValue += assets;
+
 	}
 	
 	public int getAssetValue() {

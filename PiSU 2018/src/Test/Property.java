@@ -6,6 +6,7 @@ import board.Gameboard;
 import board.TestBoard;
 import gui_codebehind.GUI_BoardController;
 import gui_main.GUI;
+import Test.Account;
 
 public class Property extends Fields {
 
@@ -63,20 +64,16 @@ public class Property extends Fields {
 	public void auction() {
 		//Gui besked
 		//gui.showmessage(getFieldName() + "er sat på auktion!");
-		//Skal implementeres. 
-
-
-
-
-
-
+		//Skal implementeres. 		
 	}
+	
 
 	@Override
 	public void landOnField(Player player) {
 		//If the property is for sale
 		if (forSale) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 
+
 			String playerChoice = gui.getUserSelection(player.getName()+ " vil du købe " + getFieldName() + " for " + price, "Ja", "Nej");
 
 
@@ -88,9 +85,7 @@ public class Property extends Fields {
 				player.addOwnedProperties(fieldNumber);
 			}
 			else {
-				
-				
-			}
+      }
 			//Færdiggøres
 		}
 		//Hvis grunden ikke er til salg
@@ -102,6 +97,9 @@ public class Property extends Fields {
 		else if (forSale==false) {
 			if (owner.isPrison()==true) { 
 				//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
+	//	forSale==false{
+			if (owner.inPrison()==true || property) { 
+				GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
 			}
 			else {
 				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
@@ -109,7 +107,16 @@ public class Property extends Fields {
 				player.getAccount().subtractCash(price);
 				//Implementer: Tjek om spiller er broke. 
 			}
-
 		}
 	}
+
+	public void addProperty(Property property) {	
+		property.setOwner(player);
+	}
+	
+	public void removeProperty(Property property) {
+	}
+	
+	
+	
 }
