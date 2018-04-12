@@ -1,17 +1,16 @@
 package Test;
 /**
  * @author Christian
- *Contains methods and attributes for the players account.
- *This includes the players amount of cash and assets.
+ * Contains methods and attributes for the players account.
+ * This includes the players amount of cash and assets.
  *
- *The class will possibly contain the method for deciding whether the player is broke or not. 
+ * The class will possibly contain the method for deciding whether the player is broke or not. 
  *
  */
 public class Account {
 	private int cash;
-	private int assets=0;
+	private int assetValue=0;
 	private int prisonCard=0;
-	private int totalValue=0;
 	
 	/**
 	 * Constructor for Account. 
@@ -24,40 +23,26 @@ public class Account {
 	 * Add cash to the players account
 	 * @param cash
 	 */
-	public void addCash(int cash) {
+	public void updateCash(int cash) {
 		this.cash+=cash;
 	}
-	/**
-	 * Add assets to the players account.
-	 * @param assets
-	 */
-	public void addAssets(int assets) {
-		this.assets += assets;
-	}	
-	/**
-	 * Subtracts cash from the players account. 
-	 * @param cash
-	 */
-	public void subtractCash (int cash) {
-		this.cash -= cash;
-	}
-	
-	/**
-	 * Subtracts assets from the players account.
-	 * @param assets
-	 */
-	public void subtractAssets (int assets) {
-		this.assets -= assets;
-	}
+		
 	
 	public int getCash() {
 		return cash;
 	}
 	
-	public int getAssets() {
-		return assets;
+	/**
+	 * Add assets to the players account.
+	 * @param assets
+	 */
+	public void updateAssetValue(int assets) {
+		this.assetValue += assets;
 	}
 	
+	public int getAssetValue() {
+		return assetValue;
+	}
 	
 	public void updatePrisonCard(int prisonCard) {
 		this.prisonCard += prisonCard;
