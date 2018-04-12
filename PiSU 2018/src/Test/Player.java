@@ -6,15 +6,13 @@ public class Player {
 
 	private String name;
 	private Account account;
-	protected Fields position;
+	protected int position=0;
 	private boolean broke;
-	private boolean winner;
-	private boolean inPrison;
+	private int inPrison;
 	private int amount;
 	private int[] ownedProperties = new int[32];
 
-
-	public Player(String name/*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
+	public Player(String name /*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
 		this.name = name;
 		this.account = new Account(30000);
 //		this.position = position;
@@ -27,44 +25,27 @@ public class Player {
 		return name;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	
+	public void updateAccount(int cash, int assetValue, int prisonCard) {
+		account.updateCash(amount);
+		account.updateAssetValue(amount);
+		account.updatePrisonCard(prisonCard);
 	}
 	
-	public int getPosition() {
-		return position;
+	public int[] getAccount() {
+		int[] acc = new int[3];
+		acc[0] = account.getCash();
+		acc[1] = account.getAssetValue();
+		acc[2] = account.getPrisonCard();
+		return acc;
 	}
 	
 	public void setPosition(Fields position) {
 		this.position = position;
 	}
-
-	public Account getAccount() {
-		return account;
-	}
 	
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-	
-	public void subtractCash(int amount) {
-		account.subtractCash(amount);
-	}
-	
-	public void addCash(int amount) {
-		account.addCash(amount);
-	}
-	
-	public void subtractAssets(int amount) {
-		account.subtractAssets(amount);
-	}
-	
-	public void addAssets(int amount) {
-		account.addAssets(amount);
-	}
-	
-	public int getTotalValue() {
-		return account.getCash()+account.getAssets();
+	public int getPosition() {
+		return position;
 	}
 	
 	public boolean isBroke() {
@@ -74,19 +55,26 @@ public class Player {
 	public void setBroke(boolean broke) {
 		this.broke = broke;
 	}
-
-	public boolean isWinner() {
-		return winner;
+	
+	public int getTotalValue() {
+		return account.getCash()+account.getAssetValue();
 	}
 	
-	public void setWinner(boolean winner) {
-		this.winner = winner;
-	}
-	public boolean isPrison() {
+	public int getInPrison() {
 		return inPrison;
 	}
 	
-	public void setInPrison(boolean inPrison) {
+	/**
+	 * 
+	 * @param inPrison - 	value, that determines if and how long a player has been in prison.
+	 * 						0 - player is not in prison
+	 * 						1 - player is in prison
+	 * 						2 - player is in prison and has been there for one turn
+	 * 						3 - player is in prison and has been there for two turns
+	 * 						4 - player is in prison and has been there for three turns
+	 * 
+	 */
+	public void setInPrison(int inPrison) {
 		this.inPrison=inPrison;
 	}
 	
