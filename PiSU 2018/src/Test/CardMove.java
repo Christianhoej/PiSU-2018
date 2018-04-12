@@ -20,4 +20,5 @@ public class CardMove extends ChanceCard {
 	
 	
 	
+	
 }
