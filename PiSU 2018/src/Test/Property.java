@@ -1,5 +1,10 @@
 package Test;
-
+/**@author Christian, Gunn, Yoss
+ * 
+ * 
+ * 
+ * 
+ */
 import Test.Player; 
 import Test.Account;
 import board.Gameboard;
@@ -13,12 +18,14 @@ public class Property extends Fields {
 	protected boolean forSale=true;
 	protected int price;
 	protected int rent;
+	protected boolean mortage;
+	protected int mortagePrice;
 	protected Player owner;
 	protected Player player;
 	private GUI gui;
 
 
-	public Property(int fieldNumber, String fieldName, Player owner) {
+	public Property(int fieldNumber, String fieldName) {
 		super(fieldNumber, fieldName);
 	}
 
@@ -48,6 +55,22 @@ public class Property extends Fields {
 
 	public Player getOwner() {
 		return owner;
+	}
+
+	public void setMortage(boolean mortage) {
+		this.mortage = mortage;
+	}
+
+	public boolean getMortage() {
+		return mortage;
+	}
+
+	public void setMortagePrice(int mortagePrice) {
+		this.mortagePrice = mortagePrice;
+	}
+
+	public int getMortagePrice () {
+		return mortagePrice;
 	}
 
 	public void setOwner(Player player) {
@@ -84,8 +107,8 @@ public class Property extends Fields {
 				player.getAccount().updateCash(-price);
 				player.addOwnedProperties(fieldNumber);
 			}
-			else {
-			}
+			else auction();
+
 			//Færdiggøres
 		}
 		//Hvis grunden ikke er til salg
@@ -95,28 +118,31 @@ public class Property extends Fields {
 		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 		//Sætte ejendommen på auktion. 
 		else if (forSale==false) {
-			if (owner.getInPrison()==0) { 
-				//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
-				//	forSale==false{
-				if (owner.getInPrison()==0 /*|| property*/) { 
-					//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
-				}
-				else {
-					gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
-					getOwner().getAccount().updateCash(price);
-					player.getAccount().updateCash(-price);
-					//Implementer: Tjek om spiller er broke. 
-				}
+			if (owner.equals(player)) {
+				gui.showMessage(toString() + "Du er selv ejer af dette felt, og skal ikke betale noget.");
+			}
+			else if (owner.getInPrison()!= 0) { 
+				gui.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
+			}
+			else if (getMortage()) {
+				gui.showMessage(toString() + "Grunden er pantsat, du slipper denne gang.");
+			}
+			else {
+				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
+				getOwner().getAccount().updateCash(price);
+				player.getAccount().updateCash(-price);
+				//Implementer: Tjek om spiller er broke. 
 			}
 		}
 	}
 
-	public void addProperty(Property property) {	
-		property.setOwner(player);
-	}
 
-	public void removeProperty(Property property) {
-	}
+public void addProperty(Property property) {	
+	property.setOwner(player);
+}
+
+public void removeProperty(Property property) {
+}
 
 
 
