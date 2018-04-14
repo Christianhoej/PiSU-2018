@@ -1,15 +1,23 @@
 package Test;
 /**
+
  * @author Christian
- *Contains methods and attributes for the players account.
- *This includes the players amount of cash and assets.
+ * Contains methods and attributes for the players account.
+ * This includes the players amount of cash and assets.
  *
- *The class will possibly contain the method for deciding whether the player is broke or not. 
+ * The class will possibly contain the method for deciding whether the player is broke or not. 
  *
  */
+
+import Test.Player;
+import Test.Property;
+import java.util.Set;
+
+
 public class Account {
-	private int cash=30000;
-	private int assets=0;
+	private int cash;
+	private int assetValue=0;
+	private int prisonCard=0;
 	
 	/**
 	 * Constructor for Account. 
@@ -22,42 +30,34 @@ public class Account {
 	 * Add cash to the players account
 	 * @param cash
 	 */
-	public void addCash(int cash) {
+	public void updateCash(int cash) {
 		this.cash+=cash;
 	}
-	/**
-	 * Add assets to the players account.
-	 * @param assets
-	 */
-	public void addAssets(int assets) {
-		this.assets += assets;
-	}	
-	/**
-	 * Subtracts cash from the players account. 
-	 * @param cash
-	 */
-	public void subtractCash (int cash) {
-		this.cash -= cash;
-	}
-	
-	/**
-	 * Subtracts assets from the players account.
-	 * @param assets
-	 */
-	public void subtractAssets (int assets) {
-		this.assets -= assets;
-	}
+		
 	
 	public int getCash() {
 		return cash;
 	}
-	public void setCash(int cash) {
-		this.cash = cash;
+	
+	/**
+	 * Add assets to the players account.
+	 * @param assets
+	 */
+
+	public void updateAssetValue(int assets) {
+		this.assetValue += assets;
+
 	}
-	public int getAssets() {
-		return assets;
+	
+	public int getAssetValue() {
+		return assetValue;
 	}
-	public void setAssets(int assets) {
-		this.assets = assets;
-	}	
+	
+	public void updatePrisonCard(int prisonCard) {
+		this.prisonCard += prisonCard;
+	}
+	
+	public int getPrisonCard() {
+		return prisonCard;
+	}
 }

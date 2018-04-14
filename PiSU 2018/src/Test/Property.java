@@ -1,11 +1,12 @@
 package Test;
 
-import Test.Player;
+import Test.Player; 
 import Test.Account;
 import board.Gameboard;
 import board.TestBoard;
 import gui_codebehind.GUI_BoardController;
 import gui_main.GUI;
+import Test.Account;
 
 public class Property extends Fields {
 
@@ -13,11 +14,13 @@ public class Property extends Fields {
 	protected int price;
 	protected int rent;
 	protected Player owner;
+	private GUI gui;
+
 
 	public Property(int fieldNumber, String fieldName, Player owner) {
 		super(fieldNumber, fieldName);
 	}
-	
+
 	public boolean isForSale() {
 		return forSale;
 	}
@@ -52,51 +55,68 @@ public class Property extends Fields {
 	public String getFieldName() {
 		return fieldName;
 	}
-	
+
 	@Override
 	public String toString(){
 		return "Du har landet på " + fieldName;
 	}
-	
+
 	public void auction() {
 		//Gui besked
-		//gui.showmessage(getFieldName() + "is up for auction!");
-		//Skal implementeres. 
-		
-		
+		//gui.showmessage(getFieldName() + "er sat på auktion!");
+		//Skal implementeres. 		
 	}
 	
+
 	@Override
 	public void landOnField(Player player) {
 		//If the property is for sale
 		if (forSale) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 
-			String playerChoice = GUI.getUserSelection(player.getName()+ "vil du købe " 
-			+ getFieldName() + "for " + price);
-			
-			//if (yes):
-			setForSale(false);
-			setOwner(player);
-			//else::::
+
+			String playerChoice = gui.getUserSelection(player.getName()+ " vil du købe " + getFieldName() + " for " + price, "Ja", "Nej");
+
+
+			if (playerChoice.equals("yes")) {
+				setForSale(false);
+				setOwner(player);
+				player.subtractCash(price);
+				player.addAssets(price);
+				player.addOwnedProperties(fieldNumber);
+			}
+			else {
+      }
 			//Færdiggøres
 		}
 		//Hvis grunden ikke er til salg
 		//Spilleren kan, når han lander på grunden:
-			//Købe den, 
-			//Betale leje 
-			//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-			//Sætte ejendommen på auktion. 
+		//Købe den, 
+		//Betale leje 
+		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
+		//Sætte ejendommen på auktion. 
 		else if (forSale==false) {
-			if (owner.inPrison()==true) { 
+			if (owner.isPrison()==true) { 
 				//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
+	//	forSale==false{
+			if (owner.inPrison()==true || property) { 
+				GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
 			}
 			else {
-				GUI.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
+				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
 				getOwner().getAccount().addCash(price);
 				player.getAccount().subtractCash(price);
 				//Implementer: Tjek om spiller er broke. 
 			}
-			
 		}
 	}
+
+	public void addProperty(Property property) {	
+		property.setOwner(player);
+	}
+	
+	public void removeProperty(Property property) {
+	}
+	
+	
+	
 }
