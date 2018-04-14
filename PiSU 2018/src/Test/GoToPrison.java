@@ -4,7 +4,7 @@ import Test.Player;
 import board.Gameboard;
 /**
  * 
- * @author Christian ++
+ * @author Christian, Yoss, Gunn
  *
  */
 public class GoToPrison extends Fields{
