@@ -9,7 +9,6 @@ public class Player {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
-	private int amount;
 	private int[] ownedProperties = new int[32];
 
 	public Player(String name /*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
@@ -25,22 +24,27 @@ public class Player {
 		return name;
 	}
 	
-	
-	public void updateAccount(int cash, int assetValue, int prisonCard) {
-		account.updateCash(amount);
-		account.updateAssetValue(amount);
-		account.updatePrisonCard(prisonCard);
+	// Smartere at kalde account direkte, istedet for at lave "hjælpe metoder" til at gøre det samme
+	// --> Undgå redundens
+	public Account getAccount() {
+		return account;
 	}
 	
-	public int[] getAccount() {
-		int[] acc = new int[3];
-		acc[0] = account.getCash();
-		acc[1] = account.getAssetValue();
-		acc[2] = account.getPrisonCard();
-		return acc;
-	}
+//	public int[] getAccount1() {
+//		int[] acc = new int[3];
+//		acc[0] = account.getCash();
+//		acc[1] = account.getAssetValue();
+//		acc[2] = account.getPrisonCard();
+//		return acc;
+//	}
 	
-	public void setPosition(Fields position) {
+//	public void updateAccount(int cash, int assetValue, int prisonCard) {
+//	account.updateCash(cash);
+//	account.updateAssetValue(assetValue);
+//	account.updatePrisonCard(prisonCard);
+//}
+	
+	public void setPosition(int position) {
 		this.position = position;
 	}
 	
