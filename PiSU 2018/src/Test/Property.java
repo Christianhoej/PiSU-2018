@@ -14,6 +14,7 @@ public class Property extends Fields {
 	protected int price;
 	protected int rent;
 	protected Player owner;
+	protected Player player;
 	private GUI gui;
 
 
@@ -66,7 +67,7 @@ public class Property extends Fields {
 		//gui.showmessage(getFieldName() + "er sat på auktion!");
 		//Skal implementeres. 		
 	}
-	
+
 
 	@Override
 	public void landOnField(Player player) {
@@ -80,12 +81,11 @@ public class Property extends Fields {
 			if (playerChoice.equals("yes")) {
 				setForSale(false);
 				setOwner(player);
-				player.subtractCash(price);
-				player.addAssets(price);
+				player.getAccount().updateCash(-price);
 				player.addOwnedProperties(fieldNumber);
 			}
 			else {
-      }
+			}
 			//Færdiggøres
 		}
 		//Hvis grunden ikke er til salg
@@ -95,17 +95,18 @@ public class Property extends Fields {
 		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 		//Sætte ejendommen på auktion. 
 		else if (forSale==false) {
-			if (owner.isPrison()==true) { 
+			if (owner.getInPrison()==0) { 
 				//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
-	//	forSale==false{
-			if (owner.inPrison()==true || property) { 
-				GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
-			}
-			else {
-				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
-				getOwner().getAccount().addCash(price);
-				player.getAccount().subtractCash(price);
-				//Implementer: Tjek om spiller er broke. 
+				//	forSale==false{
+				if (owner.getInPrison()==0 /*|| property*/) { 
+					//GUI.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
+				}
+				else {
+					gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
+					getOwner().getAccount().updateCash(price);
+					player.getAccount().updateCash(-price);
+					//Implementer: Tjek om spiller er broke. 
+				}
 			}
 		}
 	}
@@ -113,10 +114,10 @@ public class Property extends Fields {
 	public void addProperty(Property property) {	
 		property.setOwner(player);
 	}
-	
+
 	public void removeProperty(Property property) {
 	}
-	
-	
-	
+
+
+
 }
