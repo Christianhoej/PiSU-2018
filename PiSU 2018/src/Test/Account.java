@@ -28,10 +28,10 @@ public class Account {
 	}
 	/**
 	 * Add cash to the players account
-	 * @param cash
+	 * @param d
 	 */
-	public void updateCash(int cash) {
-		this.cash+=cash;
+	public void updateCash(int d) {
+		this.cash+=d;
 	}
 		
 	
