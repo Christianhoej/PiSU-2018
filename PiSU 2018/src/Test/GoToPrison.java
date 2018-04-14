@@ -13,9 +13,16 @@ public class GoToPrison extends Fields{
 		super(fieldNumber, fieldName);
 	}
 
-	public void moveToPrison (Player player) {
-		player.setPosition(10);
-		player.setInPrison(true);
+	@Override
+	public String toString() {
+		return null;
 	}
-	
+
+	@Override
+	public void landOnField(Player player) {
+		player.setPosition(10);
+		player.setInPrison(1);
+
+	}
+
 }
