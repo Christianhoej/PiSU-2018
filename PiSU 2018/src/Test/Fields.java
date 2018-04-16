@@ -28,7 +28,7 @@ public abstract class Fields {
 		this.fieldName = fieldName;
 	}
 	
-	public void landOnField(Player player) {
+	public void landOnField(Player player, Player[] playerArray) {
 	}
 
 	public abstract String toString(); 
