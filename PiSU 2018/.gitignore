@@ -1,3 +1,4 @@
-target
-target/*
-*/META-INF/*
+*/target/*
+//target
+//target/*
+//*/META-INF/*
