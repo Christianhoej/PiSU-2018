@@ -78,11 +78,11 @@ public class Property extends Fields {
 	public String toString(){
 		return "Du har landet på " + fieldName;
 	}
-/**
- * Method for when a property is up for auction.
- * @param player
- * @param playerArray
- */
+	/**
+	 * Method for when a property is up for auction.
+	 * @param player
+	 * @param playerArray
+	 */
 	public void auction(Player player, Player [] playerArray) {
 		int currentPlayer = -1;
 		gui.showMessage(getFieldName() + "er sat på auktion!");	
@@ -94,16 +94,16 @@ public class Property extends Fields {
 		int currentBid=100;
 		//New array with the player originally landing on the field, as the last. 
 		Player[] auctionArray = new Player[playerArray.length];
-			for(int i = currentPlayer+1; i<playerArray.length; i++) {
-				auctionArray[i]=playerArray[i];
-			}
-			for(int i=0; i<currentPlayer; i++) {
-				auctionArray[i]=playerArray[i];
-			}
-			//The amount of player withdrawn from the auction. 
-			int playersOut=0;
-			//index at the highest bidder at the current time. 
-			int auctionWinner=-1;
+		for(int i = currentPlayer+1; i<playerArray.length; i++) {
+			auctionArray[i]=playerArray[i];
+		}
+		for(int i=0; i<currentPlayer; i++) {
+			auctionArray[i]=playerArray[i];
+		}
+		//The amount of player withdrawn from the auction. 
+		int playersOut=0;
+		//index at the highest bidder at the current time. 
+		int auctionWinner=-1;
 		//Running as long as there are at least 2 players left
 		while (playersOut<auctionArray.length-1) {
 			for (int i=0; i<auctionArray.length; i++) {
@@ -160,7 +160,6 @@ public class Property extends Fields {
 		}
 		//Hvis grunden ikke er til salg
 		//Spilleren kan, når han lander på grunden:
-		//Købe den, 
 		//Betale leje 
 		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 		//Sætte ejendommen på auktion. 
@@ -182,15 +181,4 @@ public class Property extends Fields {
 			}
 		}
 	}
-
-
-public void addProperty(Property property) {	
-	property.setOwner(player);
-}
-
-public void removeProperty(Property property) {
-}
-
-
-
 }

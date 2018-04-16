@@ -84,6 +84,13 @@ public class Player {
 		ownedProperties[fieldNumber] = 1;
 	}
 	
+	public void removeOwnedProperties(int fieldNumber) {
+		ownedProperties[fieldNumber] = 0;
+	}
+	
+	public int[] getOwnedProperties() {
+		return ownedProperties;
+	}
 	
 }
 
