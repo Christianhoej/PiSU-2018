@@ -88,5 +88,3 @@ public class Player {
 	
 	
 }
-
-//Delvist taget fra CDIO3 - not done - Yoss
