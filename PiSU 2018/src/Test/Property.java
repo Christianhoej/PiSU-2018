@@ -63,28 +63,7 @@ public class Property extends Fields {
 	}
 
 	public void auction() {
-		//Gui besked
-		//gui.showmessage(getFieldName() + "er sat på auktion!");
-		//Skal implementeres. 		
-	}
-
-
-	@Override
-	public void landOnField(Player player) {
-		//If the property is for sale
-		if (forSale) {
-			//Vil spilleren købe den ellers skal den sættes på auktion 
-
-			String playerChoice = gui.getUserSelection(player.getName()+ " vil du købe " + getFieldName() + " for " + price, "Ja", "Nej");
-
-
-			if (playerChoice.equals("yes")) {
-				setForSale(false);
-				setOwner(player);
-				player.getAccount().updateCash(-price);
-				player.addOwnedProperties(fieldNumber);
-			}
-			else {
+ 			else {
 			}
 			//Færdiggøres
 		}
