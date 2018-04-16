@@ -1,4 +1,4 @@
-package Test;
+package model;
 /**
  * Inheriting methods & attributes from the ChanceCard class
  * Includes methods & attributes for cards that directs a player to move to a specific field.

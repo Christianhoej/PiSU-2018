@@ -1,4 +1,4 @@
-package Test;
+package model;
 /**
 
  * @author Christian
@@ -9,8 +9,6 @@ package Test;
  *
  */
 
-import Test.Player;
-import Test.Property;
 import java.util.Set;
 
 

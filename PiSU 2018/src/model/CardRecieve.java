@@ -1,12 +1,10 @@
-package Test;
+package model;
 /**
  * Inheriting methods & attributes from the ChanceCard class
  * includes methods for when a player must move his car, following a drawn chancecard. 
  * @author Christian ++
  *
  */
-
-import Test.Player;
 
 public class CardRecieve extends ChanceCard {
 

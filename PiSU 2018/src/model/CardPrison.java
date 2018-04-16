@@ -1,4 +1,4 @@
-package Test;
+package model;
 /**
  * Inheriting methods & attributes from the ChanceCard class
  * Contains methods for when a player must go to prison, following a drawn chancecard. 

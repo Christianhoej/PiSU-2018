@@ -1,5 +1,5 @@
-package Test;
-import Test.Dice;
+package model;
+import model.Dice;
 
 public class DiceCup {
 	private Dice[] dice;

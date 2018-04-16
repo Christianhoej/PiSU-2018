@@ -1,4 +1,4 @@
-package Test;
+package model;
 
 //Bør klassen være abstract?
 public abstract class Fields {

@@ -1,4 +1,4 @@
-package Test;
+package model;
 
 /**
  * Contains methods methods & attributes for the chancecards, which are extended/inherited in

@@ -1,17 +1,9 @@
-package Test;
-/**@author Christian, Gunn, Yoss
- * 
- * 
- * 
- * 
- */
-import Test.Player; 
-import Test.Account;
+package model;
 import board.Gameboard;
 import board.TestBoard;
 import gui_codebehind.GUI_BoardController;
 import gui_main.GUI;
-import Test.Account;
+
 import java.util.Arrays;
 import org.apache.commons.lang.ArrayUtils;
 

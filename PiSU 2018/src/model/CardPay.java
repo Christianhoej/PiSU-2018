@@ -1,4 +1,4 @@
-package Test;
+package model;
 /**
  * Inheriting methods & attributes from the ChanceCard class.
  * Includes methods for chancecards of when a player must pay money. 

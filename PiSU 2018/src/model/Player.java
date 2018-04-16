@@ -1,6 +1,4 @@
-package Test;
-
-import Test.Account;
+package model;
 
 public class Player {
 

@@ -1,6 +1,5 @@
-package Test;
+package model;
 
-import Test.Player;
 import board.Gameboard;
 /**
  * 
