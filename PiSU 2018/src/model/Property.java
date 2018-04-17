@@ -1,10 +1,8 @@
 package model;
-import board.Gameboard; 
-import board.TestBoard;
-import gui_codebehind.GUI_BoardController;
+
 import gui_main.GUI;
 
-import java.util.Arrays;
+
 
 public class Property extends Fields {
 
