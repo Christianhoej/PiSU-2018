@@ -10,4 +10,18 @@ public class Chance extends Fields {
 	}
 
 	private String text;
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void landOnField(Player player, Player[] playerArray) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 }

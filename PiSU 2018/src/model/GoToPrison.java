@@ -1,6 +1,6 @@
 package model;
 
-import board.Gameboard;
+
 /**
  * 
  * @author Christian, Yoss, Gunn
@@ -18,10 +18,8 @@ public class GoToPrison extends Fields{
 	}
 
 	@Override
-	public void landOnField(Player player) {
+	public void landOnField(Player player, Player[] playerArray) {
 		player.setPosition(10);
 		player.setInPrison(1);
-
 	}
-
 }
