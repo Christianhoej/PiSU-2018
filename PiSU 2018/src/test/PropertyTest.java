@@ -90,7 +90,7 @@ public class PropertyTest extends Fields {
 		
 		int currentPlayer = -1;
 		//gui.showMessage(getFieldName() + "er sat på auktion!");	
-		System.out.println(getFieldName() + "er sat på auktion!");	
+		System.out.println(getFieldName() + " er sat på auktion!");	
 		for (int i=0; i<playerArray.length; i++) {
 			if (player.equals(playerArray[i])) {
 				currentPlayer=i;
