@@ -7,15 +7,19 @@ package model;
  */
 public class CardMove extends ChanceCard {
 
-	private int test;
+	private int moveTo;
 	/**
 	 * Constructor 
 	 * @param cardNumber
 	 * @param text
 	 * @param test
 	 */
-	public CardMove(int cardNumber, String text,int test) {
+	public CardMove(int cardNumber, String text,Fields fieldNumber) {
 		super(cardNumber,text);
+		moveTo = fieldNumber.getFieldNumber();
+	}
+	public void moveToField(Player player) {
+		player.setPosition(moveTo);
 	}
 	
 	

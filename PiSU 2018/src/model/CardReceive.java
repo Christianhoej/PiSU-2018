@@ -1,6 +1,8 @@
 package model;
 
+
 import model.Txt;
+
 
 /**
  * Inheriting methods & attributes from the ChanceCard class
@@ -11,25 +13,26 @@ import model.Txt;
 
 public class CardReceive extends ChanceCard {
 
-	public CardRecieve(int cardNumber, String text) {
+	private int amount;
+	
+	public CardReceive(int cardNumber, String text, int amount){
 		super(cardNumber, text);
+		this.amount = amount;
 	}
 
-	String[] fieldName = Txt.file("CardRecieve");
+
+
+	String[] fieldName = Txt.file("CardReceive");
 	private int amount;
 	
 	public void receiveMoney(Player player, int amount) {
+
 		player.getAccount().updateCash(amount);
 	}
 
 	public int getAmount() {
 		return amount;
 	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	
 	
 	
 }
