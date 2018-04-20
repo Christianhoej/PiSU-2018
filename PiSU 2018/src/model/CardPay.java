@@ -7,10 +7,14 @@ package model;
  */
 public class CardPay extends ChanceCard {
 
-	private int noget;
+	private int amountToPay;
 	
-	public CardPay(int cardNumber, String text, int noget) {
+	public CardPay(int cardNumber, String text, int amountToPay) {
 		super( cardNumber, text);
+		this.amountToPay = amountToPay;
+	}
+	public int getAmountToPay() {
+		return amountToPay;
 	}
 	
 }
