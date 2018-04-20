@@ -9,7 +9,7 @@ import model.Txt;
  *
  */
 
-public class CardRecieve extends ChanceCard {
+public class CardReceive extends ChanceCard {
 
 	public CardRecieve(int cardNumber, String text) {
 		super(cardNumber, text);
