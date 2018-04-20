@@ -8,10 +8,17 @@ package model;
  */
 public class CardPrison extends ChanceCard {
 
-	private int noget;
+	private int fieldNumber;
 	
-	public CardPrison(int cardNumber, String text, int noget) {
+	public CardPrison(int cardNumber, String text) {
 		super(cardNumber, text);
+		fieldNumber = 10;
+	
+	}
+	public void moveToPrison(Player player) {
+		player.setInPrison(1);		
+		player.setPosition(fieldNumber);
+
 	}
 	
 }

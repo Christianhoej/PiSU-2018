@@ -42,7 +42,11 @@ public class Player {
 	//}
 
 	public void setPosition(int position) {
+		if (this.position > position && inPrison <1)
+	    account.updateCash(4000);
+		
 		this.position = position;
+		
 	}
 
 	public int getPosition() {
