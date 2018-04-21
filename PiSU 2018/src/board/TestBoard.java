@@ -10,7 +10,7 @@ public class TestBoard {
 	
 
 	public static void main(String[] args) {
-		Gameboard2 b = new Gameboard2();
+		Gameboard b = new Gameboard();
 		GUI gui = new GUI(b.makeBoard());
 		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3","4", "5", "6", "7"));
 		Player[] player = new Player[playerAmount];
