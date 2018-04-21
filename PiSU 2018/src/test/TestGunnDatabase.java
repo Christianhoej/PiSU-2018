@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class TestGunnDatabase {
     private final String HOST     = "localhost";
     private final int    PORT     = 3306;
-    private final String DATABASE = "matador1.2";
+    private final String DATABASE = "mydb";
     private final String USERNAME = "root"; 
     private final String PASSWORD = "";
     private Connection connection;
