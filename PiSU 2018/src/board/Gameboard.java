@@ -17,11 +17,13 @@ public class Gameboard {
 	private GUI_Field[] fields = new GUI_Field[40];	
 	String[] fieldName = Txt.file("FieldNames.txt");
 	String[] fieldPrices = Txt.file("Prices.txt");
-	String[] fieldMessage = Txt.file("FieldMessage");
+	String[] fieldMessage = Txt.file("fieldMessage.txt");
 	
 	public GUI_Field[] makeBoard() {
 		
 		System.out.println(fieldName.length);
+		System.out.println(fieldPrices.length);
+		System.out.println(fieldMessage.length);
 		int i =7;
 		fields[0] = new GUI_Start("Hey", "Gunn", fieldMessage[1], Color.RED, Color.BLACK);
         fields[1] = new GUI_Street(fieldName[1], fieldPrices[0], fieldName[1], fieldMessage[2], new Color(75, 155, 225), Color.BLACK);
@@ -62,7 +64,7 @@ public class Gameboard {
         fields[i++] = new GUI_Chance(fieldName[42], fieldName[43], fieldMessage[33], new Color(204, 204, 204), Color.BLACK);
         fields[i++] = new GUI_Street(fieldName[43], fieldPrices[26], fieldName[43], fieldMessage[34], new Color(150, 60, 150), Color.WHITE);
         fields[i++] = new GUI_Tax(fieldName[44], fieldName[45], fieldMessage[35], Color.GRAY, Color.BLACK);
-        fields[i++] = new GUI_Street(fieldName[46], fieldPrices[27], fieldName[46], fieldMessage[36], new Color(150, 60, 150), Color.WHITE);
+        fields[i++] = new GUI_Street(fieldName[46], fieldPrices[26], fieldName[46], fieldMessage[36], new Color(150, 60, 150), Color.WHITE);
 		return fields;
 	}
 }
