@@ -1,93 +1,47 @@
 Start
-Rødovervej
+RÃ¸dovervej
 ?
-Prøv lykken
+PrÃ¸v lykken
 Hvidovrevej
 Betal indkomstskat, 
 10% eller 4000kr.
 Rederiet Lindinger A/S
 Roskildevej
 ?
-Prøv lykken
+PrÃ¸v lykken
 Valby Langgade
-Allégade
-På besøg \n I fængsel
-Frederiksberg Allé
+AllÃ©gade
+PÃ¥ besÃ¸g \n I fÃ¦ngsel
+Frederiksberg AllÃ©
 Coca-Cola
-Bülowsvej
+BÃ¼lowsvej
 Gl. Kongevej
 Grenaa-Hundested
 Bernstorffsvej
 ?
-Prøv lykken
+PrÃ¸v lykken
 Hellerupvej
 Strandvej
 Parkering
 Trianglen
 ?
-Prøv lykken
-Østerbrogade
-Grønningen
+PrÃ¸v lykken
+Ã˜sterbrogade
+GrÃ¸nningen
 Mols-Linien A/S
 Bredgade
 Kgs. Nytorv
 Faxe Bryggeri
-Østergade
-De fængsles
+Ã˜stergade
+De fÃ¦ngsles
 Amagertorv
 Vimmelskaftet
 ?
-Prøv lykken
+PrÃ¸v lykken
 Nygade
 Skandinavisk Linietrafik
-Prøv lykken
+PrÃ¸v lykken
 Frederiksberggade
-Ekstraordinær statsskat. 
+EkstraordinÃ¦r statsskat. 
 Betal 2000kr.
-RådhuspladsenStart
-Rødovervej
-?
-Prøv lykken
-Hvidovrevej
-Betal indkomstskat, 
-10% eller 4000kr.
-Rederiet Lindinger A/S
-Roskildevej
-?
-Prøv lykken
-Valby Langgade
-Allégade
-På besøg \n I fængsel
-Frederiksberg Allé
-Coca-Cola
-Bülowsvej
-Gl. Kongevej
-Grenaa-Hundested
-Bernstorffsvej
-?
-Prøv lykken
-Hellerupvej
-Strandvej
-Parkering
-Trianglen
-?
-Prøv lykken
-Østerbrogade
-Grønningen
-Mols-Linien A/S
-Bredgade
-Kgs. Nytorv
-Faxe Bryggeri
-Østergade
-De fængsles
-Amagertorv
-Vimmelskaftet
-?
-Prøv lykken
-Nygade
-Skandinavisk Linietrafik
-Prøv lykken
-Frederiksberggade
-Ekstraordinær statsskat. 
-Betal 2000kr.
-Rådhuspladsen
+RÃ¥dhuspladsen

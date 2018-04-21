@@ -25,14 +25,14 @@ public class Gameboard {
 		System.out.println(fieldPrices.length);
 		System.out.println(fieldMessage.length);
 		int i =7;
-		fields[0] = new GUI_Start("Hey", "Gunn", fieldMessage[1], Color.RED, Color.BLACK);
+		fields[0] = new GUI_Start(fieldName[0], fieldName[0], fieldMessage[1], Color.RED, Color.BLACK);
         fields[1] = new GUI_Street(fieldName[1], fieldPrices[0], fieldName[1], fieldMessage[2], new Color(75, 155, 225), Color.BLACK);
         fields[2] = new GUI_Chance(fieldName[2],fieldName[3], fieldMessage[3], new Color(204, 204, 204), Color.BLACK);
         fields[3] = new GUI_Street(fieldName[4], fieldPrices[1], fieldName[4], fieldMessage[4], new Color(75, 155, 225), Color.BLACK);
         fields[4] = new GUI_Tax(fieldName[5], fieldName[6], fieldMessage[5], Color.GRAY, Color.BLACK);
         fields[5] = new GUI_Shipping("default", "Helsingør - Helsingborg", fieldPrices[2], "Helsingør - Helsingborg", fieldMessage[6], Color.WHITE, Color.BLACK);
         fields[6] = new GUI_Street(fieldName[8], fieldPrices[3], fieldName[8], fieldMessage[7], new Color(255, 135, 120), Color.BLACK);
-        fields[i++] = new GUI_Chance(fieldName[9], fieldName[10] , "Yoss", new Color(204, 204, 204), Color.BLACK);
+        fields[i++] = new GUI_Chance(fieldName[9], fieldName[10] , fieldMessage[3], new Color(204, 204, 204), Color.BLACK);
         fields[i++] = new GUI_Street(fieldName[11] , fieldPrices[4], fieldName[11], fieldMessage[7], new Color(255, 135, 120), Color.BLACK);
         fields[i++] = new GUI_Street(fieldName [12], fieldPrices[5], fieldName[12], fieldMessage[8], new Color(255, 135, 120), Color.BLACK);
         fields[i++] = new GUI_Jail("default", "Fængsel", "Fængsel", fieldMessage[9], new Color(125, 125, 125), Color.BLACK);
