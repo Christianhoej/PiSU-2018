@@ -17,7 +17,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.26-bin.jar"/>
-	<classpathentry kind="lib" path="fieldNames.txt"/>
-	<classpathentry kind="lib" path="src/model/Prices.txt"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
