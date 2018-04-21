@@ -1,6 +1,6 @@
 package board;
 
-import java.awt.Color;
+import java.awt.Color; 
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
@@ -10,10 +10,9 @@ public class TestBoard {
 	
 
 	public static void main(String[] args) {
-		Gameboard b = new Gameboard();
-		b.makeBoard();
+		Gameboard2 b = new Gameboard2();
 		GUI gui = new GUI(b.makeBoard());
-		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3","4", "5", "6"));
+		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3","4", "5", "6", "7"));
 		Player[] player = new Player[playerAmount];
 		String[] name = new String[playerAmount];
 		

@@ -1,94 +1,93 @@
 Start
-RÃ¸dovervej
+Rødovervej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Hvidovrevej
 Betal indkomstskat, 
 10% eller 4000kr.
 Rederiet Lindinger A/S
 Roskildevej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Valby Langgade
-AllÃ©gade
-PÃ¥ besÃ¸g \n I fÃ¦ngsel
-Frederiksberg AllÃ©
+Allégade
+På besøg \n I fængsel
+Frederiksberg Allé
 Coca-Cola
-BÃ¼lowsvej
+Bülowsvej
 Gl. Kongevej
 Grenaa-Hundested
 Bernstorffsvej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Hellerupvej
 Strandvej
 Parkering
 Trianglen
 ?
-PrÃ¸v lykken
-Ã˜sterbrogade
-GrÃ¸nningen
+Prøv lykken
+Østerbrogade
+Grønningen
 Mols-Linien A/S
 Bredgade
 Kgs. Nytorv
 Faxe Bryggeri
-Ã˜stergade
-De fÃ¦ngsles
+Østergade
+De fængsles
 Amagertorv
 Vimmelskaftet
 ?
-PrÃ¸v lykken
+Prøv lykken
 Nygade
 Skandinavisk Linietrafik
-?
-PrÃ¸v lykken
+Prøv lykken
 Frederiksberggade
-EkstraordinÃ¦r statsskat. 
+Ekstraordinær statsskat. 
 Betal 2000kr.
-RÃ¥dhuspladsenStart
-RÃ¸dovervej
+RådhuspladsenStart
+Rødovervej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Hvidovrevej
 Betal indkomstskat, 
 10% eller 4000kr.
 Rederiet Lindinger A/S
 Roskildevej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Valby Langgade
-AllÃ©gade
-PÃ¥ besÃ¸g \n I fÃ¦ngsel
-Frederiksberg AllÃ©
+Allégade
+På besøg \n I fængsel
+Frederiksberg Allé
 Coca-Cola
-BÃ¼lowsvej
+Bülowsvej
 Gl. Kongevej
 Grenaa-Hundested
 Bernstorffsvej
 ?
-PrÃ¸v lykken
+Prøv lykken
 Hellerupvej
 Strandvej
 Parkering
 Trianglen
 ?
-PrÃ¸v lykken
-Ã˜sterbrogade
-GrÃ¸nningen
+Prøv lykken
+Østerbrogade
+Grønningen
 Mols-Linien A/S
 Bredgade
 Kgs. Nytorv
 Faxe Bryggeri
-Ã˜stergade
-De fÃ¦ngsles
+Østergade
+De fængsles
 Amagertorv
 Vimmelskaftet
 ?
-PrÃ¸v lykken
+Prøv lykken
 Nygade
 Skandinavisk Linietrafik
-PrÃ¸v lykken
+Prøv lykken
 Frederiksberggade
-EkstraordinÃ¦r statsskat. 
+Ekstraordinær statsskat. 
 Betal 2000kr.
-RÃ¥dhuspladsen
+Rådhuspladsen
