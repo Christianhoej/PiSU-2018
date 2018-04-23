@@ -14,8 +14,8 @@ public class CardMove extends ChanceCard {
 	 * @param text
 	 * @param test
 	 */
-	public CardMove(int cardNumber, String text,Fields fieldNumber) {
-		super(cardNumber,text);
+	public CardMove(int cardNumber, String text,Fields fieldNumber, int action) {
+		super(cardNumber,text, action);
 		moveTo = fieldNumber.getFieldNumber();
 	}
 	public void moveToField(Player player) {

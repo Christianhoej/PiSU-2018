@@ -2,14 +2,21 @@ package model;
 
 public class Chance extends Fields {
 	
-	//TEst321$132r
+
+	private String text;
+	ChanceCard[] chanceCards;
 
 	public Chance(int fieldNumber, String fieldName) {
 		super(fieldNumber, fieldName);
-		// TODO Auto-generated constructor stub
-	}
+		
+		int i = 0; //Styrer hvor i arrayet der skrives til og giver kortnummer
+		//While txt.file. has nextLine - load from txt.
+		//Opret objekt af given nedarvet type.
+		i++;
+		//end loop
+		
+		}
 
-	private String text;
 
 	@Override
 	public String toString() {
@@ -19,9 +26,11 @@ public class Chance extends Fields {
 
 	@Override
 	public void landOnField(Player player, Player[] playerArray) {
-		// TODO Auto-generated method stub
+		//land on field
 		
 	}
-	
+	private String[] fileLoad(String txtfileName) {
+		return null;
+	} 
 
 }

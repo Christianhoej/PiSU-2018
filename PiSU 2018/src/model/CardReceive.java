@@ -14,16 +14,13 @@ import model.Txt;
 public class CardReceive extends ChanceCard {
 
 	private int amount;
-	
-	public CardReceive(int cardNumber, String text, int amount){
-		super(cardNumber, text);
-		this.amount = amount;
-	}
-
-
 
 	String[] fieldName = Txt.file("CardReceive");
-	private int amount;
+	
+	public CardReceive(int cardNumber, String text, int amount, int action){
+		super(cardNumber, text, action);
+		this.amount = amount;
+	}
 	
 	public void receiveMoney(Player player, int amount) {
 

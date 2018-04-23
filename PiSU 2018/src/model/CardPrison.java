@@ -10,8 +10,8 @@ public class CardPrison extends ChanceCard {
 
 	private int fieldNumber;
 	
-	public CardPrison(int cardNumber, String text) {
-		super(cardNumber, text);
+	public CardPrison(int cardNumber, String text, int action) {
+		super(cardNumber, text, action);
 		fieldNumber = 10;
 	
 	}
