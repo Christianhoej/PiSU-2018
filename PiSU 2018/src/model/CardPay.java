@@ -12,8 +12,8 @@ public class CardPay extends ChanceCard {
 
 	private int amount;
 	
-	public CardPay(int cardNumber, String text, int amount) {
-		super( cardNumber, text);
+	public CardPay(int cardNumber, String text, int amount, int action) {
+		super( cardNumber, text, action);
 		this.amount = amount;
 	}
 	public int getAmount() {
