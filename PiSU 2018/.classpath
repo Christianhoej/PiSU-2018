@@ -17,5 +17,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.26-bin.jar"/>
+	<classpathentry kind="lib" path="CardMove.txt"/>
+	<classpathentry kind="lib" path="CardPay.txt"/>
+	<classpathentry kind="lib" path="CardPrison.txt"/>
+	<classpathentry kind="lib" path="CardReceive.txt"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
