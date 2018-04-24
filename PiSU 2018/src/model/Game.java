@@ -2,7 +2,7 @@ package model;
 
 import gui_main.GUI;
 
-public class Game {
+public class Game1 {
 	
 	Winner winner = new Winner();
 	Player [] player;
