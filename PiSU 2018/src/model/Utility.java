@@ -1,13 +1,19 @@
 package model;
 
 import gui_main.GUI;
+import model.Dice;
 
 public class Utility extends Property {
 
 	private GUI gui;
+	private int diceValue;
 
 	public Utility(int fieldNumber, String fieldName) {
 		super(fieldNumber, fieldName);
+	}
+	
+	public int calRent() {
+		//Implementer beregningen af lejen ved eje af flere færger
 	}
 
 	/**
@@ -29,7 +35,7 @@ public class Utility extends Property {
 			//If the player doesn't want to buy the utility, it is up for auction
 			else auction(player, playerArray);
 		}
-		
+
 		//If the utility is not for sale
 		else if (forSale==false) {
 			//If the player owns the utility himself.
@@ -46,10 +52,10 @@ public class Utility extends Property {
 			}
 			//If the utility is owned by another player, who is not in prison.
 			else {
-				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
-				getOwner().getAccount().updateCash(price);
-				player.getAccount().updateCash(-price);
-				//Implementer: Tjek om spiller er broke. 
+				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + rent);
+				getOwner().getAccount().updateCash(rent);
+				player.getAccount().updateCash(-rent);
+				//Implementer: Tjek om spiller er broke. 				
 			}
 		}
 	}
