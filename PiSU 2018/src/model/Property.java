@@ -66,6 +66,7 @@ public class Property extends Fields {
 
 	public void setOwner(Player player) {
 		this.owner = player;
+		setForSale(false);
 	}
 	public String getFieldName() {
 		return fieldName;
