@@ -22,7 +22,7 @@ public class Tax extends Fields{
 
 	}
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
+	public void landOnField(Game game) {
 		if(price == 4000) {
 			String playerChoice = gui.getUserSelection(player.getName()+ " vil du helst betale " + price + " eller betale 10% af dine samlede værdier? " , "4000", "10%");
 			if(playerChoice.equals(price)) {

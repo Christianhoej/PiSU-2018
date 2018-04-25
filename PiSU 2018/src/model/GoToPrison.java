@@ -18,7 +18,7 @@ public class GoToPrison extends Fields{
 	}
 
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
+	public void landOnField(Game game) {
 		player.setPosition(10);
 		player.setInPrison(1);
 	}

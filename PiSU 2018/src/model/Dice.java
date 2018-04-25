@@ -16,6 +16,5 @@ public class Dice {
 		
 		public void setFaceValue(int newFaceValue) {
 			faceValue = newFaceValue;
-			//return faceValue; ?overflødig?
 	}
 }

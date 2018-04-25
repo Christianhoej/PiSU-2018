@@ -2,8 +2,6 @@ package model;
 
 import gui_main.GUI;
 
-
-
 public class Property extends Fields {
 
 	protected boolean forSale=true;
@@ -12,7 +10,6 @@ public class Property extends Fields {
 	protected boolean mortage;
 	protected int mortagePrice;
 	protected Player owner;
-	protected Player player;
 	private GUI gui;
 	protected int houses;
 
@@ -94,22 +91,22 @@ public class Property extends Fields {
 	 * @param player
 	 * @param playerArray
 	 */
-	public void auction(Player player, Player [] playerArray) {
+	public void auction(Game game) {
 		int currentPlayer = -1;
 		gui.showMessage(getFieldName() + " er sat på auktion!");	
-		for (int i=0; i<playerArray.length; i++) {
-			if (player.equals(playerArray[i])) {
+		for (int i=0; i<game.getPlayers().size(); i++) {
+			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
 				currentPlayer=i;
 			}
 		}
 		int currentBid=100;
 		//New array with the player originally landing on the field, as the last. 
-		Player[] auctionArray = new Player[playerArray.length];
-		for(int i = currentPlayer+1; i<playerArray.length; i++) {
-			auctionArray[i]=playerArray[i];
+		Player[] auctionArray = new Player[game.getPlayers().size()];
+		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
+			auctionArray[i]= game.getPlayers().get(i);
 		}
 		for(int i=0; i<=currentPlayer; i++) {
-			auctionArray[i]=playerArray[i];
+			auctionArray[i] = game.getPlayers().get(i);
 		}
 		//The amount of player withdrawn from the auction. 
 		int playersOut=0;
@@ -151,7 +148,7 @@ public class Property extends Fields {
 
 
 	@Override
-	public void landOnField(Player player, Player[] playerArray) { 
+	public void landOnField(Game game) { 
 	}
 
 }

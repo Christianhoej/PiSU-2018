@@ -14,7 +14,8 @@ public class Game {
 	private int playerAmount;
 	private String date;
 	private ArrayList<Fields> fields = new ArrayList<Fields>();
-	
+	private Player currentPlayer;
+	private Dice dice;
 	
 	public void setGameID(int gameID) {
 		this.gameID=gameID;
@@ -32,12 +33,25 @@ public class Game {
 		return playerAmount;
 	}
 	
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+		
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
 	public void setGameDate(String date) {
 		this.date = date;
 	}
 	
 	public String getGameDate() {
 		return date;
+	}
+		
+	public Dice getDice() {
+		return dice;
 	}
 	
 	public ArrayList<Player> getPlayers() {
@@ -174,7 +188,36 @@ public class Game {
 		addField(new RealEstate(39));
 	}
 	
-	
+	public void addColour() {
+		getFields().get(1).setColourSystem("blue");
+		getFields().get(3).setColourSystem("blue");
+		getFields().get(5).setColourSystem("ship");
+		getFields().get(6).setColourSystem("pink");
+		getFields().get(8).setColourSystem("pink");
+		getFields().get(9).setColourSystem("pink");
+		getFields().get(11).setColourSystem("green");
+		getFields().get(12).setColourSystem("darkgreen");
+		getFields().get(13).setColourSystem("green");
+		getFields().get(14).setColourSystem("green");
+		getFields().get(15).setColourSystem("ship");
+		getFields().get(16).setColourSystem("grey");
+		getFields().get(18).setColourSystem("grey");
+		getFields().get(19).setColourSystem("grey");
+		getFields().get(21).setColourSystem("red");
+		getFields().get(23).setColourSystem("red");
+		getFields().get(24).setColourSystem("red");
+		getFields().get(25).setColourSystem("ship");
+		getFields().get(26).setColourSystem("white");
+		getFields().get(27).setColourSystem("white");
+		getFields().get(28).setColourSystem("darkgreen");
+		getFields().get(29).setColourSystem("white");
+		getFields().get(31).setColourSystem("yellow");
+		getFields().get(32).setColourSystem("yellow");
+		getFields().get(34).setColourSystem("yellow");
+		getFields().get(35).setColourSystem("ship");
+		getFields().get(37).setColourSystem("purple");
+		getFields().get(39).setColourSystem("purple");
+	}
 	
 	
 	

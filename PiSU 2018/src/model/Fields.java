@@ -4,6 +4,7 @@ package model;
 public abstract class Fields {
 //asd
 	protected int fieldNumber; 
+	protected String colourSystem;
 	protected String fieldName;
 	protected Player player;
 	protected boolean mortage;
@@ -20,7 +21,15 @@ public abstract class Fields {
 	protected void setFieldNumber(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
 	}
+	
+	public String getColourSystem() {
+		return colourSystem;
+	}
 
+	protected void setColourSystem(String colourSystem) {
+		this.colourSystem = colourSystem;
+	}
+	
 	public String getFieldName() {
 		return fieldName;
 
@@ -55,7 +64,7 @@ public abstract class Fields {
 		this.fieldName = fieldName;
 	}
 	
-	public abstract void landOnField(Player player, Player[] playerArray);
+	public abstract void landOnField(Game game);
 
 	public abstract String toString(); 
 		
