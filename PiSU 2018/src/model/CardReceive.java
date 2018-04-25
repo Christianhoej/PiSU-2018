@@ -22,9 +22,15 @@ public class CardReceive extends ChanceCard {
 		this.amount = amount;
 	}
 	
-	public void receiveMoney(Player player, int amount) {
+	public void receiveMoney(Player currentPlayer, int amount, Player[] playerArray) {
+		if (super.cardNumber == 1) {
+			currentPlayer.getAccount().updateCash(playerArray.length*amount+amount); //all players are deducted 200, therefore the player to receive gets the extra "amount"
+			for(int i = 0; i<playerArray.length; i++) {
+				playerArray[i].getAccount().updateCash(-200);
+			}
+		} else
 
-		player.getAccount().updateCash(amount);
+		currentPlayer.getAccount().updateCash(amount);
 	}
 
 	public int getAmount() {

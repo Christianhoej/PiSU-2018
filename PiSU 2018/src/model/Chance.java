@@ -1,10 +1,29 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import java.util.List;
+
 public class Chance extends Fields {
 	
 
 	private String text;
 	ChanceCard[] chanceCards;
+	static String[] aL = Txt.file("CardMove.txt");
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		
+//		Chance chance = new Chance(1, "");
+//		String file = "CardMove.txt";
+//		List<String> aL= chance.fileLoad(file);
+		
+		for(int i = 0; aL.length> i ; i++) {
+			System.out.println(aL.length);
+		}
+	}
 
 	public Chance(int fieldNumber) {
 		super(fieldNumber);
@@ -29,8 +48,17 @@ public class Chance extends Fields {
 		//land on field
 		
 	}
-	private String[] fileLoad(String txtfileName) {
-		return null;
+	private ArrayList<String> fileLoad(String file) throws FileNotFoundException, IOException {
+		BufferedReader reader = new BufferedReader(new FileReader (file));
+		String line = "";
+		ArrayList<String> aList = new ArrayList<String>();
+		int k = 0;
+		while((line = reader.readLine()) != null) {
+		aList.add(k, line);
+		k++;
+		}
+		return aList;
 	} 
+
 
 }
