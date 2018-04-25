@@ -2,8 +2,6 @@ package model;
 
 import gui_main.GUI;
 
-
-
 public class Property extends Fields {
 
 	protected boolean forSale=true;

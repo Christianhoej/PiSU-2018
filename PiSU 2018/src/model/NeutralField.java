@@ -1,5 +1,9 @@
 package model;
-
+/**
+ * 
+ * @author Yoss
+ *
+ */
 public class NeutralField extends Fields{
 
 	public NeutralField(int fieldNumber) {
