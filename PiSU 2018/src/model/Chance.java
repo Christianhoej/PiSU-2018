@@ -6,8 +6,8 @@ public class Chance extends Fields {
 	private String text;
 	ChanceCard[] chanceCards;
 
-	public Chance(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public Chance(int fieldNumber) {
+		super(fieldNumber);
 		
 		int i = 0; //Styrer hvor i arrayet der skrives til og giver kortnummer
 		//While txt.file. has nextLine - load from txt.

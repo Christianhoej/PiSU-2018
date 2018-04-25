@@ -6,8 +6,8 @@ public class Utility extends Property {
 
 	private GUI gui;
 	
-	public Utility(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public Utility(int fieldNumber) {
+		super(fieldNumber);
 	}
 
 

@@ -8,8 +8,8 @@ package model;
  */
 public class GoToPrison extends Fields{
 
-	public GoToPrison(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public GoToPrison(int fieldNumber) {
+		super(fieldNumber);
 	}
 
 	@Override

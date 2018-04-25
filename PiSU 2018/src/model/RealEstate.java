@@ -6,8 +6,8 @@ public class RealEstate extends Property {
 
 	private GUI gui;
 	
-	public RealEstate(int position, String fieldName) {
-		super(position, fieldName);
+	public RealEstate(int position ) {
+		super(position);
 	}
 
 	@Override

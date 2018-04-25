@@ -14,12 +14,17 @@ public class Property extends Fields {
 	protected Player owner;
 	protected Player player;
 	private GUI gui;
+	protected int houses;
 
 
-	public Property(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public Property(int fieldNumber) {
+		super(fieldNumber);
 	}
 
+	public int getFieldNumber() {
+		return fieldNumber;
+	}
+	
 	public boolean isForSale() {
 		return forSale;
 	}
@@ -69,6 +74,14 @@ public class Property extends Fields {
 	}
 	public String getFieldName() {
 		return fieldName;
+	}
+	
+	public void setHouses(int houses) {
+		this.houses = houses;
+	}
+	
+	public int getHouses() {
+		return houses;
 	}
 
 	@Override
