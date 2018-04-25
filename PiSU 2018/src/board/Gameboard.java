@@ -1,6 +1,11 @@
 package board;
 import java.awt.Color;
 
+import bræt.Chance;
+import bræt.Ejendom;
+import bræt.Fængsel;
+import bræt.Passiv;
+import bræt.Start;
 import model.Txt;
 import gui_fields.GUI_Brewery;
 import gui_fields.GUI_Chance;
@@ -11,6 +16,7 @@ import gui_fields.GUI_Shipping;
 import gui_fields.GUI_Start;
 import gui_fields.GUI_Street;
 import gui_fields.GUI_Tax;
+import gui_main.GUI;
 
 public class Gameboard {
 
@@ -67,4 +73,11 @@ public class Gameboard {
         fields[i++] = new GUI_Street(fieldName[46], fieldPrices[26], fieldName[46], fieldMessage[36], new Color(150, 60, 150), Color.WHITE);
 		return fields;
 	}
+	
+
+
+	
+	
+	
+	
 }
