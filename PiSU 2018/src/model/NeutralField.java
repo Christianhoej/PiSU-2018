@@ -11,7 +11,7 @@ public class NeutralField extends Fields{
 	}
 
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
+	public void landOnField(Game game) {
 	}
 
 	@Override

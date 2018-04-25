@@ -44,7 +44,7 @@ public class Chance extends Fields {
 	}
 
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
+	public void landOnField(Game game) {
 		//land on field
 		
 	}
