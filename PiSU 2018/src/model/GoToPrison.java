@@ -8,8 +8,8 @@ package model;
  */
 public class GoToPrison extends Fields{
 
-	public GoToPrison(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public GoToPrison(int fieldNumber) {
+		super(fieldNumber);
 	}
 
 	@Override
@@ -22,4 +22,5 @@ public class GoToPrison extends Fields{
 		player.setPosition(10);
 		player.setInPrison(1);
 	}
+
 }
