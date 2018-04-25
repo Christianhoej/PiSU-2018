@@ -67,8 +67,9 @@ public class Game {
 		return fields;
 	}
 	
-	public void addProperties(Property fields) {
-		properties.add(fields);
+	public void addField(Fields field) {
+		field.setFieldNumber(fields.size());;
+		fields.add(field);
 	}
 	
 	private void loadGame() {
