@@ -1,8 +1,7 @@
 package model;
 
-//Bør klassen være abstract?
 public abstract class Fields {
-//asd
+
 	protected int fieldNumber; 
 	protected String fieldName;
 	protected Player player;

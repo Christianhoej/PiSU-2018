@@ -12,13 +12,10 @@ public class Player {
 	private String colour;
 	private boolean current;
 
-	public Player(String name /*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
+	public Player(String name) {
 		this.name = name;
 		this.account = new Account(30000);
-		//		this.position = position;
-		//		this.broke = broke;
-		//		this.winner = winner;	
-		//		this.inPrison = inPrison;
+
 	}
 	public String getName() {
 		return name;
