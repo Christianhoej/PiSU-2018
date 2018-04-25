@@ -15,49 +15,18 @@ import com.mysql.jdbc.Statement;
 
 import test.Connector;
 import model.Property;
+import model.RealEstate;
+import model.Utility;
 import model.Player;
+import model.Fields;
 import model.Game;
 
 public class GameOAD implements IGameOAD 
 {	
-	private Player player;
-	private final String HOST     = "localhost";
-	private final int    PORT     = 3306;
-	private final String DATABASE = "mydb1";
-	private final String USERNAME = "root"; 
-	private final String PASSWORD = "";
-	//private Connector connector;
 	private Connector connect = new Connector();
 
-	//	private static final String PLAYER_GAMEID = "gameID";
-
-	//	public void createAll(String[] colour, String[] name) throws SQLException { 
-	//		int gameID = createGame();
-	//		
-	//		// CREATE
-	////		for(int i = 0; i <colour.length; i++) {
-	////			playerID[i] = createPlayer(gameID, name[i], colour[i]);
-	////		}
-	//		
-	//		createProperties(gameID);
-	//	}
-
-
-	//	public Connection Connector() {
-	//        try {
-	//			Class.forName("com.mysql.jdbc.Driver");
-	//			String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
-	//			return con = DriverManager.getConnection(url, USERNAME, PASSWORD);
-	//		} catch (ClassNotFoundException | SQLException e) {
-	//			e.printStackTrace();
-	//			System.exit(1);
-	//		}
-	//		return con;
-	//    }
-
-
 	@Override
-	public void createGame(Game game) throws SQLException {
+	public void createGame(Game game) throws SQLException { 
 		Connection con = connect.getConnection();
 		CallableStatement stmt =null;
 		stmt = (CallableStatement) con.prepareCall("{call create_game(?)}");
@@ -90,11 +59,22 @@ public class GameOAD implements IGameOAD
 		stmt.execute();
 	}
 
-
 	@Override
-	public void updateAll() {
-		// TODO Auto-generated method stub
-
+	public void updatePlayer(Game game) throws SQLException {
+		Connection con = connect.getConnection();	
+		ArrayList<Player> player = game.getPlayers();
+		for(int i = 0; i<player.size(); i++) {
+			CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_player(?,?,?,?,?,?,?,?)}");
+			stmt.setInt(1, player.get(i).getPlayerID());
+			stmt.setInt(2, game.getGameID());
+			stmt.setInt(3, player.get(i).getPosition());
+			stmt.setInt(4, player.get(i).getInPrison());
+			stmt.setInt(5, player.get(i).getAccount().getPrisonCard());
+			stmt.setInt(6, player.get(i).getAccount().getCash());
+			stmt.setBoolean(7, player.get(i).isBroke());
+			stmt.setBoolean(8, player.get(i).getCurrent());
+			stmt.execute();
+		}
 	}
 
 	// Nok overflødig
@@ -110,7 +90,7 @@ public class GameOAD implements IGameOAD
 		return 0;
 	}
 
-
+	@Override
 	public ArrayList<Game> readAllGames() throws SQLException {
 		Connection con = connect.getConnection();
 		CallableStatement stmt = (CallableStatement) con.prepareCall("{call get_allGames()}");
@@ -156,10 +136,10 @@ public class GameOAD implements IGameOAD
 
 
 	@Override
-	public ArrayList<Property> readProperty(Game game) throws SQLException {
+	public ArrayList<Fields> readProperty(Game game) throws SQLException {
 		Connection con = connect.getConnection();
 		ArrayList<Player> player = game.getPlayers();
-		ArrayList<Property> property = game.getProperties();
+		ArrayList<Fields> field = game.getFields();
 		for(int i=0; i<player.size(); i++) {
 
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call read_property(?, ?)}");
@@ -169,101 +149,59 @@ public class GameOAD implements IGameOAD
 			ResultSet res = stmt.getResultSet();
 
 			while(res.next()) {
-				property.get(res.getInt("fieldNumber")).setHouses(stmt.getInt("houses")); 
-				property.get(res.getInt("fieldNumber")).setOwner(player.get(i));
+
+				field.get(res.getInt("fieldNumber")).setHouses(res.getInt("houses")); 
+				field.get(res.getInt("fieldNumber")).setOwner(player.get(i));
 				if(res.getInt("houses")==-1) {
-					property.get(res.getInt("fieldNumber")).setMortage(true);
+					field.get(res.getInt("fieldNumber")).setMortage(true);
 				}
-				else property.get(res.getInt("fieldNumber")).setMortage(false);
+				else field.get(res.getInt("fieldNumber")).setMortage(false);
 				player.get(i).addOwnedProperties(res.getInt("fieldNumber"));
 			}
 		}
-		return property;
+		return field;
 	}
 
+	@Override
 	public void updateProperties(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-		ArrayList<Property> property = game.getProperties();
+		ArrayList<Fields> field = game.getFields();
 		ArrayList<Player> player = game.getPlayers();
 
-		// Two for loops, so we get every compination of players
 		for(int i = 0; i<player.size(); i++) {
-			for(int j = 0; j<property.size(); j++) {
+			for(int j = 0; j<player.get(i).getOwnedProperties().length; j++) {
 				CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_property(?,?,?,?)}");
-				if(property.get(j).getOwner() == player.get(i)) {
+				if(player.get(i).getOwnedProperties()[j] == 1) {
 
+					System.out.println("Der er en EJER!!!!!");
 					stmt.setInt(1, game.getGameID());
-					stmt.setInt(2, property.get(j).getFieldNumber());
+					stmt.setInt(2, field.get(j).getFieldNumber());
 					stmt.setInt(3, player.get(i).getPlayerID());
-					stmt.setInt(4, property.get(j).getHouses());
+					stmt.setInt(4, field.get(j).getHouses());
 					stmt.execute();
 				}
 			}
 		}
 	}
 
-
-		//	public void updateAll() throws SQLException {
-		//		// UPDATE
-		//
-		//		int[] position = {1, 3, 5};
-		//		int[] prison = {0, 0, 0};
-		//		int[] getOutPrison = {0, 0, 0};
-		//		int[] balance = {0, 0, 0};
-		//		boolean[] broke = {false, false, false};
-		//		boolean[] current = {true, false, false};
-		//
-		//		int[] fieldNumber = {1, 3, 5};
-		//		int[] houses = {-1, 0, 3};
-		//
-		//
-		//
-		//		for(int i = 0; i <carID.length; i++) {
-		//			updatePlayer(playerID[i], gameID, position[i], prison[i], getOutPrison[i], balance[i], broke[i], current[i]);
-		//			updateProperties(gameID, fieldNumber[i], playerID[i], houses[i]);
-		//		}
-		//		updateSaveDate(gameID);
-		//	}
-		//
-		//	public void updatePlayer(int playerID, int gameID, int position, int prison, int getOutPrison, int balance, boolean broke, boolean current) throws SQLException {
-		//		CallableStatement stmt = null;
-		//		stmt = (CallableStatement) connector.prepareCall("{call create_property(?,?,?,?,?,?,?,?)}");
-		//		stmt.setInt(1, playerID);
-		//		stmt.setInt(2, gameID);
-		//		stmt.setInt(3, position);
-		//		stmt.setInt(4, prison);
-		//		stmt.setInt(5, getOutPrison);
-		//		stmt.setInt(6, balance);
-		//		stmt.setBoolean(7, broke);
-		//		stmt.setBoolean(8, current);
-		//		stmt.execute();
-		//	}
-		//
-		//	public void updateProperties(int gameID, int fieldNumber, int playerID, int houses) throws SQLException {
-		//		CallableStatement stmt = null;
-		//		stmt = (CallableStatement) connector.prepareCall("{call create_property(?,?,?,?)}");
-		//		stmt.setInt(1, gameID);
-		//		stmt.setInt(2, fieldNumber);
-		//		stmt.setInt(3, playerID);
-		//		stmt.setInt(4, houses);
-		//		stmt.execute();		
-		//	}
-		//
-		//	public void updateSaveDate(int gameID) throws SQLException {
-		//
-		//		CallableStatement stmt = null;
-		//		stmt = (CallableStatement) connector.prepareCall("{call create_property(?)}");
-		//		stmt.setInt(1, gameID);
-		//		stmt.execute();
-		//
-		//	}
-		//
-		//
-		//	@Override
-		//	public void createAll() {
-		//		// TODO Auto-generated method stub
-		//		
-		//	}
+	@Override
+	public void updateSaveDate(Game game) throws SQLException {
+		Connection con = connect.getConnection();
+		CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_saveDate(?)}");
+		stmt.setInt(1, game.getGameID());
+		stmt.execute();
 
 	}
+	
+	// Husk at tjekke for endGame, når vi har et spil at tjekke for.
+	@Override
+	public void endGame(Game game) throws SQLException {
+		Connection con = connect.getConnection();
+		CallableStatement stmt = (CallableStatement) con.prepareCall("{call end_game(?)}");
+		stmt.setInt(1, game.getGameID());
+		stmt.execute();
+
+	}
+
+}
 

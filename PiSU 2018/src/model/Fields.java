@@ -5,12 +5,15 @@ public abstract class Fields {
 //asd
 	protected int fieldNumber; 
 	protected String fieldName;
+	protected Player player;
+	protected boolean mortage;
+	protected int houses;
 
 	public Fields(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
 	}
 
-	protected int getFieldNumber() {
+	public int getFieldNumber() {
 		return fieldNumber;
 	}
 
@@ -18,9 +21,34 @@ public abstract class Fields {
 		this.fieldNumber = fieldNumber;
 	}
 
-	protected String getFieldName() {
+	public String getFieldName() {
 		return fieldName;
 
+	}
+	
+	public void setOwner(Player player) {
+		this.player = player;
+		player.addOwnedProperties(fieldNumber);
+	}
+	
+	public Player getOwner() {
+		return player;
+	}
+	
+	public void setMortage(boolean mortage) {
+		this.mortage = mortage;
+	}
+
+	public boolean getMortage() {
+		return mortage;
+	}
+	
+	public void setHouses(int houses) {
+		this.houses = houses;
+	}
+	
+	public int getHouses() {
+		return houses;
 	}
 
 	protected void setFieldName(String fieldName) {

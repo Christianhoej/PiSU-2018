@@ -11,7 +11,6 @@ public class Game {
 	private GUI gui;
 	private int gameID;
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private ArrayList<Property> properties = new ArrayList<Property>();
 	private int playerAmount;
 	private String date;
 	private ArrayList<Fields> fields = new ArrayList<Fields>();
@@ -62,7 +61,6 @@ public class Game {
 	}
 	
 	public void addField(Fields field) {
-		field.setFieldNumber(fields.size());;
 		fields.add(field);
 	}
 	
@@ -133,31 +131,51 @@ public class Game {
 	
 	
 	
-//	public void samlFelter(GUI gui){
-//		fields.addFields(new Start(0, gui)); 
-//		felter[1] = new Ejendom(1, gui); 
-//		felter[2] = new Ejendom(2, gui);
-//		felter[3] = new Chance(3, gui);
-//		felter[4] = new Ejendom(4, gui);
-//		felter[5] = new Ejendom(5, gui);
-//		felter[6] = new Passiv(6, gui); 
-//		felter[7] = new Ejendom(7, gui);
-//		felter[8] = new Ejendom(8, gui);
-//		felter[9] = felter[3];
-//		felter[10] = new Ejendom(10, gui); 
-//		felter[11] = new Ejendom(11, gui); 
-//		felter[12] = new Passiv(12, gui); 
-//		felter[13] = new Ejendom(13, gui);
-//		felter[14] = new Ejendom(14, gui);
-//		felter[15] = felter[3];
-//		felter[16] = new Ejendom(16, gui);
-//		felter[17] = new Ejendom(17, gui);
-//		felter[18] = new Fængsel(18, gui);
-//		felter[19] = new Ejendom(19, gui);
-//		felter[20] = new Ejendom(20, gui);
-//		felter[21] = felter[3]; 
-//		felter[22] = new Ejendom(22, gui);
-//		felter[23] = new Ejendom(23, gui);
-//		
-	//}
+	public void setFields(){
+		addField(new NeutralField(0)); 
+		addField(new RealEstate(1));
+		addField(new Chance(2));
+		addField(new RealEstate(3));
+		addField(new Tax(4));
+		addField(new Utility(5));
+		addField(new RealEstate(6));
+		addField(new Chance(7));
+		addField(new RealEstate(8));
+		addField(new RealEstate(9));
+		addField(new NeutralField(10));
+		addField(new RealEstate(11));
+		addField(new Utility(12));
+		addField(new RealEstate(13));
+		addField(new RealEstate(14));
+		addField(new Utility(15));
+		addField(new RealEstate(16));
+		addField(new Chance(17));
+		addField(new RealEstate(18));
+		addField(new RealEstate(19));
+		addField(new NeutralField(20));
+		addField(new RealEstate(21));
+		addField(new Chance(22));
+		addField(new RealEstate(23));
+		addField(new RealEstate(24));
+		addField(new Utility(25));
+		addField(new RealEstate(26));
+		addField(new RealEstate(27));
+		addField(new Utility(28));
+		addField(new RealEstate(29));
+		addField(new GoToPrison(30));
+		addField(new RealEstate(31));
+		addField(new RealEstate(32));
+		addField(new Chance(33));
+		addField(new RealEstate(34));
+		addField(new Utility(35));
+		addField(new Chance(36));
+		addField(new RealEstate(37));		
+		addField(new Tax(38));
+		addField(new RealEstate(39));
+	}
+	
+	
+	
+	
+	
 }

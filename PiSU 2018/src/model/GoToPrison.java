@@ -22,4 +22,5 @@ public class GoToPrison extends Fields{
 		player.setPosition(10);
 		player.setInPrison(1);
 	}
+
 }
