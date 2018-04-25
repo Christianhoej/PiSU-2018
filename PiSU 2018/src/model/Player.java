@@ -7,7 +7,8 @@ public class Player {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
-	private int[] ownedProperties = new int[32];
+	private int[] ownedProperties = new int[40];
+	private int[] ownedHouses = new int[40];
 	private int playerID;
 	private String colour;
 	private boolean current;
@@ -121,7 +122,23 @@ public class Player {
 	public boolean getCurrent() {
 		return current;
 	}
-
+	
+	public void addHouses(int fieldNumber){
+		ownedHouses[fieldNumber] += 1;
+	}
+	
+	public void removeHouses(int fieldNumber) {
+		ownedHouses[fieldNumber] -= 1;
+	}
+	
+	public void pawnField(int fieldNumber) {
+		ownedHouses[fieldNumber] = -1;
+	}
+	
+	public int[] getownedHouses() {
+		return ownedHouses;
+	}
+	
 }
 
 //Delvist taget fra CDIO3 - not done - Yoss
