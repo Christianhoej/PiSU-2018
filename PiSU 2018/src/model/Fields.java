@@ -6,9 +6,8 @@ public abstract class Fields {
 	protected int fieldNumber; 
 	protected String fieldName;
 
-	public Fields(int fieldNumber, String fieldName) {
+	public Fields(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
-		this.fieldName = fieldName;
 	}
 
 	protected int getFieldNumber() {

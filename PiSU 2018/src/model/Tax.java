@@ -6,8 +6,8 @@ public class Tax extends Fields{
 
 	private GUI gui;
 	private int price;
-	public Tax(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public Tax(int fieldNumber) {
+		super(fieldNumber);
 		if (fieldNumber == 4) {
 			price = 4000;
 		}

@@ -4,12 +4,15 @@ import gui_main.GUI;
 import model.Dice;
 
 public class Utility extends Property {
-
+  private int diceValue;
 	private GUI gui;
-	private int diceValue;
 
-	public Utility(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	
+	public Utility(int fieldNumber) {
+		super(fieldNumber);
+
+	
+
 	}
 	
 	public int calRent() {
