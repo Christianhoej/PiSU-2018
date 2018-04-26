@@ -5,7 +5,7 @@ import gui_main.GUI;
 public class RealEstate extends Property {
 
 	private GUI gui;
-
+	String[] guiMessages = Txt.file("GameMessages.txt");
 	public RealEstate(int position ) {
 		super(position);
 	}
@@ -16,9 +16,9 @@ public class RealEstate extends Property {
 		if (forSale) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 
 
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ " vil du købe " + getFieldName() + " for " + getPrice(), "Ja", "Nej");
+			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ guiMessages[8] + getFieldName() + guiMessages[9] + getPrice(), guiMessages[10], guiMessages[11]);
 
-			if (playerChoice.equals("ja")) {
+			if (playerChoice.equals(guiMessages[12])) {
 				setForSale(false);
 				setOwner(game.getCurrentPlayer());
 				game.getCurrentPlayer().getAccount().updateCash(-getPrice());
@@ -36,13 +36,13 @@ public class RealEstate extends Property {
 		//Sætte ejendommen på auktion. 
 		else if (forSale==false) {
 			if (owner.equals(player)) {
-				gui.showMessage(toString() + "Du er selv ejer af dette felt, og skal ikke betale noget.");
+				gui.showMessage(toString() + guiMessages[13]);
 			}
 			else if (owner.getInPrison()!= 0) { 
-				gui.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
+				gui.showMessage(toString() + guiMessages[14]);
 			}
 			else if (getMortage()) {
-				gui.showMessage(toString() + "Grunden er pantsat, du slipper denne gang.");
+				gui.showMessage(toString() + guiMessages[15]);
 			}
 			else {
 
@@ -57,6 +57,7 @@ public class RealEstate extends Property {
 						}
 					}
 				}
+
 
 				if (colourCount == ownerCount) {
 
@@ -86,7 +87,6 @@ public class RealEstate extends Property {
 					gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 5);
 					break;
 					}
-
 				} else { 
 					getOwner().getAccount().updateCash(getRent());
 					game.getCurrentPlayer().getAccount().updateCash(-getRent());

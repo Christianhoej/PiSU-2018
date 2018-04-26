@@ -49,20 +49,6 @@ public class Player {
 		return account;
 	}
 
-	//	public int[] getAccount1() {
-	//		int[] acc = new int[3];
-	//		acc[0] = account.getCash();
-	//		acc[1] = account.getAssetValue();
-	//		acc[2] = account.getPrisonCard();
-	//		return acc;
-	//	}
-
-	//	public void updateAccount(int cash, int assetValue, int prisonCard) {
-	//	account.updateCash(cash);
-	//	account.updateAssetValue(assetValue);
-	//	account.updatePrisonCard(prisonCard);
-	//}
-
 	public void setPosition(int position) {
 		if (this.position > position && inPrison <1)
 	    account.updateCash(4000);
