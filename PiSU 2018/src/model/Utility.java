@@ -1,7 +1,6 @@
 package model;
 
 import gui_main.GUI;
-import model.Dice;
 
 public class Utility extends Property {
 	private GUI gui;
