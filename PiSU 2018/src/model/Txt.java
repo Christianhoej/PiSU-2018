@@ -1,7 +1,7 @@
 package model;
-/** @author Yoss
- * Denne kode er genbrugt fra CDIO3
- * Dette er en klassen Txt, som henter vores tekstfiler, eksempelvis fieldName.txt 
+/** @author Yoss & Gunn
+ * Dele af denne kode er genbrugt fra CDIO3
+ * Dette er en klasse Txt, som henter vores tekstfiler, eksempelvis fieldName.txt 
  * og gør det muligt at bruge den i koden. 
  * Dette gør koden mere overskue, og undgår at bogstaver som æ, ø og å bliver "knækket"
  * 
@@ -44,5 +44,32 @@ public class Txt {
 
 		return line1;
 	}	
+	
+	
+	public static String[][] file2D(String fileName) {
+
+		ArrayList<String[]> lines = new ArrayList<>();
+		
+		try {
+		BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		String line;
+		while((line = reader.readLine()) != null) {
+			lines.add(line.split("\\s+"));
+		}
+		reader.close();
+		} catch (IOException e) {
+			System.out.println("Not able to read file");
+		} finally {
+			System.out.println(fileName + " read");
+		}
+
+		// Convert to a String[][]
+		String[][] line1 = new String[lines.size()][];
+		for(int i=0; i<lines.size(); i++) {
+			
+			line1[i] = lines.get(i).clone();
+		}
+		return line1;
+	}
 }
 

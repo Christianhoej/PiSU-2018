@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 public class Player {
 
 	private String name;
@@ -10,16 +12,19 @@ public class Player {
 	private int[] ownedProperties = new int[40];
 	private int[] ownedHouses = new int[40];
 	private int playerID;
-	private String colour;
+	private Color colour;
 	private boolean current;
 
-	public Player(String name) {
-		this.name = name;
+	public Player() {
 		this.account = new Account(30000);
 
 	}
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public void setPlayerID(int playerID) {
@@ -30,11 +35,11 @@ public class Player {
 		return playerID;
 	}
 	
-	public void setColour(String colour) {
+	public void setColour(Color colour) {
 		this.colour = colour;
 	}
 	
-	public String getColour() {
+	public Color getColour() {
 		return colour;
 	}
 

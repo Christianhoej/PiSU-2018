@@ -86,66 +86,7 @@ public class Property extends Fields {
 	public String toString(){
 		return "Du har landet på " + fieldName;
 	}
-	/**
-	 * Method for when a property is up for auction.
-	 * @param player
-	 * @param playerArray
-	 */
-	public void auction(Game game) {
-		int currentPlayer = -1;
-		gui.showMessage(getFieldName() + " er sat på auktion!");	
-		for (int i=0; i<game.getPlayers().size(); i++) {
-			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
-				currentPlayer=i;
-			}
-		}
-		int currentBid=100;
-		//New array with the player originally landing on the field, as the last. 
-		Player[] auctionArray = new Player[game.getPlayers().size()];
-		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
-			auctionArray[i]= game.getPlayers().get(i);
-		}
-		for(int i=0; i<=currentPlayer; i++) {
-			auctionArray[i] = game.getPlayers().get(i);
-		}
-		//The amount of player withdrawn from the auction. 
-		int playersOut=0;
-		//index at the highest bidder at the current time. 
-		int auctionWinner=-1;
-		//Running as long as there are at least 2 players left
-		while (playersOut<auctionArray.length-1) {
-			for (int i=0; i<auctionArray.length; i++) {
-				if (auctionArray[i]==null) {
-					continue;
-				}
-				//Get user input, of the amount of which the player will bid over the current bid
-				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ " hvor meget vil du bydde over " + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
-				//If the player bids 0, he is removed from the auction.
-				if (bidOver==0) {
-					auctionArray[i]=null;
-					playersOut++;
-				}
-				//The player with the current highest bid, is set as winner, until the next bid.
-				else {
-					auctionWinner=i;
-					currentBid += bidOver;
-				}
-			}
-		}
-		//Updates cash, assets and owned properties of the winner.
-		//Updates the owner of the field. 
-		if(auctionWinner != -1) {
-			auctionArray[auctionWinner].getAccount().updateCash(-currentBid);
-			auctionArray[auctionWinner].getAccount().updateAssetValue(price);
-			setOwner(auctionArray[auctionWinner]);
-			auctionArray[auctionWinner].addOwnedProperties(fieldNumber);
-			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
-		}
-		else {
-			gui.showMessage("Ingen har valgt at bydde på grunden, spillet fortsættes.");
-		}
-	}
-
+	
 
 	@Override
 	public void landOnField(Game game) { 

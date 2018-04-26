@@ -14,8 +14,8 @@ public class TestBoard {
 	public static void main(String[] args) {
 		Gameboard b = new Gameboard();
 		GUI gui = new GUI(b.makeBoard());
-		int playerAmount = gui.getUserSelection("Hvor mange spillere skal i være?", new Game(1, "test1", 3),new Game(2, "test2", 6), new Game(3, "test3", 1));
-//		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3","4", "5", "6", "7"));
+//		int playerAmount = gui.getUserSelection("Hvor mange spillere skal i være?", 1,2, 3, 4, 5, 6));
+		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3","4", "5", "6", "7"));
 	
 		Player[] player = new Player[playerAmount];
 		String[] name = new String[playerAmount];
