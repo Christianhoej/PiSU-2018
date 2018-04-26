@@ -47,17 +47,14 @@ public class ChanceCard {
 	}
 	
 	public void performAction(Player player, int amount, Player[] playerArray) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void performAction(Player currentPlayer, Player[] playerArray) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void performAction(Player player) {
-		// TODO Auto-generated method stub
 		
 	}
 	

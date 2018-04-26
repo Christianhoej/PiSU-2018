@@ -5,10 +5,12 @@ package model;
  *
  */
 public class NeutralField extends Fields{
-
+	
+	String[] guiMessages = Txt.file("GameMessages.txt");
 	public NeutralField(int fieldNumber) {
 		super(fieldNumber);
 	}
+	
 
 	@Override
 	public void landOnField(Game game) {
@@ -17,13 +19,13 @@ public class NeutralField extends Fields{
 	@Override
 	public String toString() {
 		if(fieldNumber == 10) {
-			return "Du er på besøg";
+			return (guiMessages[0]);
 		}
 		else if (fieldNumber == 20) {
-			return "Gratis parkering, du sidder over";
+			return  (guiMessages[1]);
 		}
 		else {
-			return "Du er landet på start, modtag 4000kr.";
+			return (guiMessages[2]);
 		}
 	}
 }

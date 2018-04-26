@@ -55,7 +55,6 @@ public class Chance extends Fields {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
