@@ -14,11 +14,11 @@ public class CardMove extends ChanceCard {
 	 * @param text
 	 * @param test
 	 */
-	public CardMove(int cardNumber, String text,Fields fieldNumber, int action) {
-		super(cardNumber,text, action);
-		moveTo = fieldNumber.getFieldNumber();
+	public CardMove(int cardNumber, String text,int fieldNumber) {
+		super(cardNumber,text);
+		moveTo = fieldNumber;
 	}
-	public void moveToField(Player player) {
+	public void performAction(Player player) {
 		player.setPosition(moveTo);
 	}
 	

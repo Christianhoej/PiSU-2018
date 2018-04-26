@@ -11,17 +11,17 @@ public class ChanceCard {
  
 	protected String text;
 	protected int cardNumber;
-	private int action; //int der tilkendegiver hændelse i Chance
+
 	
 	/**
 	 * Constructor 
 	 * @param cardNumber
 	 * @param text
 	 */
-	public ChanceCard (int cardNumber, String text, int action) {
+	public ChanceCard (int cardNumber, String text) {
 		this.cardNumber = cardNumber;
 		this.text = text;
-		this.action=action;
+
 		
 	}
 	
@@ -41,8 +41,24 @@ public class ChanceCard {
 			return chanceCards;
 							
 		}
-	public int getAction() {
-		return action; 
+	public int getCardNumber() {
+		
+	return cardNumber;
+	}
+	
+	public void performAction(Player player, int amount, Player[] playerArray) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void performAction(Player currentPlayer, Player[] playerArray) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void performAction(Player player) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

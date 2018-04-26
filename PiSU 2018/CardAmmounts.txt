@@ -1,0 +1,28 @@
+200
+200
+500
+1000
+1000
+1000
+1000
+1000
+3000
+40000
+-200
+-200
+-1000
+-1000
+-2000
+-3000
+-3000
+0
+0
+0//måske laves om da 0=startplads i arrayet
+0 //måske laves om
+-3
+-3
+0 //start
+39 // arrayplads
+15//arrayplads
+24// arrayplads
+11//arrayplads
