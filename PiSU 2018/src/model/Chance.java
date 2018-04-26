@@ -11,30 +11,46 @@ import java.util.List;
 public class Chance extends Fields {
 	
 
-	private String text;
-	ChanceCard[] chanceCards;
-	static String[] aL = Txt.file("CardMove.txt");
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-		
-//		Chance chance = new Chance(1, "");
-//		String file = "CardMove.txt";
-//		List<String> aL= chance.fileLoad(file);
-		
-		for(int i = 0; aL.length> i ; i++) {
-			System.out.println(aL.length);
-		}
-	}
+	private String text;//Hvad er den til for?
+	private int cardToDraw = 1;
+	ChanceCard[] chanceCards = new ChanceCard[32];
+	
 
-	public Chance(int fieldNumber) {
-		super(fieldNumber);
+
+
+	public Chance(int fieldNumber, String fieldName, Player[] player) {
+		super(fieldNumber, fieldName);
+
 		
-		int i = 0; //Styrer hvor i arrayet der skrives til og giver kortnummer
-		//While txt.file. has nextLine - load from txt.
-		//Opret objekt af given nedarvet type.
-		i++;
-		//end loop
+		String[] texts = Txt.file("CardText.txt");
+		String[] prices = Txt.file("CardAmmounts.txt");
 		
+		
+		//Adds the different chanceCards to the chanceCard[]
+		for(int i = 0; i<chanceCards.length; i++){
+			
+			
+			if(i<=10) 
+				chanceCards[i] = new CardReceive(i+1,texts[i],Integer.parseInt(prices[i]));
+				
+			else if(i<=19) 
+			    chanceCards[i] = new CardPay(i+1,texts[i],Integer.parseInt(prices[i]));			
+					
+			else if(i<=28)
+				chanceCards[i] = new CardMove(i+1,texts[i],Integer.parseInt(prices[i]));
+
+			else if (i<=30)
+				chanceCards[i] = new CardGetOutOfPrison(i+1,texts[i]);
+				
+			else
+				chanceCards[i] = new CardPrison(i+1,texts[i]);
+
+				
+			//Shuffle cards
+			
 		}
+		
+	}
 
 
 	@Override
@@ -43,22 +59,30 @@ public class Chance extends Fields {
 		return null;
 	}
 
-	@Override
-	public void landOnField(Game game) {
-		//land on field
-		
-	}
-	private ArrayList<String> fileLoad(String file) throws FileNotFoundException, IOException {
-		BufferedReader reader = new BufferedReader(new FileReader (file));
-		String line = "";
-		ArrayList<String> aList = new ArrayList<String>();
-		int k = 0;
-		while((line = reader.readLine()) != null) {
-		aList.add(k, line);
-		k++;
-		}
-		return aList;
-	} 
 
+		@Override
+	public void landOnField(Player player, Player[] playerArray, Game game) {
+		int i = chanceCards[cardToDraw].cardNumber;
+
+		
+		if(i<=10) 
+			chanceCards[cardToDraw].performAction(player, playerArray);//Skal ændres
+		
+		else if(i<=19) 
+		    chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));			
+				
+		else if(i<=28)
+			chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));
+
+		else if (i<=30)
+			chanceCards[cardToDraw].performAction(i+1,texts[i]);
+			
+		else
+			chanceCards[cardToDraw].performAction(i+1,texts[i]);
+		
+		cardToDraw=(cardToDraw++)%32;
+		
+	} 
+	
 
 }
