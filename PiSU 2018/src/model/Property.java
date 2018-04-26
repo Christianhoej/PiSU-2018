@@ -1,10 +1,13 @@
 package model;
 
+/**@au
+ * 
+ */
 import gui_main.GUI;
 
 public class Property extends Fields {
 
-	protected boolean forSale=true;
+	protected boolean forSale = true;
 	protected int price;
 	protected int rent;
 	protected boolean mortage;
@@ -12,6 +15,7 @@ public class Property extends Fields {
 	protected Player owner;
 	private GUI gui;
 	protected int houses;
+	String[] guiMessages = Txt.file("GameMessages.txt");
 
 
 	public Property(int fieldNumber) {
@@ -84,7 +88,7 @@ public class Property extends Fields {
 
 	@Override
 	public String toString(){
-		return "Du har landet på " + fieldName;
+		return guiMessages[3] + fieldName;
 	}
 	/**
 	 * Method for when a property is up for auction.
@@ -93,7 +97,7 @@ public class Property extends Fields {
 	 */
 	public void auction(Game game) {
 		int currentPlayer = -1;
-		gui.showMessage(getFieldName() + " er sat på auktion!");	
+		gui.showMessage(getFieldName() + guiMessages[4]);	
 		for (int i=0; i<game.getPlayers().size(); i++) {
 			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
 				currentPlayer=i;
@@ -119,7 +123,7 @@ public class Property extends Fields {
 					continue;
 				}
 				//Get user input, of the amount of which the player will bid over the current bid
-				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ " hvor meget vil du bydde over " + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
+				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ guiMessages[5] + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
 				//If the player bids 0, he is removed from the auction.
 				if (bidOver==0) {
 					auctionArray[i]=null;
@@ -139,10 +143,10 @@ public class Property extends Fields {
 			auctionArray[auctionWinner].getAccount().updateAssetValue(price);
 			setOwner(auctionArray[auctionWinner]);
 			auctionArray[auctionWinner].addOwnedProperties(fieldNumber);
-			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
+			gui.showMessage(auctionArray[auctionWinner].getName() + guiMessages[6] + currentBid);
 		}
 		else {
-			gui.showMessage("Ingen har valgt at bydde på grunden, spillet fortsættes.");
+			gui.showMessage(guiMessages[8]);
 		}
 	}
 
