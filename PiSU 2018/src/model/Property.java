@@ -150,7 +150,6 @@ public class Property extends Fields {
 		}
 	}
 
-
 	@Override
 	public void landOnField(Game game) { 
 	}

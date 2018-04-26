@@ -1,12 +1,9 @@
 package dao;
 
-import java.sql.SQLException;
+import java.sql.SQLException; 
 import java.util.ArrayList;
-
-import model.Fields;
 import model.Game;
 import model.Player;
-import model.Property;
 
 public class Test {
 	static GameOAD g = new GameOAD();
