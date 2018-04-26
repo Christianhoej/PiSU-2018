@@ -2,8 +2,6 @@ package model;
 
 import gui_main.GUI;
 
-
-
 public class Property extends Fields {
 
 	protected boolean forSale=true;
@@ -12,14 +10,18 @@ public class Property extends Fields {
 	protected boolean mortage;
 	protected int mortagePrice;
 	protected Player owner;
-	protected Player player;
 	private GUI gui;
+	protected int houses;
 
 
-	public Property(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+	public Property(int fieldNumber) {
+		super(fieldNumber);
 	}
 
+	public int getFieldNumber() {
+		return fieldNumber;
+	}
+	
 	public boolean isForSale() {
 		return forSale;
 	}
@@ -66,9 +68,18 @@ public class Property extends Fields {
 
 	public void setOwner(Player player) {
 		this.owner = player;
+		setForSale(false);
 	}
 	public String getFieldName() {
 		return fieldName;
+	}
+	
+	public void setHouses(int houses) {
+		this.houses = houses;
+	}
+	
+	public int getHouses() {
+		return houses;
 	}
 
 	@Override
@@ -80,22 +91,22 @@ public class Property extends Fields {
 	 * @param player
 	 * @param playerArray
 	 */
-	public void auction(Player player, Player [] playerArray) {
+	public void auction(Game game) {
 		int currentPlayer = -1;
 		gui.showMessage(getFieldName() + " er sat på auktion!");	
-		for (int i=0; i<playerArray.length; i++) {
-			if (player.equals(playerArray[i])) {
+		for (int i=0; i<game.getPlayers().size(); i++) {
+			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
 				currentPlayer=i;
 			}
 		}
 		int currentBid=100;
 		//New array with the player originally landing on the field, as the last. 
-		Player[] auctionArray = new Player[playerArray.length];
-		for(int i = currentPlayer+1; i<playerArray.length; i++) {
-			auctionArray[i]=playerArray[i];
+		Player[] auctionArray = new Player[game.getPlayers().size()];
+		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
+			auctionArray[i]= game.getPlayers().get(i);
 		}
 		for(int i=0; i<=currentPlayer; i++) {
-			auctionArray[i]=playerArray[i];
+			auctionArray[i] = game.getPlayers().get(i);
 		}
 		//The amount of player withdrawn from the auction. 
 		int playersOut=0;
@@ -137,45 +148,8 @@ public class Property extends Fields {
 
 
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
-		//If the property is for sale
-		if (forSale) {
-			//Vil spilleren købe den ellers skal den sættes på auktion 
-
-			String playerChoice = gui.getUserSelection(player.getName()+ " vil du købe " + getFieldName() + " for " + price, "Ja", "Nej");
-
-
-			if (playerChoice.equals("yes")) {
-				setForSale(false);
-				setOwner(player);
-				player.getAccount().updateCash(-price);
-				player.addOwnedProperties(fieldNumber);
-			}
-			else auction(player, playerArray);
-
-			//Færdiggøres
-		}
-		//Hvis grunden ikke er til salg
-		//Spilleren kan, når han lander på grunden:
-		//Betale leje 
-		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-		//Sætte ejendommen på auktion. 
-		else if (forSale==false) {
-			if (owner.equals(player)) {
-				gui.showMessage(toString() + "Du er selv ejer af dette felt, og skal ikke betale noget.");
-			}
-			else if (owner.getInPrison()!= 0) { 
-				gui.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
-			}
-			else if (getMortage()) {
-				gui.showMessage(toString() + "Grunden er pantsat, du slipper denne gang.");
-			}
-			else {
-				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
-				getOwner().getAccount().updateCash(price);
-				player.getAccount().updateCash(-price);
-				//Implementer: Tjek om spiller er broke. 
-			}
-		}
+	public void landOnField(Game game) { 
 	}
+
 }
+

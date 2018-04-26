@@ -9,7 +9,7 @@ import model.Player;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PropertyTest extends Fields {
+public class PropertyTest {
 
 	protected boolean forSale=true;
 	protected int price;
@@ -19,10 +19,13 @@ public class PropertyTest extends Fields {
 	protected Player owner;
 	protected Player player;
 	private GUI gui;
+	private int fieldNumber;
+	private String fieldName;
 
 
 	public PropertyTest(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+		this.fieldNumber = fieldNumber;
+		this.fieldName = fieldName;
 	}
 
 	public boolean isForSale() {
@@ -153,7 +156,7 @@ public class PropertyTest extends Fields {
 	}
 
 
-	@Override
+
 	public void landOnField(Player player, Player[] playerArray) {
 		Scanner scan = new Scanner(System.in);
 		//If the property is for sale

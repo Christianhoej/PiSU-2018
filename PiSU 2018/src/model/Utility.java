@@ -1,56 +1,104 @@
 package model;
 
 import gui_main.GUI;
+import model.Dice;
 
 public class Utility extends Property {
-
 	private GUI gui;
-	
-	public Utility(int fieldNumber, String fieldName) {
-		super(fieldNumber, fieldName);
+
+
+	public Utility(int fieldNumber) {
+		super(fieldNumber);
+
 	}
 
 
-
+	/**
+	 * Overrides the original landOnfield method. 
+	 */
 	@Override
-	public void landOnField(Player player, Player[] playerArray) {
-		//If the property is for sale
+	public void landOnField(Game game) {
+		//If the utility is for sale
 		if (forSale) {
-			//Vil spilleren købe den ellers skal den sættes på auktion 
-
-			String playerChoice = gui.getUserSelection(player.getName()+ " vil du købe " + getFieldName() + " for " + price, "Ja", "Nej");
-
-
+			//Asks whether the player wants to buy the utility or not
+			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ " vil du købe " + getFieldName() + " for " + getPrice(), "Ja", "Nej");
+			//If the player wants to buy the utility.
 			if (playerChoice.equals("yes")) {
 				setForSale(false);
-				setOwner(player);
-				player.getAccount().updateCash(-price);
-				player.addOwnedProperties(fieldNumber);
+				setOwner(game.getCurrentPlayer());
+				game.getCurrentPlayer().getAccount().updateCash(-getPrice());
+				game.getCurrentPlayer().addOwnedProperties(getFieldNumber());
 			}
-			else auction(player, playerArray);
+			//If the player doesn't want to buy the utility, it is up for auction
+			else auction(game);
 		}
-		//Hvis grunden ikke er til salg
-		//Spilleren kan, når han lander på grunden:
-		//Betale leje 
-		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-		//Sætte ejendommen på auktion. 
+
+		//If the utility is not for sale
 		else if (forSale==false) {
-			if (owner.equals(player)) {
+			//If the player owns the utility himself.
+			if (getOwner().equals(game.getCurrentPlayer())) {
 				gui.showMessage(toString() + "Du er selv ejer af dette felt, og skal ikke betale noget.");
 			}
-			else if (owner.getInPrison()!= 0) { 
+			//If the owner is in prison
+			else if (getOwner().getInPrison()!= 0) { 
 				gui.showMessage(toString() + "Ejeren er i fængsel, du slipper denne gang.");
 			}
+			//If the utility is pawned. 
 			else if (getMortage()) {
 				gui.showMessage(toString() + "Grunden er pantsat, du slipper denne gang.");
 			}
+			//If the utility is owned by another player, who is not in prison.
 			else {
-				gui.showMessage("Du er landet på " + owner +"'s ejendom og skal betale " + price);
-				getOwner().getAccount().updateCash(price);
-				player.getAccount().updateCash(-price);
-				//Implementer: Tjek om spiller er broke. 
+
+				int colourCount = 0;
+				int ownerCount = 0;
+				for (int i = 0; i<game.getFields().size(); i++) {
+					if (game.getFields().get(i).getColourSystem().equals(getColourSystem())) {
+						colourCount++;
+						if (game.getFields().get(i).getOwner().equals(getOwner())){
+							ownerCount++;
+						}
+					}
+
+					if (colourCount == 2) {
+						switch(ownerCount) {
+						case 1: getOwner().getAccount().updateCash(getRent()*game.getDice().getFaceValue()); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
+						game.getCurrentPlayer().getAccount().updateCash(-getRent()*game.getDice().getFaceValue()); //MINUSPRIS FOR EN TYPE
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 1);
+						break;
+						case 2: getOwner().getAccount().updateCash(getRent()*game.getDice().getFaceValue()); // PRIS FOR TO TYPER
+						game.getCurrentPlayer().getAccount().updateCash(-getRent()*game.getDice().getFaceValue()); // MINUS PRIS FOR TO TYPER
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 2);
+						break;
+						}
+
+					} else {
+
+
+						switch(ownerCount){
+						case 1: getOwner().getAccount().updateCash(1); // PRIS FOR EN TYPE
+						game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 1);
+						break;
+						case 2: getOwner().getAccount().updateCash(2); // PRIS FOR TO TYPER
+						game.getCurrentPlayer().getAccount().updateCash(-2); // MINUS PRIS FOR TO TYPER
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 2);
+						break;
+						case 3: getOwner().getAccount().updateCash(3);
+						game.getCurrentPlayer().getAccount().updateCash(-3);
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 3);
+						break;
+						case 4: getOwner().getAccount().updateCash(4);
+						game.getCurrentPlayer().getAccount().updateCash(-4);
+						gui.showMessage("Du er landet på " + getOwner() +"'s ejendom og skal betale " + 4);
+						break;
+						} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
+					}
+				}	
 			}
 		}
 	}
 }
+
+
 

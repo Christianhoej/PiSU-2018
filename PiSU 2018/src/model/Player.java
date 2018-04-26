@@ -7,18 +7,35 @@ public class Player {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
-	private int[] ownedProperties = new int[32];
+	private int[] ownedProperties = new int[40];
+	private int[] ownedHouses = new int[40];
+	private int playerID;
+	private String colour;
+	private boolean current;
 
-	public Player(String name /*, int balance, int position, boolean broke, boolean winner, boolean inPrison*/) {
+	public Player(String name) {
 		this.name = name;
 		this.account = new Account(30000);
-		//		this.position = position;
-		//		this.broke = broke;
-		//		this.winner = winner;	
-		//		this.inPrison = inPrison;
+
 	}
 	public String getName() {
 		return name;
+	}
+	
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
+	}
+	
+	public int getPlayerID() {
+		return playerID;
+	}
+	
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+	
+	public String getColour() {
+		return colour;
 	}
 
 	// Smartere at kalde account direkte, istedet for at lave "hjælpe metoder" til at gøre det samme
@@ -94,7 +111,31 @@ public class Player {
 	public int[] getOwnedProperties() {
 		return ownedProperties;
 	}
-
+	
+	public void setCurrent(boolean current) {
+		this.current = current;
+	}
+	
+	public boolean getCurrent() {
+		return current;
+	}
+	
+	public void addHouses(int fieldNumber){
+		ownedHouses[fieldNumber] += 1;
+	}
+	
+	public void removeHouses(int fieldNumber) {
+		ownedHouses[fieldNumber] -= 1;
+	}
+	
+	public void pawnField(int fieldNumber) {
+		ownedHouses[fieldNumber] = -1;
+	}
+	
+	public int[] getownedHouses() {
+		return ownedHouses;
+	}
+	
 }
 
 //Delvist taget fra CDIO3 - not done - Yoss

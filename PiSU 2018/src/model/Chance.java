@@ -17,8 +17,10 @@ public class Chance extends Fields {
 	
 
 
+
 	public Chance(int fieldNumber, String fieldName, Player[] player) {
 		super(fieldNumber, fieldName);
+
 		
 		String[] texts = Txt.file("CardText.txt");
 		String[] prices = Txt.file("CardAmmounts.txt");
@@ -57,9 +59,11 @@ public class Chance extends Fields {
 		return null;
 	}
 
-	
-	public void landOnField(Player player, Player[] playerArray) {
+
+		@Override
+	public void landOnField(Player player, Player[] playerArray, Game game) {
 		int i = chanceCards[cardToDraw].cardNumber;
+
 		
 		if(i<=10) 
 			chanceCards[cardToDraw].performAction(player, playerArray);//Skal ændres

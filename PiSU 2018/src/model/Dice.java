@@ -3,7 +3,6 @@ package model;
 public class Dice {
 		 
 		private int faceValue;
-		
 
 		public int rollDice() {
 			faceValue = (int)(Math.random()*6+1);
@@ -16,6 +15,5 @@ public class Dice {
 		
 		public void setFaceValue(int newFaceValue) {
 			faceValue = newFaceValue;
-			//return faceValue; ?overflødig?
 	}
 }
