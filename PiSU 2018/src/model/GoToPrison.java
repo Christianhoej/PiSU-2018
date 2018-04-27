@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameController;
 
 /**
  * 
@@ -18,7 +19,7 @@ public class GoToPrison extends Fields{
 	}
 
 	@Override
-	public void landOnField(Game game) {
+	public void landOnField(GameController gameController, Player player) {
 		player.setPosition(10);
 		player.setInPrison(1);
 	}
