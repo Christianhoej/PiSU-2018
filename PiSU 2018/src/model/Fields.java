@@ -64,10 +64,11 @@ public abstract class Fields {
 	protected void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	
-	public abstract void landOnField(GameController gameController, Player player);
 
-	public abstract String toString(); 
+	public abstract String toString();
+
+
+	public abstract void landOnField(Game game); 
 		
 	}
 

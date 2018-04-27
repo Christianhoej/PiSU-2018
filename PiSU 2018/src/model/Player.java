@@ -123,7 +123,7 @@ public class Player {
 		ownedHouses[fieldNumber] = -1;
 	}
 	
-	public int[] getownedHouses() {
+	public int[] getOwnedHouses() {
 		return ownedHouses;
 	}
 	

@@ -18,8 +18,21 @@ public class CardMove extends ChanceCard {
 		super(cardNumber,text);
 		moveTo = fieldNumber;
 	}
-	public void performAction(Player player) {
-		player.setPosition(moveTo);
+	@Override
+	public void performAction(Game game) {
+		game.getCurrentPlayer().setPosition(moveTo);
+		//Rederi:
+		//Find playerposition
+		//Find dem i arrayet
+	}
+	private void moveToDocks(Game game) {
+		int position = game.getCurrentPlayer().getPosition();
+		if (position<6 || position>36) {
+			game.getCurrentPlayer().setPosition(6);
+			for ( int i = 0; i<game.getPlayerAmount();i++) {
+			game.getPlayers(i)
+			}
+		}
 	}
 	
 	

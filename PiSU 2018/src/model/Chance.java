@@ -62,27 +62,27 @@ public class Chance extends Fields {
 
 
 		@Override
-	public void landOnField(GameController gameController, Player player) {
-		int i = chanceCards[cardToDraw].cardNumber;
+	public void landOnField(Game game) {
+//		int i = chanceCards[cardToDraw].cardNumber;
 
 		
-		if(i<=10) 
-			chanceCards[cardToDraw].performAction(player, playerArray);//Skal ændres
-		
-		else if(i<=19) 
-		    chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));			
-				
-		else if(i<=28)
-			chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));
-
-		else if (i<=30)
-			chanceCards[cardToDraw].performAction(i+1,texts[i]);
-			
-		else
-			chanceCards[cardToDraw].performAction(i+1,texts[i]);
-		
-		cardToDraw=(cardToDraw++)%32;
-		
+//		if(i<=10) 
+			chanceCards[cardToDraw].performAction(game);//Skal ændres
+//		
+//		else if(i<=19) 
+//		    chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));			
+//				
+//		else if(i<=28)
+//			chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));
+//
+//		else if (i<=30)
+//			chanceCards[cardToDraw].performAction(i+1,texts[i]);
+//			
+//		else
+//			chanceCards[cardToDraw].performAction(i+1,texts[i]);
+//		
+//		cardToDraw=(cardToDraw++)%32;
+//		
 	} 
 	
 
