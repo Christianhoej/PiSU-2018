@@ -93,7 +93,7 @@ public class Property extends Fields {
 	}
 	
 	@Override
-	public void landOnField(GameController gameController, Player player) { 
+	public void landOnField(Game game, Player player) { 
 	}
 
 }

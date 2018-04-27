@@ -44,17 +44,22 @@ public class ChanceCard {
 	public int getCardNumber() {
 		
 	return cardNumber;
-	}
-	
-	public void performAction(Player player, int amount, Player[] playerArray) {
+//	}
+//	
+//	public void performAction(Player player, int amount, Player[] playerArray) {
+//		
+//	}
+//
+//	public void performAction(Player currentPlayer, Player[] playerArray) {
+//		
+//	}
+//
+//	public void performAction(Player player) {
 		
 	}
 
-	public void performAction(Player currentPlayer, Player[] playerArray) {
-		
-	}
-
-	public void performAction(Player player) {
+	public void performAction(Game game) {
+		// TODO Auto-generated method stub
 		
 	}
 	
