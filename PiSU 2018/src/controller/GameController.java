@@ -4,21 +4,28 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import gui_main.GUI;
+import model.Fields;
 import model.Game;
 import model.Player;
+import model.Property;
+import model.RealEstate;
+import model.Txt;
+import model.Utility;
+
 
 public class GameController {
 
 	private Game game;
 	private GUI gui;
-	
+	String[] guiMessages = Txt.file("GameMessages.txt");
+
 	public GameController(Game game) {
 		this.game = game;
 	}
-	
-	
+
+
 	public void createPlayers() {
-		
+
 		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
 		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3", "4", "5", "6"));
 		ArrayList<String> color = new ArrayList<String>();
@@ -28,11 +35,11 @@ public class GameController {
 		color.add("Rød");
 		color.add("Sort");
 		color.add("Hvid");
-		
+
 		for(int i = 0; i<playerAmount; i++) {
 			Player player = new Player();
 			player.setName(gui.getUserString("Indsast navnet på spiller " + (i+1)));
-			
+
 			String[] colorString = new String[color.size()];
 			colorString = color.toArray(colorString); 
 			String carColor = gui.getUserSelection("Hvilken farve bil vil du have?", colorString);
@@ -47,11 +54,13 @@ public class GameController {
 			color.remove(carColor);
 			player.setPosition(0);
 		}
-		
+
+
+
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 
 	 * @param player
@@ -60,10 +69,10 @@ public class GameController {
 	 * 
 	 * 
 	 */
-	private void trade(Game game) {
+	private void trade(Player player) {
 		int currentPlayer=-1;
 		for (int i=0; i<game.getPlayers().size(); i++) {
-			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
+			if (player.equals(game.getPlayers().get(i))) {
 				currentPlayer=i;
 			}
 		}
@@ -81,16 +90,16 @@ public class GameController {
 			String input = gui.getUserString("Indtast navnet på den spiller, du gerne vil handle med: ");
 			for(int i=0; i<game.getPlayers().size(); i++) {
 				if (input.equals(game.getPlayers().get(i).getName())) {
-					if(game.getCurrentPlayer().getName().equals(input)) {
+					if(player.getName().equals(input)) {
 						gui.showMessage("Du kan ikke handle med dig selv. Prøv igen");
 					}
 					else {
 						tradingPlayer = i;
-						gui.showMessage(game.getCurrentPlayer().getName() + "vil gerne handle med " + game.getPlayers().get(tradingPlayer).getName());
+						gui.showMessage(player.getName() + "vil gerne handle med " + game.getPlayers().get(tradingPlayer).getName());
 						ArrayList<String> currentOwnedProp = new ArrayList<String>();
 						ArrayList<String> tradeOwnedProp = new ArrayList<String>();
-						for(int j=0; j<game.getCurrentPlayer().getOwnedProperties().length; j++) {
-							if(game.getCurrentPlayer().getOwnedProperties()[j] == 1) {
+						for(int j=0; j<player.getOwnedProperties().length; j++) {
+							if(player.getOwnedProperties()[j] == 1) {
 								currentOwnedProp.add(game.getFields().get(j).getFieldName());
 							}
 							if(game.getPlayers().get(tradingPlayer).getOwnedProperties()[j] == 1) {
@@ -108,7 +117,8 @@ public class GameController {
 							String propertyCurrent = gui.getUserSelection("Hvilken grund vil du bytte ", currentPlayerOwnedProp);
 						}
 						else {
-							
+
+							// Mangler
 						}
 
 
@@ -127,11 +137,11 @@ public class GameController {
 	 * @param player
 	 * @param playerArray
 	 */
-	public void auction(Game game) {
+	public void auction(Player player, Property property) {
 		int currentPlayer = -1;
-		gui.showMessage(getFieldName() + " er sat på auktion!");	
+		gui.showMessage(property.getFieldName() + " er sat på auktion!");	
 		for (int i=0; i<game.getPlayers().size(); i++) {
-			if (game.getCurrentPlayer().equals(game.getPlayers().get(i))) {
+			if (player.equals(game.getPlayers().get(i))) {
 				currentPlayer=i;
 			}
 		}
@@ -172,9 +182,9 @@ public class GameController {
 		//Updates the owner of the field. 
 		if(auctionWinner != -1) {
 			auctionArray[auctionWinner].getAccount().updateCash(-currentBid);
-			auctionArray[auctionWinner].getAccount().updateAssetValue(price);
-			setOwner(auctionArray[auctionWinner]);
-			auctionArray[auctionWinner].addOwnedProperties(fieldNumber);
+			auctionArray[auctionWinner].getAccount().updateAssetValue(property.getPrice());
+			property.setOwner(auctionArray[auctionWinner]);
+			auctionArray[auctionWinner].addOwnedProperties(property.getFieldNumber());
 			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
 		}
 		else {
@@ -182,15 +192,15 @@ public class GameController {
 		}
 	}
 
-	
+
 	public void pawn() {
-		
+
 	}
-	
+
 	private void loadGame() {
 		//Kald til databaser om at loade
 	}
-	
+
 	public void runGame() {
 		setUpGame();
 
@@ -199,13 +209,176 @@ public class GameController {
 		} 
 
 	}
+	
 	private void setUpGame() {
 		//if chose to load game
 		loadGame();
 
 	}
 
-	
-	
-	
+	/**
+	 * Method, where a specific player pay an amount of money.
+	 * @param player the player which is paying money
+	 * @param amount the amount the player is paying
+	 * 
+	 * @author Gunn
+	 */
+	public void payMoney(Player player, int amount) {
+		player.getAccount().updateCash(amount);
+	}
+
+
+	/**
+	 * Method, where a specific player receives an amount of money.
+	 * @param player the player which is receiving money
+	 * @param amount the amount the player is receiving
+	 * 
+	 * @author Gunn
+	 */
+	public void receiveMoney(Player player, int amount) {
+		player.getAccount().updateCash(-amount);
+	}
+
+
+	/**
+	 * This method implements activity of a player receiving the
+	 * birthday chance card, where the player receives 200 kr from
+	 * all the other players.
+	 * 
+	 * @param player the player receiving birthday money.
+	 */
+	public void playerBirthday(Player player) {
+		for(int i = 0; i<game.getPlayers().size(); i++) {
+			if(player.equals(game.getPlayers().get(i))) {
+				continue;
+			}
+			else {
+				receiveMoney(player, 200);
+				payMoney(game.getPlayers().get(i), 200);
+			}
+		}
+	}
+
+
+
+	public void addOwnedProperties(Player player, int fieldNumber) {
+		player.addOwnedProperties(fieldNumber);
+	}
+
+
+	/**
+	 * Method, to find out, if an owner of a real estate, also owns
+	 * the other real estates in the same color.
+	 * 
+	 * @param property the real estate the player has landed on
+	 * @param player the player that has landed on the real estate
+	 */
+	public void ownedRealEstateSameColour(RealEstate realEstate, Player player) {
+		int colourCount = 0;
+		int ownerCount = 0;
+		for (int i = 0; i<game.getFields().size(); i++) {
+			if (game.getFields().get(i).getColourSystem().equals(realEstate.getColourSystem())){
+				colourCount++;
+				if (game.getFields().get(i).getOwner().equals(realEstate.getOwner())){
+					ownerCount++;
+				}
+			}
+		}
+		if(colourCount == ownerCount) {
+
+			switch(realEstate.getHouses()){
+			case 0: receiveMoney(realEstate.getOwner(), realEstate.getRent()*2); //PRIS FOR ET HUS
+			payMoney(player, realEstate.getRent()*2); //MINUSPRIS FOR ET HUS
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + (realEstate.getRent()*2));
+			break;
+			case 1: receiveMoney(realEstate.getOwner(), 1); //PRIS FOR ET HUS
+			payMoney(player, 1); //MINUSPRIS FOR ET HUS
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 1);
+			break;
+			case 2: receiveMoney(realEstate.getOwner(), 2); // PRIS FOR TO HUSE
+			payMoney(player, 2); // MINUS PRIS FOR TO HUSE
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 2);
+			break;
+			case 3: receiveMoney(realEstate.getOwner(), 3);;
+			payMoney(player, 3);
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 3);
+			break;
+			case 4: receiveMoney(realEstate.getOwner(), 4);
+			payMoney(player, 4);
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 4);
+			break;
+			case 5: receiveMoney(realEstate.getOwner(), 5); // FOR HOTEL
+			payMoney(player, 5); // MINUS HOTEL
+			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 5);
+			break;
+			}
+		} else { 
+			receiveMoney(player, realEstate.getRent());
+			payMoney(player, realEstate.getRent());
+		}	
+
+
+
+	}
+
+
+
+	/**
+	 * Method, to find out, if an owner of an utility, also owns
+	 * one or many other real estates in the same color.
+	 * 
+	 * @param property the real estate the player has landed on
+	 * @param player the player that has landed on the real estate
+	 */
+	public void ownedUtilitiesSameType(Utility utility, Player player) {
+		int colourCount = 0;
+		int ownerCount = 0;
+		for (int i = 0; i<game.getFields().size(); i++) {
+			if (game.getFields().get(i).getColourSystem().equals(utility.getColourSystem())){
+				colourCount++;
+				if (game.getFields().get(i).getOwner().equals(utility.getOwner())){
+					ownerCount++;
+				}
+			}
+		}
+		// If there only exist two types of this utility, it is a "bryggeri"
+		if (colourCount == 2) {
+			switch(ownerCount) {
+			case 1: receiveMoney(utility.getOwner(), utility.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
+			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
+			gui.showMessage(guiMessages[38] + utility.getOwner() +guiMessages[39] + 1);
+			break;
+			case 2: receiveMoney(utility.getOwner(),utility.getRent()); // PRIS FOR TO TYPER
+			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
+
+			gui.showMessage(guiMessages[40] + utility.getOwner() + guiMessages[41] + 2);
+			break;
+			}
+
+		}
+		// else it is a "rederi".
+		else {
+			switch(ownerCount){
+			case 1: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR EN TYPE
+			payMoney(player, utility.getRent());
+			game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
+			gui.showMessage(guiMessages[42] + utility.getOwner() + guiMessages[43] + 1);
+			break;
+			case 2: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TO TYPE
+			payMoney(player, utility.getRent());
+			gui.showMessage(guiMessages[44] + utility.getOwner() + guiMessages[45] + 2);
+			break;
+			case 3: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TRE TYPE
+			payMoney(player, utility.getRent());
+			gui.showMessage(guiMessages[46] + utility.getOwner() + guiMessages[47] + 3);
+			break;
+			case 4: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR FIRE TYPE
+			payMoney(player, utility.getRent());
+			gui.showMessage(guiMessages[48] + utility.getOwner() +guiMessages[49] + 4);
+			break;
+			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
+		}
+
+	}
+
 }

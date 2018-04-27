@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import controller.GameController;
+
 public class Chance extends Fields {
 	
 
@@ -18,8 +20,8 @@ public class Chance extends Fields {
 
 
 
-	public Chance(int fieldNumber, String fieldName, Player[] player) {
-		super(fieldNumber, fieldName);
+	public Chance(int fieldNumber) {
+		super(fieldNumber);
 
 		
 		String[] texts = Txt.file("CardText.txt");
@@ -60,7 +62,7 @@ public class Chance extends Fields {
 
 
 		@Override
-	public void landOnField(Player player, Player[] playerArray, Game game) {
+	public void landOnField(GameController gameController, Player player) {
 		int i = chanceCards[cardToDraw].cardNumber;
 
 		

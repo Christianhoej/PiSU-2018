@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameController;
 /**@author Gunn + Yoss 
  * 
  */
@@ -26,18 +27,17 @@ public class Tax extends Fields{
 
 	}
 	@Override
-	public void landOnField(Game game) {
+	public void landOnField(GameController gameController, Player player) {
 		if(price == 4000) {
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ guiMessages[26] + price + guiMessages[27] , guiMessages[28], guiMessages[29]);
+			String playerChoice = gui.getUserSelection(player.getName()+ guiMessages[26] + price + guiMessages[27] , guiMessages[28], guiMessages[29]);
 			if(playerChoice.equals(price)) {
-				game.getCurrentPlayer().getAccount().updateCash(-price);
+				gameController.payMoney(player, price);
 
 			} else {
-				game.getCurrentPlayer().getAccount().updateCash((int) (-game.getCurrentPlayer().getTotalValue()*0.1)); //trækker 10% fra account
+				gameController.payMoney(player, (int) (-player.getTotalValue()*0.1));
 			}
 		} else {
-			game.getCurrentPlayer().getAccount().updateCash(-price);
-		
+			gameController.payMoney(player, price);
 		}
 	}
 }

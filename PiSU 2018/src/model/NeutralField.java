@@ -1,4 +1,7 @@
 package model;
+
+import controller.GameController;
+
 /**
  * 
  * @author Yoss
@@ -13,7 +16,7 @@ public class NeutralField extends Fields{
 	
 
 	@Override
-	public void landOnField(Game game) {
+	public void landOnField(GameController gameController, Player player) {
 	}
 
 	@Override

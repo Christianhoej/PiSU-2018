@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameController;
+
 public abstract class Fields {
 
 	protected int fieldNumber; 
@@ -63,7 +65,7 @@ public abstract class Fields {
 		this.fieldName = fieldName;
 	}
 	
-	public abstract void landOnField(Game game);
+	public abstract void landOnField(GameController gameController, Player player);
 
 	public abstract String toString(); 
 		

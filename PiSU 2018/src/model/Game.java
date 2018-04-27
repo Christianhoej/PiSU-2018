@@ -6,9 +6,6 @@ import gui_main.GUI;
 
 public class Game {
 
-	private Winner winner = new Winner();
-	private Player player;
-	private GUI gui;
 	private int gameID;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private int playerAmount;
