@@ -10,10 +10,20 @@ public class CardPay extends ChanceCard {
 
 	private int amount;
 	
+	/**
+	 * Constructor
+	 * @param cardNumber
+	 * @param text
+	 * @param amount
+	 */
 	public CardPay(int cardNumber, String text, int amount) {
 		super( cardNumber, text);
 		this.amount = amount;
 	}
+	/**
+	 * Overrides
+	 * For the chancecard of when a player must pay for each hotel and house he/she owns. 
+	 */
 	@Override
 	public void performAction(Game game) {
 
@@ -38,6 +48,13 @@ public class CardPay extends ChanceCard {
 	public int getAmount() {
 		return amount;
 	}
+	/**
+	 * 
+	 * @param game
+	 * @param housePrice
+	 * @param hotelPrice
+	 * @return
+	 */
 	private int payPerHouseAndHotel(Game game, int housePrice, int hotelPrice) {
 		int houses=0;
 		int hotels=0;

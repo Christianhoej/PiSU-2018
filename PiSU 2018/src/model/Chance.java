@@ -60,7 +60,7 @@ public class Chance extends Fields {
 
 		@Override
 	public void landOnField(GameController GameController, Player player) {
-//		int i = chanceCards[cardToDraw].cardNumber;
+		//int i = chanceCards[cardToDraw].cardNumber;
 
 		
 //		if(i<=10) 

@@ -2,7 +2,8 @@ package model;
 
 /**
  * Contains methods methods & attributes for the chancecards, which are extended/inherited in
- * the classes, CardMove, CardPay, CardReceive & CardPrison
+ * the classes, CardMove, CardPay, CardReceive & CardPrison.
+ * The class includes the method for shuffling the deck of chancecards. 
  * @author Christian ++
  *
  */
