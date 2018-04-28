@@ -49,11 +49,8 @@ public class Chance extends Fields {
 
 				
 			//Shuffle cards
-			
 		}
-		
 	}
-
 
 	@Override
 	public String toString() {
@@ -62,7 +59,7 @@ public class Chance extends Fields {
 
 
 		@Override
-	public void landOnField(Game game) {
+	public void landOnField(GameController GameController, Player player) {
 //		int i = chanceCards[cardToDraw].cardNumber;
 
 		
