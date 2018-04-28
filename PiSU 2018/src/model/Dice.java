@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Contains methods for rolling the dice, as well as getters and setters for the faceValue of the dice. 
+ * @author 
+ *
+ */
 public class Dice {
 		 
 		private int faceValue;
