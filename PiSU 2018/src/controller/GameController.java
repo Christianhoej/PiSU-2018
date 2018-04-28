@@ -11,6 +11,7 @@ import model.Property;
 import model.RealEstate;
 import model.Txt;
 import model.Utility;
+import model.Winner;
 
 
 public class GameController {
@@ -188,7 +189,7 @@ public class GameController {
 
 
 	public void pawn() {
-
+		
 	}
 
 	private void loadGame() {
@@ -198,7 +199,7 @@ public class GameController {
 	public void runGame() {
 		setUpGame();
 
-		while (winner.testIfWinner(player) == false){
+		while (Winner.testIfWinner(player) == false){
 
 		} 
 
@@ -310,12 +311,7 @@ public class GameController {
 			receiveMoney(player, realEstate.getRent());
 			payMoney(player, realEstate.getRent());
 		}	
-
-
-
 	}
-
-
 
 	/**
 	 * Method, to find out, if an owner of an utility, also owns
