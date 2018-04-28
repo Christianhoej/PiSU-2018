@@ -67,8 +67,9 @@ public abstract class Fields {
 
 	public abstract String toString();
 
-
-	public abstract void landOnField(Game game); 
+	
+	public void landOnField(GameController gameController, Player player) {
+	} 
 		
 	}
 
