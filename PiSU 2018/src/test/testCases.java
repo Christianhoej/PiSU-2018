@@ -21,6 +21,7 @@ public class testCases {
 	@Before
 	public void setUp() throws Exception{
 		updateCashTest=new Account(30000); 
+		texTest=new 
 	}
 	
 	/**
@@ -40,7 +41,9 @@ public class testCases {
 	}
 	
 	@Test
-	public void 
+	public void testUtility() {
+		
+	}
 	
 	
 }
