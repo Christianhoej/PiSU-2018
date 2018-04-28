@@ -44,7 +44,6 @@ public class Account {
 
 	public void updateAssetValue(int assets) {
 		this.assetValue += assets;
-
 	}
 
 	public int getAssetValue() {

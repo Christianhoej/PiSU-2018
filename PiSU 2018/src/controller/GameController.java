@@ -54,20 +54,14 @@ public class GameController {
 			color.remove(carColor);
 			player.setPosition(0);
 		}
-
-
-
 	}
-
-
 
 	/**
 	 * 
 	 * @param player
 	 * @param playerArray
 	 * @param antalSpillere
-	 * 
-	 * 
+	 *  
 	 */
 	private void trade(Player player) {
 		int currentPlayer=-1;
@@ -209,7 +203,7 @@ public class GameController {
 		} 
 
 	}
-	
+
 	private void setUpGame() {
 		//if chose to load game
 		loadGame();
