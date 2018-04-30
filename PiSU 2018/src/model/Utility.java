@@ -17,7 +17,8 @@ public class Utility extends Property {
 	 * Overrides the original landOnfield method. 
 	 */
 	@Override
-	public void landOnField(GameController gameController, Player player) {
+	public void landOnField(GameController gameController) {
+		Player player = gameController.getGame().getCurrentPlayer();
 		//If the utility is for sale
 		if (forSale) {
 			//Asks whether the player wants to buy the utility or not

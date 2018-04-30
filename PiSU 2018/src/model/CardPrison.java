@@ -1,4 +1,7 @@
 package model;
+
+import controller.GameController;
+
 /**
  * Inheriting methods & attributes from the ChanceCard class
  * Contains methods for when a player must go to prison, following a drawn chancecard. 
@@ -15,9 +18,10 @@ public class CardPrison extends ChanceCard {
 		fieldNumber = 10;
 	
 	}
-	public void performAction(Player player) {
-		player.setInPrison(1);		
-		player.setPosition(fieldNumber);
+	@Override
+	public void performAction(GameController gameController) {
+		gameController.getGame().getCurrentPlayer().setInPrison(1);		
+		gameController.getGame().getCurrentPlayer().setPosition(fieldNumber);
 
 	}
 	

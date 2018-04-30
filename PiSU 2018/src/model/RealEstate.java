@@ -12,7 +12,8 @@ public class RealEstate extends Property {
 	}
 
 	@Override
-	public void landOnField(GameController gameController, Player player) { 
+	public void landOnField(GameController gameController) { 
+		Player player = gameController.getGame().getCurrentPlayer();
 		//If the property is for sale
 		if (forSale) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 

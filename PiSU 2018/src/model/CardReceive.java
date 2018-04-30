@@ -1,6 +1,6 @@
 package model;
 
-import model.Txt;
+import controller.GameController;
 
 /**
  * Inheriting methods & attributes from the ChanceCard class
@@ -18,8 +18,8 @@ public class CardReceive extends ChanceCard {
 		this.amount = amount;
 	}
 	@Override
-	public void performAction(Game game) {
-		
+	public void performAction(GameController gameController) {
+		Game game = gameController.getGame();
 		if (super.cardNumber == 1) {
 			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*amount+amount); //all players are deducted 200, therefore the player to receive gets the extra "amount"
 			for(int i = 0; i<(game.getPlayers().size()); i++) {

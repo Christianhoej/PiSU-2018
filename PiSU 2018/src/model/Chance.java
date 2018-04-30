@@ -59,12 +59,12 @@ public class Chance extends Fields {
 
 
 		@Override
-	public void landOnField(GameController GameController, Player player) {
+	public void landOnField(GameController gameController) {
 		//int i = chanceCards[cardToDraw].cardNumber;
 
 		
 //		if(i<=10) 
-			chanceCards[cardToDraw].performAction(game);//Skal ændres
+			chanceCards[cardToDraw].performAction(gameController);//Skal måske ændres
 //		
 //		else if(i<=19) 
 //		    chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));			
