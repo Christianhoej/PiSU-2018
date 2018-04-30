@@ -27,7 +27,8 @@ public class Tax extends Fields{
 
 	}
 	@Override
-	public void landOnField(GameController gameController, Player player) {
+	public void landOnField(GameController gameController) {
+		Player player = gameController.getGame().getCurrentPlayer();
 		if(price == 4000) {
 			String playerChoice = gui.getUserSelection(player.getName()+ guiMessages[26] + price + guiMessages[27] , guiMessages[28], guiMessages[29]);
 			if(playerChoice.equals(price)) {

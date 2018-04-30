@@ -68,7 +68,12 @@ public abstract class Fields {
 	public abstract String toString();
 
 	
-	public void landOnField(GameController gameController, Player player) {
+//	public void landOnField(GameController gameController, Player player) {
+//	}
+
+	public void landOnField(GameController gameController) {
+		// TODO Auto-generated method stub
+		
 	} 
 		
 	}

@@ -1,4 +1,7 @@
 package model;
+
+import controller.GameController;
+
 /**
  * Inheriting methods & attributes from the ChanceCard class.
  * Contains the method for adding a get out of prison card, to a player. 
@@ -18,8 +21,10 @@ public class CardGetOutOfPrison extends ChanceCard {
 	 * Updates the amount of get out of prison cards, owned by a player.
 	 * @param player
 	 */
-	public void performAction(Player player) {
-		player.getAccount().updatePrisonCard(1);
+	@Override
+	public void performAction(GameController gameController) {
+		gameController.getGame().getCurrentPlayer().getAccount().updatePrisonCard(1);
 	}
+	//Bør vi kunne låse kortene så de ikke indgår i kortbunken før de er brugt igen?
 	
 }

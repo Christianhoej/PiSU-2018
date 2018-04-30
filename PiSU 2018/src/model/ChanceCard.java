@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameController;
+
 /**
  * Contains methods methods & attributes for the chancecards, which are extended/inherited in
  * the classes, CardMove, CardPay, CardReceive & CardPrison.
@@ -59,7 +61,7 @@ public class ChanceCard {
 		
 	}
 
-	public void performAction(Game game) {
+	public void performAction(GameController gameController) {
 		// TODO Auto-generated method stub
 		
 	}
