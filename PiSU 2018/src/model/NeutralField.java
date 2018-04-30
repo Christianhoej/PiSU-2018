@@ -17,7 +17,7 @@ public class NeutralField extends Fields{
 
 	@Override
 	public void landOnField(GameController gameController) {
-		
+
 	}
 
 	@Override

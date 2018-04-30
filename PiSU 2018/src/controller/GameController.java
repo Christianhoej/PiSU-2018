@@ -198,9 +198,36 @@ public class GameController {
 
 	public void runGame() {
 		setUpGame();
-
+		//set player to start
 		while (Winner.testIfWinner(player) == false){
+				
+				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
+					//if player wants to get out of jail before rolling dies
+					//Mulighed for at anvende kort/betale for at komme ud af fængsel
+					
+					//else {
+						//roll dices
+						//if d1== d2
+						//Update Player.InJail();
+					//}
+				}
 
+				
+
+			
+				//Roll dices
+				//player uses turn roll of dies to either move or not
+			
+				//move to Field //land on field
+				//check if passes start
+			
+				
+				//If dice1 == dice2
+				//roll again //Recursion
+				//update 
+			
+			
+				//update currentPlayer
 		} 
 
 	}

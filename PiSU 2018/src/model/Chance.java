@@ -14,7 +14,7 @@ public class Chance extends Fields {
 	
 
 	private String text;//Hvad er den til for?
-	private int cardToDraw = 1;
+	private int cardToDraw = 0;
 	ChanceCard[] chanceCards = new ChanceCard[32];
 	
 
@@ -48,7 +48,8 @@ public class Chance extends Fields {
 				chanceCards[i] = new CardPrison(i+1,texts[i]);
 
 				
-			//Shuffle cards
+			//Shuffles the deck
+			chanceCards = ChanceCard.shuffleDeck(chanceCards);
 		}
 	}
 
@@ -60,26 +61,13 @@ public class Chance extends Fields {
 
 		@Override
 	public void landOnField(GameController gameController) {
-		//int i = chanceCards[cardToDraw].cardNumber;
-
 		
-//		if(i<=10) 
-			chanceCards[cardToDraw].performAction(gameController);//Skal måske ændres
-//		
-//		else if(i<=19) 
-//		    chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));			
-//				
-//		else if(i<=28)
-//			chanceCards[cardToDraw].performAction(i+1,texts[i],Integer.parseInt(prices[i]));
-//
-//		else if (i<=30)
-//			chanceCards[cardToDraw].performAction(i+1,texts[i]);
-//			
-//		else
-//			chanceCards[cardToDraw].performAction(i+1,texts[i]);
-//		
-//		cardToDraw=(cardToDraw++)%32;
-//		
+			chanceCards[cardToDraw].performAction(gameController);
+			
+			if(cardToDraw == 31)
+				cardToDraw =0;
+			//Evt lav shuffle en gang til.
+
 	} 
 	
 

@@ -77,23 +77,26 @@ public class CardMove extends ChanceCard {
 		int arrayPositionOfFerry = 0;
 		
 		if ((position%40)<6 || (position%40)>36) {
-//			docksOwned = moveToDocks(game,5, player);
+			int oldPosition = position;
 			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
 			arrayPositionOfFerry = 5;
+			//If player passes start
+			if ((oldPosition%40)>(position%40))
+				game.getCurrentPlayer().getAccount().updateCash(4000);
 		}
 		else if ((position%40) < 16) {
-//			docksOwned = moveToDocks(game,15, player);
+
 			game.getCurrentPlayer().setPosition(15);
 			arrayPositionOfFerry = 15;
 			}
 		else if ((position%40) < 26) { 
-//			docksOwned = moveToDocks(game,25, player);
+
 			game.getCurrentPlayer().setPosition(25);
 			arrayPositionOfFerry = 25;
 		}
 		
 		 else if ((position%40) < 36) {
-//			docksOwned = moveToDocks(game,35, player);
+
 			game.getCurrentPlayer().setPosition(35);
 			arrayPositionOfFerry = 35;
 		 }
