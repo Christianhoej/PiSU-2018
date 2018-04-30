@@ -4,6 +4,7 @@ import model.Account;
 import model.Tax;
 import test.TestAfProperty;
 import model.Player;
+import model.CardMove;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,13 +16,14 @@ public class testCases {
 
 	Account updateCashTest;
 	Tax taxTest;
+	CardMove moveTest;
 	
 	
 	
 	@Before
 	public void setUp() throws Exception{
 		updateCashTest=new Account(30000); 
-		texTest=new 
+		taxTest = new
 	}
 	
 	/**
