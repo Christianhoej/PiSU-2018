@@ -1,0 +1,106 @@
+package controller;
+
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
+import board.Gameboard;
+import model.Player;
+import model.Fields;
+import model.Game;
+import gui_fields.GUI_Car;
+import gui_fields.GUI_Car.Pattern;
+import gui_fields.GUI_Car.Type;
+import gui_fields.GUI_Field;
+import gui_fields.GUI_Player;
+import gui_main.GUI;
+import designpatterns.Observer;
+import designpatterns.Subject;
+
+public class View implements Observer {
+	private Game game;
+	private GUI gui;
+
+	private Map<Player,GUI_Player> player2GuiPlayer = new HashMap<Player,GUI_Player>();
+	private Map<Player,Integer> player2position = new HashMap<Player,Integer>();
+	private Map<Fields,GUI_Field> field2GuiField = new HashMap<Fields,GUI_Field>();
+
+	private boolean disposed = false;
+	
+	/**
+	 * 
+	 * @param game
+	 * @param gui
+	 */
+	
+	public View(Game game, GUI gui) {
+		this.game = game;
+		this.gui = gui;
+		GUI_Field[] guiFields = gui.getFields();
+		
+		int i = 0;
+		for(Fields field : game.getFields()) {
+			field2GuiField.put(field, guiFields[i++]);
+		}
+
+		for(Player player : game.getPlayers()) {
+			GUI_Car guiCar = new GUI_Car(player.getColour(), Color.black, Type.CAR, Pattern.FILL);
+			GUI_Player guiPlayer = new GUI_Player(player.getName(), player.getAccount().getCash(), guiCar);
+			player2GuiPlayer.put(player, guiPlayer);
+			gui.addPlayer(guiPlayer);
+
+			
+			player.attach(this);
+ 
+			updatePlayer(player);
+
+
+		}
+
+	}
+
+	@Override
+	public void update(Subject subject) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * This method updates a player's state in the GUI. Right now, this
+	 * concerns the players position and balance only. But, this should
+	 * also include other information (being i prison, available cards,
+	 * ...)
+	 * 
+	 * @param player the player who's state is to be updated
+	 */
+	private void updatePlayer(Player player) {
+		
+		
+		
+		GUI_Player guiPlayer = this.player2GuiPlayer.get(player);
+		if (guiPlayer != null) {
+			guiPlayer.setBalance(player.getAccount().getCash());
+
+			GUI_Field[] guiFields = gui.getFields();
+			Integer oldPosition = player2position.get(player);
+			if (oldPosition != null && oldPosition < guiFields.length) {
+				guiFields[oldPosition].setCar(guiPlayer, false);
+			}
+			int pos = player.getPosition();
+			if (pos < guiFields.length) {
+				player2position.put(player, pos);
+				guiFields[pos].setCar(guiPlayer, true);
+			}
+			 
+			if (player.isBroke()) {
+				guiPlayer.setName(player.getName() + " (broke)");
+			} else if (player.getInPrison()>0) {
+				guiPlayer.setName(player.getName() + " (in prison)");
+			} else {
+				guiPlayer.setName(player.getName());
+			}
+		}
+	}
+
+
+}

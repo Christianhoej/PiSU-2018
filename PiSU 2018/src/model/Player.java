@@ -2,7 +2,9 @@ package model;
 
 import java.awt.Color;
 
-public class Player {
+import designpatterns.Subject;
+
+public class Player extends Subject {
 
 	private String name;
 	private Account account;

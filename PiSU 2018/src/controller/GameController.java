@@ -3,6 +3,7 @@ package controller;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import board.Gameboard;
 import gui_main.GUI;
 import model.Fields;
 import model.Game;
@@ -22,12 +23,16 @@ public class GameController {
 
 	public GameController(Game game) {
 		this.game = game;
+		Gameboard gameboard = new Gameboard();
+		gui = new GUI(gameboard.makeBoard());
 	}
 
 
+	
+	
 	public void createPlayers() {
 
-		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
+//		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
 		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3", "4", "5", "6"));
 		ArrayList<String> color = new ArrayList<String>();
 		color.add("Blå");
@@ -41,6 +46,8 @@ public class GameController {
 			Player player = new Player();
 			player.setName(gui.getUserString("Indsast navnet på spiller " + (i+1)));
 
+			
+			
 			String[] colorString = new String[color.size()];
 			colorString = color.toArray(colorString); 
 			String carColor = gui.getUserSelection("Hvilken farve bil vil du have?", colorString);
@@ -199,10 +206,10 @@ public class GameController {
 	public void runGame() {
 		setUpGame();
 		//set player to start
-		while (Winner.testIfWinner(player) == false){
-				
-				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
-					
+//		while (Winner.testIfWinner(player) == false){
+//				
+//				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
+//					
 					//if player wants to get out of jail before rolling dies
 					//Mulighed for at anvende kort/betale for at komme ud af fængsel
 					
@@ -211,7 +218,7 @@ public class GameController {
 						//if d1== d2
 						//Update Player.InJail();
 					//}
-				}
+//				}
 
 				
 
@@ -231,11 +238,21 @@ public class GameController {
 				//update currentPlayer
 		} 
 
-	}
+//	}
 
 	private void setUpGame() {
+		
+//		gui.showMessage("Hej");
+		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
+		
+		if(selection.equals("Indlæs spil")) {
+			loadGame();
+		}
+		else {
+			createPlayers();
+		}
 		//if chose to load game
-		loadGame();
+//		
 
 	}
 
