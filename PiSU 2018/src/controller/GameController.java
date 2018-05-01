@@ -19,7 +19,7 @@ public class GameController {
 
 	private Game game;
 	private GUI gui;
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[][] guiMessages = Txt.file("GameMessages.txt");
 
 	public GameController(Game game) {
 		this.game = game;
