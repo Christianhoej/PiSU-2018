@@ -46,7 +46,7 @@ public class Txt {
 	}	
 	
 	
-	public static String[][] file2D(String fileName) {
+	public static int[][] file2D(String fileName) {
 
 		ArrayList<String[]> lines = new ArrayList<>();
 		
@@ -69,7 +69,18 @@ public class Txt {
 			
 			line1[i] = lines.get(i).clone();
 		}
-		return line1;
+		
+		int[][] intArray = new int[lines.size()][];
+		for(int i = 0 ; i<lines.size() ; i++) {
+			intArray[i] = new int[lines.get(i).length];
+			for(int j = 0; j<lines.get(i).length; j++) {
+				intArray[i][j] = Integer.parseInt(line1[i][j]);
+			}
+			
+		}
+		
+		
+		return intArray;
 	}
 }
 

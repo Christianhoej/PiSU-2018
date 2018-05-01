@@ -6,17 +6,17 @@ public class Repository
 {
 	private static Repository _instance;
     private Connector _connector;
-	private GameOAD _GameOAD; 
+	private GameDAO _GameOAD; 
 	
 	private Repository()
 	{
 		_connector = new Connector();
 	}
 	
-	public IGameOAD sensorData()
+	public IGameDAO sensorData()
 	{		
 		if(_GameOAD==null) 
-			_GameOAD = new GameOAD(_connector);
+			_GameOAD = new GameDAO();
 		return _GameOAD;	
 	}
 	
