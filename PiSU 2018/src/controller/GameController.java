@@ -45,9 +45,16 @@ public class GameController {
 		for(int i = 0; i<playerAmount; i++) {
 			Player player = new Player();
 			player.setName(gui.getUserString("Indsast navnet på spiller " + (i+1)));
-
+			for(int k=i-1; k>=0; k--) { //Loop der checker om 2 spillere hedder det samme
+				System.out.println(game.getPlayers().size());
+				while(game.getPlayers().get(k).getName().equals(player.getName()))// tjekker om spillerne har samme navn
+				{
+					player.setName(gui.getUserString("You cant have the same name as another player. Please try again"));   //skulle have været med i oversætter klassen
+					k=i-1; // tjekker forfra om der er ens navne
+				}
+			}		
 			
-			
+			game.addPlayer(player);
 			String[] colorString = new String[color.size()];
 			colorString = color.toArray(colorString); 
 			String carColor = gui.getUserSelection("Hvilken farve bil vil du have?", colorString);
