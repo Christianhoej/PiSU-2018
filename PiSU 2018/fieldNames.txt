@@ -1,12 +1,14 @@
 Start
 Rødovervej
 ?
+Prøv lykken
 Hvidovrevej
 Betal indkomstskat, 
 10% eller 4000kr.
 Rederiet Lindinger A/S
 Roskildevej
 ?
+Prøv lykken
 Valby Langgade
 Allégade
 På besøg \n I fængsel
@@ -17,11 +19,13 @@ Gl. Kongevej
 Grenaa-Hundested
 Bernstorffsvej
 ?
+Prøv lykken
 Hellerupvej
 Strandvej
 Parkering
 Trianglen
 ?
+Prøv lykken
 Østerbrogade
 Grønningen
 Mols-Linien A/S
@@ -33,8 +37,10 @@ De fængsles
 Amagertorv
 Vimmelskaftet
 ?
+Prøv lykken
 Nygade
 Skandinavisk Linietrafik
+?
 Prøv lykken
 Frederiksberggade
 Ekstraordinær statsskat. 

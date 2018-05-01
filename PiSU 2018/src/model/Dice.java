@@ -18,7 +18,13 @@ public class Dice {
 			return faceValue;
 		}
 		
-		public void setFaceValue(int newFaceValue) {
-			faceValue = newFaceValue;
-	}
+		public void setFaceValue(int faceValue) {
+			this.faceValue = faceValue;
+		}
+		public static boolean isEqual(Dice[]dies) {
+			if (dies[0].getFaceValue()== dies[1].getFaceValue())
+				return true;
+			else
+				return false;
+		}
 }

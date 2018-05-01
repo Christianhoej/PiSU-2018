@@ -28,7 +28,7 @@ public class ChanceCard {
 		
 	}
 	
-	public ChanceCard[] shuffleDeck(ChanceCard[] chanceDeck) {
+	public static ChanceCard[] shuffleDeck(ChanceCard[] chanceDeck) {
 		 
 		 ChanceCard[] chanceCards = new ChanceCard[chanceDeck.length];
 			
