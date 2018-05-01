@@ -1,48 +1,40 @@
 Start
 Rødovervej
-?
-Prøv lykken
+?#Prøv lykken
 Hvidovrevej
-Betal indkomstskat, 
-10% eller 4000kr.
-Rederiet Lindinger A/S
+Betal indkomstskat,#10% eller 4000kr.
+default#Helsingør - Helsingborg
 Roskildevej
-?
-Prøv lykken
+?#Prøv lykken
 Valby Langgade
 Allégade
-På besøg \n I fængsel
+default#Fængsel
 Frederiksberg Allé
-Coca-Cola
+default#Coca-Cola
 Bülowsvej
 Gl. Kongevej
-Grenaa-Hundested
+default#Mols Linjen
 Bernstorffsvej
-?
-Prøv lykken
+?#Prøv lykken
 Hellerupvej
 Strandvej
-Parkering
+default#Parkering
 Trianglen
-?
-Prøv lykken
+?#Prøv lykken
 Østerbrogade
 Grønningen
-Mols-Linien A/S
+default#Gedser-Rostock
 Bredgade
 Kgs. Nytorv
-Faxe Bryggeri
+default#Faxe#Faxe Bryggeri
 Østergade
-De fængsles
+default#Gå i fængsel#De fængsles\nSlå to ens for,\n betal 1000kr eller\nbrug prøv lykken kort\n for at komme ud
 Amagertorv
 Vimmelskaftet
-?
-Prøv lykken
+?#Prøv lykken
 Nygade
-Skandinavisk Linietrafik
-?
-Prøv lykken
+default#Rødby-Puttgarden
+?#Prøv lykken
 Frederiksberggade
-Ekstraordinær statsskat. 
-Betal 2000kr.
+Ekstraordinær statsskat.#Betal 2000kr.
 Rådhuspladsen
