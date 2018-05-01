@@ -21,7 +21,7 @@ import model.Player;
 import model.Fields;
 import model.Game;
 
-public class GameOAD implements IGameOAD 
+public class GameDAO implements IGameDAO 
 {	
 	private Connector connect = new Connector();
 

@@ -1,8 +1,7 @@
 package model;
 
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
-import gui_main.GUI;
 
 public class Game {
 

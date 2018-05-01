@@ -7,7 +7,7 @@ import model.Fields;
 import model.Game;
 import model.Player;
 
-public interface IGameOAD {
+public interface IGameDAO {
 
 	
 	//void createAll(String[] colour, String[] name);

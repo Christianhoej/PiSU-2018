@@ -6,7 +6,7 @@ import model.Game;
 import model.Player;
 
 public class Test {
-	static GameOAD g = new GameOAD();
+	static GameDAO g = new GameDAO();
 
 	public static void main(String[] args) throws SQLException {
 		//		Game game = new Game();
