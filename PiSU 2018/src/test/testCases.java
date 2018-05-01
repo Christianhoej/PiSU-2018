@@ -5,6 +5,7 @@ import model.Tax;
 import test.TestAfProperty;
 import model.Player;
 import model.CardMove;
+import controller.GameController;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,14 +38,14 @@ public class testCases {
 		assertEquals(actual,expected);
 	}
 	
+//	@Test
+//	public void testTax() {
+//		//Implementeres
+//	}
+//	
 	@Test
-	public void testTax() {
-		//Implementeres
-	}
-	
-	@Test
-	public void testUtility() {
-		
+	public void testCardMove() {
+		moveTest.getCardNumber();
 	}
 	
 	
