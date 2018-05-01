@@ -12,7 +12,7 @@ public class Game {
 	private String date;
 	private ArrayList<Fields> fields = new ArrayList<Fields>();
 	private Player currentPlayer;
-	private Dice dice;
+	private Dice[] dices;
 
 	public void setGameID(int gameID) {
 		this.gameID=gameID;
@@ -47,8 +47,8 @@ public class Game {
 		return date;
 	}
 
-	public Dice getDice() {
-		return dice;
+	public Dice[] getDice() {
+		return dices;
 	}
 
 	public ArrayList<Player> getPlayers() {

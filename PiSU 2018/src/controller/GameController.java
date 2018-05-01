@@ -202,6 +202,7 @@ public class GameController {
 		while (Winner.testIfWinner(player) == false){
 				
 				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
+					
 					//if player wants to get out of jail before rolling dies
 					//Mulighed for at anvende kort/betale for at komme ud af fængsel
 					

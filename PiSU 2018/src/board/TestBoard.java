@@ -53,7 +53,8 @@ public class TestBoard {
 			}
 			gui.addPlayer(s[i]);
 			gui.getFields()[0].setCar(s[i], true);
-			player[i] = new Player(s[i].getName());
+			player[i] = new Player();
+			player[i].setName(name[i]);
 	
 		}
 
