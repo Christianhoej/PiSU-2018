@@ -9,12 +9,14 @@ import model.Player;
 import model.Property;
 import model.Fields;
 import model.Game;
+import gui_fields.GUI_Brewery;
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Car.Pattern;
 import gui_fields.GUI_Car.Type;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Ownable;
 import gui_fields.GUI_Player;
+import gui_fields.GUI_Shipping;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
 import designpatterns.Observer;
@@ -80,16 +82,30 @@ public class View implements Observer {
 	}
 
 	private void updateProperty(Property property) {
-		GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
-		
-		if(guiField != null) {
-			guiField.setBorder(property.getOwner().getColour());
-			System.out.println(property.getOwner().getColour());
-			if(property.getHouses()==5) {
-				guiField.setHotel(true);
+		if(property.getColourSystem().equals("darkgreen")) {
+			GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
+			if(guiField != null) {
+				guiField.setBorder(property.getOwner().getColour());
 			}
-			else if(property.getHouses()>0 && property.getHouses()<5) {
-				guiField.setHouses(property.getHouses());
+		}
+		else if (property.getColourSystem().equals("ship")) {
+			GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
+
+			if(guiField != null) {
+				guiField.setBorder(property.getOwner().getColour());
+			}
+		}
+		else {
+			GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
+
+			if(guiField != null) {
+				guiField.setBorder(property.getOwner().getColour());
+				if(property.getHouses()==5) {
+					guiField.setHotel(true);
+				}
+				else if(property.getHouses()>0 && property.getHouses()<5) {
+					guiField.setHouses(property.getHouses());
+				}
 			}
 		}
 	}

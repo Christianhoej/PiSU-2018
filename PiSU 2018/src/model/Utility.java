@@ -1,10 +1,8 @@
 package model;
 
 import controller.GameController; 
-import gui_main.GUI;
 
 public class Utility extends Property {
-	private GUI gui;
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 
@@ -16,6 +14,7 @@ public class Utility extends Property {
 	@Override
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
+		notifyChange();
 	}
 	
 	

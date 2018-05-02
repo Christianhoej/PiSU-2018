@@ -22,6 +22,9 @@ public class Tax extends Fields{
 	}
 
 	
+	public int getPrice() {
+		return price;
+	}
 	
 	@Override
 	public String toString() {
@@ -36,18 +39,7 @@ public class Tax extends Fields{
 	
 	@Override
 	public void landOnField(GameController gameController) {
-		Player player = gameController.getGame().getCurrentPlayer();
-		if(price == 4000) {
-			String playerChoice = gui.getUserSelection(player.getName()+ guiMessages[26] + price + guiMessages[27] , guiMessages[28], guiMessages[29]);
-			if(playerChoice.equals(price)) {
-				gameController.payMoney(player, price);
-
-			} else {
-				gameController.payMoney(player, (int) (-player.getTotalValue()*0.1));
-			}
-		} else {
-			gameController.payMoney(player, price);
-		}
+		gameController.payTax(this);
 	}
 }
 

@@ -15,13 +15,14 @@ import model.RealEstate;
 import model.Txt;
 import model.Utility;
 import model.Winner;
+import model.Tax;
 
 
 public class GameController {
 
 	private Game game;
 	private GUI gui;
-	private String[][] guiMessages = Txt.fileString2D("GameMessages.txt");
+	private String[] guiMessages = Txt.fileString("GameMessages.txt");
 	private View view;
 	private Random rand = new Random();
 
@@ -260,20 +261,22 @@ public class GameController {
 			gui.setDice(faceValue[0], faceValue[1]);
 			throwDouble = (faceValue[0]== faceValue[1]);
 			int doubleCount=0;
-			if(throwDouble) {
+			if(throwDouble && player.getInPrison()>0) {
 				doubleCount++;
-				if(player.getInPrison()>0) {
-					player.setInPrison(0);
-					gui.showMessage("Du har kastet to ens, mens du var i fængsel, og kan "
-							+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + "felter frem");
-				}
-				else if(doubleCount>2) {
+				player.setInPrison(0);
+				gui.showMessage("Du har kastet to ens, mens du var i fængsel, og kan "
+						+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + "felter frem");
+				if(doubleCount>2) {
 					gui.showMessage("Du har kastet to ens tre gange i træk, og skal derfor "
 							+ "i fængsel");
 					player.setPosition(10);
 					player.setInPrison(1);
 					return;
 				}
+			}
+			else if(player.getInPrison()>0) {
+				gui.showMessage("Du kastede ikke to ens, og forbliver i fængsel en runde til");
+				return;
 			}
 			int position = player.getPosition() + faceValue[0]+faceValue[1];
 			moveToField(player, position);
@@ -418,7 +421,7 @@ public class GameController {
 	 * @author Gunn
 	 */
 	public void payMoney(Player player, int amount) {
-		player.getAccount().updateCash(amount);
+		player.getAccount().updateCash(-amount);
 	}
 
 
@@ -579,7 +582,7 @@ public class GameController {
 		if (property.isForSale()) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 
 
-			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8][0] + property.getFieldName() + guiMessages[9][0] + property.getPrice(), "Nej", "Ja");
+			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8] + property.getFieldName() + guiMessages[9] + property.getPrice(), "Nej", "Ja");
 
 			if (playerChoice.equals("Ja")) {
 				property.setForSale(false);
@@ -597,13 +600,13 @@ public class GameController {
 		//Sætte ejendommen på auktion. 
 		else if (!property.isForSale()) {
 			if (property.getOwner().equals(player)) {
-				gui.showMessage(toString() + guiMessages[13]);
+				gui.showMessage(property.toString() + guiMessages[13]);
 			}
 			else if (property.getOwner().getInPrison()!= 0) { 
-				gui.showMessage(toString() + guiMessages[14]);
+				gui.showMessage(property.toString() + guiMessages[14]);
 			}
 			else if (property.getMortage()) {
-				gui.showMessage(toString() + guiMessages[15]);
+				gui.showMessage(property.toString() + guiMessages[15]);
 			}
 			else {
 				if(property.getColourSystem().equals("ship") || property.getColourSystem().equals("darkgreen")) {
@@ -615,5 +618,20 @@ public class GameController {
 			}
 		}
 	}
+	
+	public void payTax(Tax tax) {
+		if(tax.getPrice() == 4000) {
+			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ guiMessages[26] + tax.getPrice() + guiMessages[27] , guiMessages[28], guiMessages[29]);
+			if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
+				payMoney(game.getCurrentPlayer(), tax.getPrice());
+
+			} else {
+				payMoney(game.getCurrentPlayer(), (int) (-game.getCurrentPlayer().getTotalValue()*0.1));
+			}
+		} else {
+			payMoney(game.getCurrentPlayer(), tax.getPrice());
+		}
+	}
+	
 
 }

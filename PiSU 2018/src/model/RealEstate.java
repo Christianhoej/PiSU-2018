@@ -1,14 +1,13 @@
 package model;
 
-import controller.GameController;
-import gui_main.GUI;
+import controller.GameController; 
 
 public class RealEstate extends Property {
 
-	private GUI gui;
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
-	public RealEstate(int position ) {
-		super(position);
+
+	public RealEstate(int fieldNumber ) {
+		super(fieldNumber);
 	}
 
 	@Override
