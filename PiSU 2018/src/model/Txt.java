@@ -36,7 +36,7 @@ public class Txt {
 		} catch (IOException e) { 
 			System.out.println("error"); 
 		} finally {  
-			System.out.println(fileName + " read");
+//			System.out.println(fileName + " read");
 		}
 		
 		
@@ -72,7 +72,7 @@ public class Txt {
 		} catch (IOException e) { 
 			System.out.println("error"); 
 		} finally {  
-			System.out.println(fileName + " read");
+//			System.out.println(fileName + " read");
 		}
 		
 		
@@ -99,7 +99,7 @@ public class Txt {
 		} catch (IOException e) {
 			System.out.println("Not able to read file");
 		} finally {
-			System.out.println(fileName + " read");
+//			System.out.println(fileName + " read");
 		}
 
 		// Convert to a String[][]

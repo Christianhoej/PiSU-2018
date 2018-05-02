@@ -1,21 +1,26 @@
 package controller;
 
-import java.awt.Color;
+import java.awt.Color; 
 import java.util.HashMap;
 import java.util.Map;
 
 import board.Gameboard;
 import model.Player;
+import model.Property;
 import model.Fields;
 import model.Game;
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Car.Pattern;
 import gui_fields.GUI_Car.Type;
 import gui_fields.GUI_Field;
+import gui_fields.GUI_Ownable;
 import gui_fields.GUI_Player;
+import gui_fields.GUI_Street;
 import gui_main.GUI;
 import designpatterns.Observer;
 import designpatterns.Subject;
+import model.RealEstate;
+import model.Utility;
 
 public class View implements Observer {
 	private Game game;
@@ -26,21 +31,22 @@ public class View implements Observer {
 	private Map<Fields,GUI_Field> field2GuiField = new HashMap<Fields,GUI_Field>();
 
 	private boolean disposed = false;
-	
+
 	/**
 	 * 
 	 * @param game
 	 * @param gui
 	 */
-	
-	public View(Game game, GUI gui) {
+
+	public View(Game game, GUI gui) { 
 		this.game = game;
 		this.gui = gui;
 		GUI_Field[] guiFields = gui.getFields();
-		
+
 		int i = 0;
 		for(Fields field : game.getFields()) {
 			field2GuiField.put(field, guiFields[i++]);
+			field.attach(this);
 		}
 
 		for(Player player : game.getPlayers()) {
@@ -49,22 +55,45 @@ public class View implements Observer {
 			player2GuiPlayer.put(player, guiPlayer);
 			gui.addPlayer(guiPlayer);
 
-			
 			player.attach(this);
- 
+
 			updatePlayer(player);
-
-
 		}
 
 	}
 
 	@Override
 	public void update(Subject subject) {
+		System.out.println(subject.getClass());
+		if (!disposed) {
+			if (subject instanceof Player) {
+				updatePlayer((Player) subject);
+			}
+			else if (subject instanceof Property) {
+				updateProperty((Property) subject);
+			}
+		}
+
+
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
+	private void updateProperty(Property property) {
+		GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
+		
+		if(guiField != null) {
+			guiField.setBorder(property.getOwner().getColour());
+			System.out.println(property.getOwner().getColour());
+			if(property.getHouses()==5) {
+				guiField.setHotel(true);
+			}
+			else if(property.getHouses()>0 && property.getHouses()<5) {
+				guiField.setHouses(property.getHouses());
+			}
+		}
+	}
+
 	/**
 	 * This method updates a player's state in the GUI. Right now, this
 	 * concerns the players position and balance only. But, this should
@@ -74,9 +103,6 @@ public class View implements Observer {
 	 * @param player the player who's state is to be updated
 	 */
 	private void updatePlayer(Player player) {
-		
-		
-		
 		GUI_Player guiPlayer = this.player2GuiPlayer.get(player);
 		if (guiPlayer != null) {
 			guiPlayer.setBalance(player.getAccount().getCash());
@@ -91,16 +117,14 @@ public class View implements Observer {
 				player2position.put(player, pos);
 				guiFields[pos].setCar(guiPlayer, true);
 			}
-			 
+
 			if (player.isBroke()) {
 				guiPlayer.setName(player.getName() + " (broke)");
 			} else if (player.getInPrison()>0) {
 				guiPlayer.setName(player.getName() + " (in prison)");
 			} else {
 				guiPlayer.setName(player.getName());
-			}
+			}	
 		}
 	}
-
-
 }

@@ -14,7 +14,12 @@ public class NeutralField extends Fields{
 		super(fieldNumber);
 	}
 	
-
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+	
+	
 	@Override
 	public void landOnField(GameController gameController) {
 
