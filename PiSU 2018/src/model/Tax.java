@@ -21,11 +21,19 @@ public class Tax extends Fields{
 		}
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return null;
-
 	}
+	
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+	
+	
 	@Override
 	public void landOnField(GameController gameController) {
 		Player player = gameController.getGame().getCurrentPlayer();

@@ -16,9 +16,9 @@ import gui_fields.GUI_Tax;
 public class Gameboard {
 
 	private GUI_Field[] fields = new GUI_Field[40];	
-	private String[][] fieldName = Txt.file("FieldNames.txt");
-	int[][] fieldPrices = Txt.file2D("Prices.txt");
-	private String[][] fieldMessage = Txt.file("fieldMessage.txt");
+	private String[][] fieldName = Txt.fileString2D("FieldNames.txt");
+	int[][] fieldPrices = Txt.fileInt2D("Prices.txt");
+	private String[][] fieldMessage = Txt.fileString2D("fieldMessage.txt");
 	private String[] message = {"Pris: ", "100 x [Terningslag]"};
 	
 	public GUI_Field[] makeBoard() {

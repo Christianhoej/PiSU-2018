@@ -19,7 +19,8 @@ public class GameController {
 
 	private Game game;
 	private GUI gui;
-	String[][] guiMessages = Txt.file("GameMessages.txt");
+	private String[][] guiMessages = Txt.fileString2D("GameMessages.txt");
+	private View view;
 
 	public GameController(Game game) {
 		this.game = game;
@@ -59,16 +60,21 @@ public class GameController {
 			String carColor = gui.getUserSelection("Hvilken farve bil vil du have?", colorString);
 			switch(carColor) {
 			case "Blå": player.setColour(Color.blue); break;
-			case "Grøn": player.setColour(Color.blue); break;
-			case "Gul": player.setColour(Color.blue); break;
-			case "Rød": player.setColour(Color.blue); break;
-			case "Sort": player.setColour(Color.blue); break;
-			case "Hvid": player.setColour(Color.blue); break;
+			case "Grøn": player.setColour(Color.green); break;
+			case "Gul": player.setColour(Color.yellow); break;
+			case "Rød": player.setColour(Color.red); break;
+			case "Sort": player.setColour(Color.black); break;
+			case "Hvid": player.setColour(Color.white); break;
 			}
 			color.remove(carColor);
 			player.setPosition(0);
 		}
 	}
+	
+	public void createGUI() {
+		this.view = new View(game, gui);
+	}
+		
 
 	/**
 	 * 
@@ -211,7 +217,23 @@ public class GameController {
 
 	public void runGame() {
 		setUpGame();
-		//set player to start
+		
+		ArrayList<Player> players = game.getPlayers();
+		Player current = game.getCurrentPlayer();
+		
+		gui.setDice(5, 6);
+		System.out.println(current.getPosition()+11);
+		current.setPosition(current.getPosition()+11);
+		game.getFields().get(current.getPosition()).landOnField(this);
+		current.setPosition(13);
+		game.getFields().get(current.getPosition()).landOnField(this);
+		current.setPosition(14);
+		game.getFields().get(current.getPosition()).landOnField(this);
+		game.getFields().get(current.getPosition()).setHouses(4);
+		
+		
+		
+//set player to start
 //		while (Winner.testIfWinner(player) == false){
 //				
 //				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
@@ -246,9 +268,11 @@ public class GameController {
 
 //	}
 
+	
+	
+	
 	private void setUpGame() {
 		
-//		gui.showMessage("Hej");
 		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
 		
 		if(selection.equals("Indlæs spil")) {
@@ -256,10 +280,8 @@ public class GameController {
 		}
 		else {
 			createPlayers();
+			createGUI();
 		}
-		//if chose to load game
-//		
-
 	}
 
 	/**
@@ -387,12 +409,12 @@ public class GameController {
 			switch(ownerCount) {
 			case 1: receiveMoney(utility.getOwner(), utility.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
 			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
-			gui.showMessage(guiMessages[38] + utility.getOwner() +guiMessages[39] + 1);
+			gui.showMessage(guiMessages[38] + utility.getOwner().getName() +guiMessages[39] + 1);
 			break;
 			case 2: receiveMoney(utility.getOwner(),utility.getRent()); // PRIS FOR TO TYPER
 			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
 
-			gui.showMessage(guiMessages[40] + utility.getOwner() + guiMessages[41] + 2);
+			gui.showMessage(guiMessages[40] + utility.getOwner().getName() + guiMessages[41] + 2);
 			break;
 			}
 
@@ -403,19 +425,19 @@ public class GameController {
 			case 1: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR EN TYPE
 			payMoney(player, utility.getRent());
 			game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
-			gui.showMessage(guiMessages[42] + utility.getOwner() + guiMessages[43] + 1);
+			gui.showMessage(guiMessages[42] + utility.getOwner().getName() + guiMessages[43] + 1);
 			break;
 			case 2: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TO TYPE
 			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[44] + utility.getOwner() + guiMessages[45] + 2);
+			gui.showMessage(guiMessages[44] + utility.getOwner().getName() + guiMessages[45] + 2);
 			break;
 			case 3: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TRE TYPE
 			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[46] + utility.getOwner() + guiMessages[47] + 3);
+			gui.showMessage(guiMessages[46] + utility.getOwner().getName() + guiMessages[47] + 3);
 			break;
 			case 4: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR FIRE TYPE
 			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[48] + utility.getOwner() +guiMessages[49] + 4);
+			gui.showMessage(guiMessages[48] + utility.getOwner().getName() +guiMessages[49] + 4);
 			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}
@@ -425,5 +447,45 @@ public class GameController {
 		return game;
 	}
 
+	
+	public void offerToBuyProperty(Property property) {
+		Player player = game.getCurrentPlayer();
+		if (property.isForSale()) {
+			System.out.println("ER TIL SAALG");
+			//Vil spilleren købe den ellers skal den sættes på auktion 
+
+			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8][0] + property.getFieldName() + guiMessages[9][0] + property.getPrice(), "Nej", "Ja");
+
+			System.out.println("VÆLGER " + playerChoice);
+			if (playerChoice.equals("Ja")) {
+				property.setForSale(false);
+				property.setOwner(player);
+				payMoney(player, property.getPrice());
+				addOwnedProperties(player, property.getFieldNumber());
+			}
+			else auction(player, property);
+		}
+
+
+		//Hvis grunden ikke er til salg
+		//Spilleren kan, når han lander på grunden:
+		//Betale leje 
+		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
+		//Sætte ejendommen på auktion. 
+		else if (!property.isForSale()) {
+			if (property.getOwner().equals(player)) {
+				gui.showMessage(toString() + guiMessages[13]);
+			}
+			else if (property.getOwner().getInPrison()!= 0) { 
+				gui.showMessage(toString() + guiMessages[14]);
+			}
+			else if (property.getMortage()) {
+				gui.showMessage(toString() + guiMessages[15]);
+			}
+			else {
+				ownedRealEstateSameColour((RealEstate) property, player);
+			}
+		}
+	}
 
 }

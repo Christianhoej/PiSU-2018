@@ -13,187 +13,270 @@ public class MiniMatador {
 	
 	static int[][] rent = Txt.fileInt2D("RentPrices.txt");
 	static int[][] price = Txt.fileInt2D("Prices.txt");
+	static int[][] mortage = Txt.fileInt2D("MortagePrices.txt");
+	static String[][] fieldName = Txt.fileString2D("fieldNames.txt");
 	
 	
 	public static Game createGame() {
 		Game game = new Game();
-		setFields();
-		
+		setFields(game);
+		addColor(game);
 		
 		
 		return game;
 	}
 	
 	
-	public static void setFields(){
+	public static void setFields(Game game){
 		int i=0;
-		NeutralField n = new NeutralField(i++); 
+		NeutralField n = new NeutralField(i); 
+		n.setFieldName(fieldName[i][0]);
+		game.addField(n);
 		
-		RealEstate r = new RealEstate(i++);
+		RealEstate r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
-		r.setFieldName(fieldName);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		Chance c = new Chance(i++);
+		Chance c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
+
+		Tax t = new Tax(++i);
+		t.setFieldName(fieldName[i][0]);
+		game.addField(t);
 		
-		Tax t = new Tax(i++);
 		
-		Utility u = new Utility(i++);
+		Utility u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		c = new Chance(i++);
+		c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		n  = new NeutralField(i++);
+		n  = new NeutralField(++i);
+		n.setFieldName(fieldName[i][1]);
+		game.addField(n);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		u = new Utility(i++);
+		
+		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		u = new Utility(i++);
+		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		c = new Chance(i++);
+		c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		n = new NeutralField(i++);
+		n = new NeutralField(++i);
+		n.setFieldName(fieldName[i][1]);
+		game.addField(n);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		c = new Chance(i++);
+		c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		u = new Utility(i++);
+		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		u = new Utility(i++);
+		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		GoToPrison p = new GoToPrison(i++);
+		GoToPrison p = new GoToPrison(++i);
+		p.setFieldName(fieldName[i][1]);
+		game.addField(p);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		c = new Chance(i++);
+		c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		u = new Utility(i++);
+		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		u.setMortagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
 		
-		c = new Chance(i++);
+		c = new Chance(++i);
+		c.setFieldName(fieldName[i][1]);
+		game.addField(c);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 		
-		t = new Tax(i++);
+		t = new Tax(++i);
+		t.setFieldName(fieldName[i][0]);
+		game.addField(t);
 		
-		r = new RealEstate(i++);
+		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
 		r.setMortagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		game.addField(r);
 	}
 	
-	public void addColour(Game game) {
+	public static void addColor(Game game) {
 		game.getFields().get(1).setColourSystem("blue");
 		game.getFields().get(3).setColourSystem("blue");
 		game.getFields().get(5).setColourSystem("ship");
@@ -227,12 +310,10 @@ public class MiniMatador {
 	
 	
 	public static void main(String[] args) {
+		Game game = createGame();
+		GameController controller = new GameController(game);
 		
-		Game game = new Game();
-		
-		GameController gameCon = new GameController(game);
-		
-		gameCon.createPlayers();
+		controller.runGame();
 		
 	}
 
