@@ -5,7 +5,7 @@ import gui_main.GUI;
 
 public class Utility extends Property {
 	private GUI gui;
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 
 	public Utility(int fieldNumber) {
@@ -13,6 +13,12 @@ public class Utility extends Property {
 
 	}
 
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+	
+	
 	/**
 	 * Overrides the original landOnfield method. 
 	 */

@@ -9,7 +9,7 @@ import controller.GameController;
  */
 public class NeutralField extends Fields{
 	
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 	public NeutralField(int fieldNumber) {
 		super(fieldNumber);
 	}

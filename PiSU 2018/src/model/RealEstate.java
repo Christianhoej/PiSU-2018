@@ -6,11 +6,17 @@ import gui_main.GUI;
 public class RealEstate extends Property {
 
 	private GUI gui;
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 	public RealEstate(int position ) {
 		super(position);
 	}
 
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+	
+	
 	@Override
 	public void landOnField(GameController gameController) { 
 		Player player = gameController.getGame().getCurrentPlayer();
