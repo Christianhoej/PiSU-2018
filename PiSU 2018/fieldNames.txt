@@ -28,7 +28,7 @@ Bredgade
 Kgs. Nytorv
 default#Faxe#Faxe Bryggeri
 Østergade
-default#Gå i fængsel#De fængsles\nSlå to ens for,\n betal 1000kr eller\nbrug prøv lykken kort\n for at komme ud
+default#Gå i fængsel#De fængsles\nSlå to ens,\n betal 1000kr eller\nbrug prøv lykken kort\n for at komme ud
 Amagertorv
 Vimmelskaftet
 ?#Prøv lykken

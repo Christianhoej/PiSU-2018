@@ -27,7 +27,7 @@ public abstract class Fields {
 		return colourSystem;
 	}
 
-	protected void setColourSystem(String colourSystem) {
+	public void setColourSystem(String colourSystem) {
 		this.colourSystem = colourSystem;
 	}
 	
@@ -66,10 +66,6 @@ public abstract class Fields {
 	}
 
 	public abstract String toString();
-
-	
-//	public void landOnField(GameController gameController, Player player) {
-//	}
 
 	public void landOnField(GameController gameController) {
 		// TODO Auto-generated method stub

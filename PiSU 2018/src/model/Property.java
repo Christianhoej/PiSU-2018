@@ -16,7 +16,7 @@ public class Property extends Fields {
 	protected Player owner;
 	private GUI gui;
 	protected int houses;
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 
 	public Property(int fieldNumber) {
