@@ -2,9 +2,11 @@ package controller;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import board.Gameboard;
 import gui_main.GUI;
+import model.Dice;
 import model.Fields;
 import model.Game;
 import model.Player;
@@ -21,6 +23,7 @@ public class GameController {
 	private GUI gui;
 	private String[][] guiMessages = Txt.fileString2D("GameMessages.txt");
 	private View view;
+	private Random rand = new Random();
 
 	public GameController(Game game) {
 		this.game = game;
@@ -29,11 +32,11 @@ public class GameController {
 	}
 
 
-	
-	
+
+
 	public void createPlayers() {
 
-//		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
+		//		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
 		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3", "4", "5", "6"));
 		ArrayList<String> color = new ArrayList<String>();
 		color.add("Blå");
@@ -70,11 +73,11 @@ public class GameController {
 			player.setPosition(0);
 		}
 	}
-	
+
 	public void createGUI() {
 		this.view = new View(game, gui);
 	}
-		
+
 
 	/**
 	 * 
@@ -208,7 +211,7 @@ public class GameController {
 
 
 	public void pawn() {
-		
+
 	}
 
 	private void loadGame() {
@@ -217,64 +220,187 @@ public class GameController {
 
 	public void runGame() {
 		setUpGame();
-		
+
 		ArrayList<Player> players = game.getPlayers();
-		Player current = game.getCurrentPlayer();
-		
-		gui.setDice(5, 6);
-		System.out.println(current.getPosition()+11);
-		current.setPosition(current.getPosition()+11);
-		game.getFields().get(current.getPosition()).landOnField(this);
-		current.setPosition(13);
-		game.getFields().get(current.getPosition()).landOnField(this);
-		current.setPosition(14);
-		game.getFields().get(current.getPosition()).landOnField(this);
-		game.getFields().get(current.getPosition()).setHouses(4);
-		
-		
-		
-//set player to start
-//		while (Winner.testIfWinner(player) == false){
-//				
-//				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
-//					
-					//if player wants to get out of jail before rolling dies
-					//Mulighed for at anvende kort/betale for at komme ud af fængsel
-					
-					//else {
-						//roll dices
-						//if d1== d2
-						//Update Player.InJail();
-					//}
-//				}
+		Player currentPlayer = game.getCurrentPlayer();
 
-				
+		// Getting the index for the currentPlayer - useful when loading a game.
+		int currentIndex=0;
+		for(int i = 0; i<players.size(); i++) {
+			if(currentPlayer.equals(players.get(i))) {
+				currentIndex = i;
+				break;
+			}
+		}
+		boolean noWinner=true;
+		while(noWinner) {
+			if(!currentPlayer.isBroke()) {
+				playerTurn(currentPlayer);
+			}
 
-			
-				//Roll dices
-				//player uses turn roll of dies to either move or not
-			
-				//move to Field //land on field
-				//check if passes start
-			
-				
-				//If dice1 == dice2
-				//roll again //Recursion
-				//update 
-			
-			
-				//update currentPlayer
-		} 
+		}
 
-//	}
 
-	
-	
-	
+	}
+
+	public void playerTurn(Player player) {
+		boolean throwDouble=false;
+		do {
+			if(throwDouble) {
+				gui.showMessage("Du har kastet to ens og får et ekstra kast");
+			}
+
+			if(player.getInPrison()>0) {
+				playerInPrison(player);
+			}
+
+			Dice dice = new Dice();
+			dice.rollDice();
+			int[] faceValue = dice.getFaceValue();
+			gui.setDice(faceValue[0], faceValue[1]);
+			throwDouble = (faceValue[0]== faceValue[1]);
+			int doubleCount=0;
+			if(throwDouble) {
+				doubleCount++;
+				if(player.getInPrison()>0) {
+					player.setInPrison(0);
+					gui.showMessage("Du har kastet to ens, mens du var i fængsel, og kan "
+							+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + "felter frem");
+				}
+				else if(doubleCount>2) {
+					gui.showMessage("Du har kastet to ens tre gange i træk, og skal derfor "
+							+ "i fængsel");
+					player.setPosition(10);
+					player.setInPrison(1);
+					return;
+				}
+			}
+			int position = player.getPosition() + faceValue[0]+faceValue[1];
+			moveToField(player, position);
+
+		}while(throwDouble);
+	}
+
+	public void moveToField(Player player, int position) {
+		player.setPosition(position % game.getFields().size());
+		if(position>player.getPosition()) {
+			gui.showMessage("Du har passeret start, og modtager 4000 kr");
+			player.getAccount().updateCash(4000);
+		}
+		gui.showMessage(player.getName() + " har landet på " + game.getFields().get(player.getPosition()).getFieldName());
+		game.getFields().get(player.getPosition()).landOnField(this);
+	}
+
+	public void playerInPrison(Player player) {
+		String choice="";
+		// if the player is in prison and has a get out of jail free card. 
+		if(player.getAccount().getPrisonCard()>0) {
+			// if the player is in prison, has a get out of jail free card and 
+			// has over 1000kr
+			if(player.getAccount().getCash()>=1000) {
+				// the player can choose between using the get out of jail free
+				// card, paying 1000 kr to the bank and throw the dices.
+				choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende"
+						+ " muligheder for at komme ud af fængslet", "Betal 1000 kr",
+						"Brug fængselskort", "Kast terningerne");
+			}
+			else {
+				// the player can choose between using the get out of jail free
+				// card and throw the dices.
+				choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende"
+						+ " muligheder for at komme ud af fængslet", "Brug "
+								+ "fængselskort", "Kast terningerne");
+			}
+		}
+		// if the player has over 1000kr
+		else if(player.getAccount().getCash()>=1000) {
+			// the player can choose between paying 1000 kr to the bank and throw 
+			// the dices.
+			choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende "
+					+ "muligheder for at komme ud af fængslet", "Betal 1000 kr", 
+					"Kast terningerne");
+		}
+		else {
+			// the player has to throw the dices.
+			choice = gui.getUserButtonPressed("Du er i fængsel. Da du hverken har et"
+					+ " fængselskort eller nok penge, må du kaste med terningerne", 
+					"Kast terningerne");
+		}
+
+		switch(choice) {
+		case "Betal 1000 kr": 	player.getAccount().updateCash(1000);
+		player.setInPrison(0);						
+		gui.showMessage("Du har betalt 1000 kr og er kommet "
+				+ "ud af fængslet. Fortsæt turen ved at kaste"
+				+ " med terningerne");
+		break;
+		case "Brug fængselskort": player.getAccount().updatePrisonCard(-1);
+		player.setInPrison(0);
+		gui.showMessage("Du har brugt et fængsels kort og er "
+				+ "kommet ud af fængslet. Fortsæt turen ved at "
+				+ "kaste med terningerne");
+		break;
+		case "Kast terningerne": break;
+		}
+
+	}
+
+
+
+	//			gui.setDice(5, 6);
+	//			System.out.println(currentPlayer.getPosition()+11);
+	//			currentPlayer.setPosition(currentPlayer.getPosition()+11);
+	//			game.getFields().get(currentPlayer.getPosition()).landOnField(this);
+	//			currentPlayer.setPosition(13);
+	//			game.getFields().get(currentPlayer.getPosition()).landOnField(this);
+	//			currentPlayer.setPosition(14);
+	//			game.getFields().get(currentPlayer.getPosition()).landOnField(this);
+	//			game.getFields().get(currentPlayer.getPosition()).setHouses(4);
+
+
+
+	//set player to start
+	//		while (Winner.testIfWinner(player) == false){
+	//				
+	//				if(game.getCurrentPlayer().getInPrison()>0) {//player is in prison
+	//					
+	//if player wants to get out of jail before rolling dies
+	//Mulighed for at anvende kort/betale for at komme ud af fængsel
+
+	//else {
+	//roll dices
+	//if d1== d2
+	//Update Player.InJail();
+	//}
+	//				}
+
+
+
+
+	//Roll dices
+	//player uses turn roll of dies to either move or not
+
+	//move to Field //land on field
+	//check if passes start
+
+
+	//If dice1 == dice2
+	//roll again //Recursion
+	//update 
+
+
+	//update currentPlayer
+
+
+	//	}
+
+
+
+
 	private void setUpGame() {
-		
+
 		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
-		
+
 		if(selection.equals("Indlæs spil")) {
 			loadGame();
 		}
@@ -447,16 +573,14 @@ public class GameController {
 		return game;
 	}
 
-	
+
 	public void offerToBuyProperty(Property property) {
 		Player player = game.getCurrentPlayer();
 		if (property.isForSale()) {
-			System.out.println("ER TIL SAALG");
 			//Vil spilleren købe den ellers skal den sættes på auktion 
 
 			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8][0] + property.getFieldName() + guiMessages[9][0] + property.getPrice(), "Nej", "Ja");
 
-			System.out.println("VÆLGER " + playerChoice);
 			if (playerChoice.equals("Ja")) {
 				property.setForSale(false);
 				property.setOwner(player);
@@ -465,7 +589,6 @@ public class GameController {
 			}
 			else auction(player, property);
 		}
-
 
 		//Hvis grunden ikke er til salg
 		//Spilleren kan, når han lander på grunden:
@@ -483,7 +606,12 @@ public class GameController {
 				gui.showMessage(toString() + guiMessages[15]);
 			}
 			else {
-				ownedRealEstateSameColour((RealEstate) property, player);
+				if(property.getColourSystem().equals("ship") || property.getColourSystem().equals("darkgreen")) {
+					ownedUtilitiesSameType((Utility) property, player);
+				}
+				else {
+					ownedRealEstateSameColour((RealEstate) property, player);
+				}
 			}
 		}
 	}
