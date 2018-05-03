@@ -12,8 +12,8 @@ import controller.GameController;
 public class CardPrison extends ChanceCard {
 	
 	public CardPrison(int cardNumber, String text) {
-		super(cardNumber, text);	
-		System.out.println(cardNumber);
+		this.cardNumber = cardNumber;
+		this.text = text;
 	}
 	
 	@Override

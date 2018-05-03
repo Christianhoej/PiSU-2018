@@ -17,22 +17,22 @@ public class ChanceCard {
 	protected String text;
 	protected int cardNumber;
 	protected int amount;
-
+	private ChanceCard[] chanceDeck;
 
 	/**
 	 * Constructor 
 	 * @param cardNumber
 	 * @param text
 	 */
-	public ChanceCard (int cardNumber, String text) {
-		this.cardNumber = cardNumber;
-		this.text = text;
+	public ChanceCard () {
+//		this.cardNumber = cardNumber;
+//		this.text = text;
 		this.amount=0;
 
 
 	}
 
-	public static ChanceCard[] shuffleDeck(ChanceCard[] chanceDeck) {
+	public void shuffleDeck(ChanceCard[] chanceDeck) {
 
 		Random rand = new Random();
 		
@@ -43,7 +43,11 @@ public class ChanceCard {
 			chanceDeck[index] = chanceDeck[i];
 			chanceDeck[index] = card;
 		}
+	}
+	
+	public ChanceCard[] getShuffleDeck() {	
 		return chanceDeck;
+	}
 //		
 //		ChanceCard[] chanceCards = new ChanceCard[chanceDeck.length];
 //
@@ -60,7 +64,7 @@ public class ChanceCard {
 //			}
 //		}
 		
-	}
+	
 	
 	public String toString() {
 		return text;

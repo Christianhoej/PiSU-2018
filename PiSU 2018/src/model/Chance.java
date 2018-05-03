@@ -1,23 +1,18 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import controller.GameController;
-import gui_fields.GUI_Field;
 
 public class Chance extends Fields {
 
 
-	private String text;//Hvad er den til for?
 	private Integer cardToDraw = 0;
-	ChanceCard[] chanceCards = new ChanceCard[32];
+	private List<ChanceCard> chanceCards = new ArrayList<ChanceCard>();
 	private Map<Integer,ChanceCard> integer2ChanceCard = new HashMap<Integer,ChanceCard>();
 
 	public Chance(int fieldNumber) {
@@ -29,38 +24,37 @@ public class Chance extends Fields {
 
 
 		//Adds the different chanceCards to the chanceCard[]
-		for(Integer i = 0; i<chanceCards.length; i++){
+		for(Integer i = 0; i<32; i++){
 			if(i<10) {
-				chanceCards[i] = new CardReceive(i+1,texts[i],Integer.parseInt(prices[i]));
-				integer2ChanceCard.put(i, chanceCards[i]);
-				System.out.println();
+				chanceCards.add(new CardReceive(i+1,texts[i],Integer.parseInt(prices[i])));
+				integer2ChanceCard.put(i, chanceCards.get(i));
+				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if(i<19) {
-				chanceCards[i] = new CardPay(i+1,texts[i],Integer.parseInt(prices[i]));	
-				integer2ChanceCard.put(i, chanceCards[i]);			
+				chanceCards.add(new CardPay(i+1,texts[i],Integer.parseInt(prices[i])));	
+				integer2ChanceCard.put(i, chanceCards.get(i));
+				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if(i<28) {
-				chanceCards[i] = new CardMove(i+1,texts[i],Integer.parseInt(prices[i]));
-				integer2ChanceCard.put(i, chanceCards[i]);
+				chanceCards.add(new CardMove(i+1,texts[i],Integer.parseInt(prices[i])));
+				integer2ChanceCard.put(i, chanceCards.get(i));
+				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if (i<30) {
-				chanceCards[i] = new CardGetOutOfPrison(i+1,texts[i]);
-				integer2ChanceCard.put(i, chanceCards[i]);
+				chanceCards.add(new CardGetOutOfPrison(i+1,texts[i]));
+				integer2ChanceCard.put(i, chanceCards.get(i));
+				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else {
-				chanceCards[i] = new CardPrison(i+1,texts[i]);
-				integer2ChanceCard.put(i, chanceCards[i]);
+				chanceCards.add(new CardPrison(i+1,texts[i]));
+				integer2ChanceCard.put(i, chanceCards.get(i));
+				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 
-			//Shuffles the deck
-			 
-			 
-//			 
+
 		}
-		chanceCards = ChanceCard.shuffleDeck(chanceCards);
-		for(int j=0; j<chanceCards.length; j++) {
-			System.out.println(j + ": " + chanceCards[j].toString());
-		}
+		//Shuffles the deck		
+		Collections.shuffle(chanceCards);
 	}
 
 	@Override
@@ -73,21 +67,9 @@ public class Chance extends Fields {
 		this.fieldName = fieldName;
 	}
 
-
 	@Override
 	public void landOnField(GameController gameController) {
-		
-//		System.out.println(chanceCards[cardToDraw].getCardNumber());
-//		System.out.println(chanceCards[cardToDraw].getCardNumber());
-		
-		integer2ChanceCard.get(chanceCards[cardToDraw].getCardNumber()).performAction(gameController);
-//		System.out.println(chanceCards[cardToDraw].getCardNumber());
+		integer2ChanceCard.get(chanceCards.get(cardToDraw).getCardNumber()).performAction(gameController);
 		cardToDraw++;
-//		if(cardToDraw == 31)
-//			cardToDraw =0;
-//		//Evt lav shuffle en gang til.
-
 	} 
-
-
 }
