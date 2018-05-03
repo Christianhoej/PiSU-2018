@@ -70,8 +70,7 @@ public class MiniMatador {
 		r.setFieldName(fieldName[i][0]);
 		game.addField(r);
 		
-		c = new Chance(++i);
-		c.setFieldName(fieldName[i][1]);
+		i++;
 		game.addField(c);
 		
 		r = new RealEstate(++i);
@@ -135,8 +134,7 @@ public class MiniMatador {
 		r.setFieldName(fieldName[i][0]);
 		game.addField(r);
 		
-		c = new Chance(++i);
-		c.setFieldName(fieldName[i][1]);
+		i++;
 		game.addField(c);
 		
 		r = new RealEstate(++i);
@@ -164,8 +162,7 @@ public class MiniMatador {
 		r.setFieldName(fieldName[i][0]);
 		game.addField(r);
 		
-		c = new Chance(++i);
-		c.setFieldName(fieldName[i][1]);
+		i++;
 		game.addField(c);
 		
 		r = new RealEstate(++i);
@@ -235,8 +232,7 @@ public class MiniMatador {
 		r.setFieldName(fieldName[i][0]);
 		game.addField(r);
 		
-		c = new Chance(++i);
-		c.setFieldName(fieldName[i][1]);
+		i++;
 		game.addField(c);
 		
 		r = new RealEstate(++i);
@@ -253,8 +249,7 @@ public class MiniMatador {
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
-		c = new Chance(++i);
-		c.setFieldName(fieldName[i][1]);
+		i++;
 		game.addField(c);
 		
 		r = new RealEstate(++i);
