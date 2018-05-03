@@ -20,10 +20,16 @@ public class CardReceive extends ChanceCard {
 	@Override
 	public void performAction(GameController gameController) {
 		Game game = gameController.getGame();
-		if (super.cardNumber == 1) {
-			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*amount+amount); //all players are deducted 200, therefore the player to receive gets the extra "amount"
+		if (super.cardNumber == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
+			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*amount+amount); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
 			for(int i = 0; i<(game.getPlayers().size()); i++) {
+				int ammountPaid = 0;
+				if(game.getPlayers().get(i).getAccount().getCash()>=200)
 				game.getPlayers().get(i).getAccount().updateCash(-amount);
+				
+				else 
+				ammountPaid = gameController.generateCash(game.getPlayers().get(i), 200);
+				
 			}
 
 		} 

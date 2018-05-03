@@ -2,7 +2,11 @@ package controller;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Random;
+
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 import board.Gameboard;
 import gui_main.GUI;
@@ -57,7 +61,9 @@ public class GameController {
 					k=i-1; // tjekker forfra om der er ens navne
 				}
 			}		
+
 			// Adds the player to game.
+
 			game.addPlayer(player);
 			String[] colorString = new String[color.size()];
 			colorString = color.toArray(colorString); 
@@ -214,7 +220,10 @@ public class GameController {
 	}
 
 
-	public void pawn() {
+
+	public int pawn(Player player, boolean pawnAll) {
+
+		return 0;
 
 	}
 
@@ -224,6 +233,7 @@ public class GameController {
 
 	public void runGame() {
 		setUpGame();
+
 
 		ArrayList<Player> players = game.getPlayers();
 		Player currentPlayer = game.getCurrentPlayer();
@@ -410,6 +420,7 @@ public class GameController {
 
 	private void setUpGame() {
 
+
 		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
 
 		if(selection.equals("Indlæs spil")) {
@@ -419,6 +430,7 @@ public class GameController {
 			createPlayers();
 			createGUI();
 		}
+
 	}
 
 	/**
@@ -452,7 +464,7 @@ public class GameController {
 	 * 
 	 * @param player the player receiving birthday money.
 	 */
-	public void playerBirthday(Player player) {
+	public void playerBirthday(Player player) { // Overflødig metode - Bliver håndteret i model
 		for(int i = 0; i<game.getPlayers().size(); i++) {
 			if(player.equals(game.getPlayers().get(i))) {
 				continue;
@@ -588,6 +600,119 @@ public class GameController {
 	public Game getGame() {
 		return game;
 	}
+	/**
+	 * Method which is invoked if a player do not have the funds to pay what set person owes.
+	 * It enables you to trade with , pawn properties and sell houses/hotels
+	 * @param payingPlayer: the player who needs to generate cash to pay
+	 * @param ammount: ammount to pay
+	 * 
+	 * @return returns the full ammount if player is able to raise funds or returns a lesser ammount if the player cannot raise cash and goes bankrupt.
+	 */
+	public int generateCash(Player payingPlayer, int ammount) {
+		String choice = "";
+		boolean done = false;
+		boolean pawnAll = false;
+		while (!done) {
+
+			if(payingPlayer.getAccount().getCash()<ammount) 
+				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Erklær dig konkurs");
+			else
+				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Afslut og betal");
+
+
+
+			switch(choice) {
+			case "Sælg huse/hoteller": 
+				payingPlayer.addHouses(0);
+				
+				//array with a players owned houses
+				int[] propsWithHouses = payingPlayer.getOwnedHouses();
+
+				//Saves the color system (buddyfields reference)
+				Set<String> colorSystem = new HashSet<String>();
+
+				ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
+
+				for(int i = 0 ; i<propsWithHouses.length; i++) {
+
+					if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell
+						//				houseToSell.add(game.getFields().get(i).getFieldName());
+						colorSystem.add(game.getFields().get(i).getColourSystem());
+						fieldsWithHouses.add(game.getFields().get(i));
+
+					}	
+					//Konverterer ArrayList til Array[]
+					//					String[] displayedPropsWithHouses = new String[houseToSell.size()]; 
+					//					displayedPropsWithHouses = houseToSell.toArray(displayedPropsWithHouses);
+
+					//Array der skal anvendes til userSelection
+					String[] displayColorSystem = new String[colorSystem.size()];
+					displayColorSystem = colorSystem.toArray(displayColorSystem);
+
+					//Array med Fields
+					Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
+					fieldsWithHouses.toArray(fieldArray);
+
+
+
+					//Spiller vælger ejendomsfarve
+					String sellPropsChoice = gui.getUserSelection("Vælg ejendomsfarve du vil sælge bygning på:", displayColorSystem);
+
+					ArrayList<String> sameTypeProperties = new ArrayList<String>();
+					for (int j = 0; j<fieldArray.length; j++) {
+
+						if(sellPropsChoice.equals(fieldArray[j].getColourSystem())) {
+							sameTypeProperties.add(fieldArray[j].getFieldName());
+						}
+
+
+					}
+					String[] availableBuildings = new String[sameTypeProperties.size()];
+					availableBuildings = sameTypeProperties.toArray(availableBuildings);
+					
+					boolean ableToSell = false;
+					while(!ableToSell) {
+					String removeBuilding = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
+						//availableBuildings is 
+						//
+					
+					}
+					
+				}
+
+				payingPlayer.removeHouses(0);
+				break;
+			case "Pantsæt ejendomme":
+
+				break;
+			case "Byt med medspiller":
+
+				break;
+			case "Erklær dig konkurs":
+				done= true;
+
+				break;
+			case "Afslut og betal":
+				done=true;
+				break;
+			}
+
+
+		}
+		if(payingPlayer.getAccount().getCash()>= ammount)
+			return ammount;
+		else
+		{
+
+			int allPlayerHas = payingPlayer.getAccount().getCash() + pawn(payingPlayer, pawnAll);
+			//player goes bankrupt()
+			return allPlayerHas;
+		}
+
+	}
+	//	public void playerIsBankrupt(Player bankruptPlayer, Player receivingPlayer) {
+	//		
+	//	}
 
 
 	public void offerToBuyProperty(Property property) {
