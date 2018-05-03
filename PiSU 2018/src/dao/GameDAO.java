@@ -119,7 +119,8 @@ public class GameDAO implements IGameDAO
 		ResultSet res = stmt.getResultSet();
 		ArrayList<Player> array = new ArrayList<Player>();
 		while(res.next()) {
-			Player player = new Player(res.getString("name"));
+			Player player = new Player();
+			player.setName(res.getString("name"));
 			player.setPlayerID(res.getInt("playerID"));
 			player.setColour(res.getString("carColour"));
 			player.setPosition(res.getInt("position"));

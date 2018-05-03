@@ -17,6 +17,7 @@ public class Account extends Subject {
 	private int cash;
 	private int assetValue = 0;
 	private int prisonCard = 0;
+	private Player player;
 
 	/**
 	 * Constructor for Account. 
@@ -33,7 +34,6 @@ public class Account extends Subject {
 		this.cash += d;
 		notifyChange();
 	}
-
 
 	public int getCash() {
 		return cash;
@@ -59,5 +59,13 @@ public class Account extends Subject {
 
 	public int getPrisonCard() {
 		return prisonCard;
+	}
+	
+	public void setOwner(Player player) {
+		this.player = player;
+	}
+	
+	public Player getOwner() {
+		return player;
 	}
 }

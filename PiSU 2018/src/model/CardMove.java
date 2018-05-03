@@ -23,6 +23,11 @@ public class CardMove extends ChanceCard {
 	}
 	
 	@Override
+	public int getCardNumber() {
+		return cardNumber;
+	}
+	
+	@Override
 	public String toString() {
 		return text;
 	}
@@ -78,49 +83,49 @@ public class CardMove extends ChanceCard {
 //			gameController.getGame().getFields().get(11).landOnField(gameController);
 //		}
 	}
-	private void moveToFerryDouble(GameController gameController) {
-		Game game = gameController.getGame();
-		int position = game.getCurrentPlayer().getPosition();
-		Player player = game.getCurrentPlayer();
-		int arrayPositionOfFerry = 0;
-
-		if ((position)<6 || (position)>=36) {
-			int oldPosition = position;
-			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
-			arrayPositionOfFerry = 5;
-			//If player passes start
-			if ((oldPosition)>(position))
-				game.getCurrentPlayer().getAccount().updateCash(4000);
-		}
-		else if ((position) < 16) {
-
-			game.getCurrentPlayer().setPosition(15);
-			arrayPositionOfFerry = 15;
-		}
-		else if ((position) < 26) { 
-
-			game.getCurrentPlayer().setPosition(25);
-			arrayPositionOfFerry = 25;
-		}
-
-		else if ((position) < 36) {
-
-			game.getCurrentPlayer().setPosition(35);
-			arrayPositionOfFerry = 35;
-		}
-
-		if(!game.getFields().get(arrayPositionOfFerry).getOwner().equals(null)) {//.equals or == null test
-			gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
-			gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
-		}
-
-		else {
-			game.getFields().get(arrayPositionOfFerry).landOnField(gameController);
-		}
-
-
-
-	}
+//	private void moveToFerryDouble(GameController gameController) {
+//		Game game = gameController.getGame();
+//		int position = game.getCurrentPlayer().getPosition();
+//		Player player = game.getCurrentPlayer();
+//		int arrayPositionOfFerry = 0;
+//
+//		if ((position)<6 || (position)>=36) {
+//			int oldPosition = position;
+//			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
+//			arrayPositionOfFerry = 5;
+//			//If player passes start
+//			if ((oldPosition)>(position))
+//				game.getCurrentPlayer().getAccount().updateCash(4000);
+//		}
+//		else if ((position) < 16) {
+//
+//			game.getCurrentPlayer().setPosition(15);
+//			arrayPositionOfFerry = 15;
+//		}
+//		else if ((position) < 26) { 
+//
+//			game.getCurrentPlayer().setPosition(25);
+//			arrayPositionOfFerry = 25;
+//		}
+//
+//		else if ((position) < 36) {
+//
+//			game.getCurrentPlayer().setPosition(35);
+//			arrayPositionOfFerry = 35;
+//		}
+//
+//		if(!game.getFields().get(arrayPositionOfFerry).getOwner().equals(null)) {//.equals or == null test
+//			gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
+//			gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
+//		}
+//
+//		else {
+//			game.getFields().get(arrayPositionOfFerry).landOnField(gameController);
+//		}
+//
+//
+//
+//	}
 
 }
 
