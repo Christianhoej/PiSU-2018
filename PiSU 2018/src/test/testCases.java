@@ -4,27 +4,37 @@ import model.Account;
 import model.Tax;
 import test.TestAfProperty;
 import model.Player;
+import model.Property;
 import model.CardMove;
+import model.CardPay;
+import model.Game;
 import controller.GameController;
+import gui_fields.GUI_Player;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.security.auth.login.AccountException;
+
 import org.junit.*;
 
-
+//Lortet virker ikke
 
 public class testCases {
 
 	Account updateCashTest;
 	Tax taxTest;
-	CardMove moveTest;
+	CardPay payTest;
+	GameController auctionTest;
 	
 	
 	
 	@Before
 	public void setUp() throws Exception{
 		updateCashTest=new Account(30000); 
-		taxTest = new
+		Player p1 = new Player();
+		payTest=new CardPay(4, "Dette er en test", 1000);
+		taxTest = new Tax(2);
+		
 	}
 	
 	/**
@@ -38,15 +48,17 @@ public class testCases {
 		assertEquals(actual,expected);
 	}
 	
-//	@Test
-//	public void testTax() {
-//		//Implementeres
-//	}
-//	
+	
 	@Test
-	public void testCardMove() {
-		moveTest.getCardNumber();
+	public void testCardPay() {
+//		GUI_Player[] s = new GUI_Player[4];
+		Player p1 = new Player();
+		Game game1 = new Game();
+		GameController payMoney = new GameController(game1); 
+		payTest.performAction(payMoney);
+		Account actual=p1.getAccount();
+		int expected=29500;
+		assertEquals(actual, expected);
+		
 	}
-	
-	
 }
