@@ -4,6 +4,7 @@ import model.Account;
 import model.Tax;
 import test.TestAfProperty;
 import model.Player;
+import model.Property;
 import model.CardMove;
 import model.CardPay;
 import model.Game;
@@ -16,13 +17,14 @@ import javax.security.auth.login.AccountException;
 
 import org.junit.*;
 
-
+//Lortet virker ikke
 
 public class testCases {
 
 	Account updateCashTest;
 	Tax taxTest;
 	CardPay payTest;
+	GameController auctionTest;
 	
 	
 	
@@ -31,7 +33,8 @@ public class testCases {
 		updateCashTest=new Account(30000); 
 		Player p1 = new Player();
 		payTest=new CardPay(4, "Dette er en test", 1000);
-		taxTest = new Tax();
+		taxTest = new Tax(2);
+		
 	}
 	
 	/**
@@ -45,11 +48,6 @@ public class testCases {
 		assertEquals(actual,expected);
 	}
 	
-	@Test
-	public void testTax() {
-		taxTest.landOnField();
-		int actual=
-	}
 	
 	@Test
 	public void testCardPay() {
@@ -63,11 +61,4 @@ public class testCases {
 		assertEquals(actual, expected);
 		
 	}
-//
-//private GameController payMoney(Player p1, int amount) {
-//	// TODO Auto-generated method stub
-//	return null;
-//}
-	
-	
 }
