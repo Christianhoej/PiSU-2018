@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.Set;
-
-
+import java.util.stream.IntStream;
 
 import board.Gameboard;
 import gui_main.GUI;
@@ -629,8 +628,8 @@ public class GameController {
 
 			switch(choice) {
 			case "Sælg huse/hoteller": 
-				payingPlayer.addHouses(0);
-				
+				//				payingPlayer.addHouses(0);
+
 				//array with a players owned houses
 				int[] propsWithHouses = payingPlayer.getOwnedHouses();
 
@@ -642,14 +641,9 @@ public class GameController {
 				for(int i = 0 ; i<propsWithHouses.length; i++) {
 
 					if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell
-						//				houseToSell.add(game.getFields().get(i).getFieldName());
 						colorSystem.add(game.getFields().get(i).getColourSystem());
 						fieldsWithHouses.add(game.getFields().get(i));
-
 					}	
-					//Konverterer ArrayList til Array[]
-					//					String[] displayedPropsWithHouses = new String[houseToSell.size()]; 
-					//					displayedPropsWithHouses = houseToSell.toArray(displayedPropsWithHouses);
 
 					//Array der skal anvendes til userSelection
 					String[] displayColorSystem = new String[colorSystem.size()];
@@ -665,25 +659,49 @@ public class GameController {
 					String sellPropsChoice = gui.getUserSelection("Vælg ejendomsfarve du vil sælge bygning på:", displayColorSystem);
 
 					ArrayList<String> sameTypeProperties = new ArrayList<String>();
+					ArrayList<Fields> sameTypePropertiesFields = new ArrayList<Fields>();
 					for (int j = 0; j<fieldArray.length; j++) {
 
 						if(sellPropsChoice.equals(fieldArray[j].getColourSystem())) {
 							sameTypeProperties.add(fieldArray[j].getFieldName());
+							sameTypePropertiesFields.add(fieldArray[j]);
 						}
 
 
 					}
+					// converts to array. Array contains names of properties of a type with houses on it
 					String[] availableBuildings = new String[sameTypeProperties.size()];
 					availableBuildings = sameTypeProperties.toArray(availableBuildings);
-					
+
+
 					boolean ableToSell = false;
 					while(!ableToSell) {
-					String removeBuilding = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
-						//availableBuildings is 
-						//
-					
+
+						String removeBuilding = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
+						int h1=0;
+						double h2=0;
+
+						for(int h = 0; h< availableBuildings.length; h++) {
+							h2+=sameTypePropertiesFields.get(h).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
+									if(removeBuilding.equals(availableBuildings[h])) {
+										h1 = h;
+
+
+
+									}
+							double housesOnChosen = sameTypePropertiesFields.get(h1).getHouses();
+							if (h1 >= (h2/sameTypePropertiesFields.size())) {
+								//remove houses on field(nr)
+								//remove house on player. houseArray()
+								// remove getHouseBuildingPrice from players account (assets)
+								//return half of HouseBuildingPrice to Players cash in account.
+							}
+
+						}
+
+
 					}
-					
+
 				}
 
 				payingPlayer.removeHouses(0);
