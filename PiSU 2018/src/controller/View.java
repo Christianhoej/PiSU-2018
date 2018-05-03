@@ -7,6 +7,7 @@ import java.util.Map;
 import board.Gameboard;
 import model.Player;
 import model.Property;
+import model.Account;
 import model.Fields;
 import model.Game;
 import gui_fields.GUI_Brewery;
@@ -58,6 +59,7 @@ public class View implements Observer {
 			gui.addPlayer(guiPlayer);
 
 			player.attach(this);
+			player.getAccount().attach(this);
 
 			updatePlayer(player);
 		}
@@ -73,6 +75,9 @@ public class View implements Observer {
 			else if (subject instanceof Property) {
 				updateProperty((Property) subject);
 			}
+			else if (subject instanceof Account) {
+				updateAccount((Account) subject);
+			}
 		}
 
 
@@ -80,30 +85,40 @@ public class View implements Observer {
 
 	}
 
+	private void updateAccount(Account account) {
+		GUI_Player guiPlayer = this.player2GuiPlayer.get(account.getOwner());
+		if(account!=null) {
+			guiPlayer.setBalance(account.getCash());
+		}
+	}
+	
+	
 	private void updateProperty(Property property) {
-		if(property.getColourSystem().equals("darkgreen")) {
-			GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
-			if(guiField != null) {
-				guiField.setBorder(property.getOwner().getColour());
-			}
-		}
-		else if (property.getColourSystem().equals("ship")) {
-			GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
-
-			if(guiField != null) {
-				guiField.setBorder(property.getOwner().getColour());
-			}
-		}
-		else {
-			GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
-
-			if(guiField != null) {
-				guiField.setBorder(property.getOwner().getColour());
-				if(property.getHouses()==5) {
-					guiField.setHotel(true);
+		if(property != null) {
+			if(property.getColourSystem().equals("darkgreen")) {
+				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
+				if(guiField != null) {
+					guiField.setBorder(property.getOwner().getColour());
 				}
-				else if(property.getHouses()>0 && property.getHouses()<5) {
-					guiField.setHouses(property.getHouses());
+			}
+			else if (property.getColourSystem().equals("ship")) {
+				GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
+
+				if(guiField != null) {
+					guiField.setBorder(property.getOwner().getColour());
+				}
+			}
+			else {
+				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
+
+				if(guiField != null) {
+					guiField.setBorder(property.getOwner().getColour());
+					if(property.getHouses()==5) {
+						guiField.setHotel(true);
+					}
+					else if(property.getHouses()>0 && property.getHouses()<5) {
+						guiField.setHouses(property.getHouses());
+					}
 				}
 			}
 		}
@@ -120,7 +135,7 @@ public class View implements Observer {
 	private void updatePlayer(Player player) {
 		GUI_Player guiPlayer = this.player2GuiPlayer.get(player);
 		if (guiPlayer != null) {
-			guiPlayer.setBalance(player.getAccount().getCash());
+			
 
 			GUI_Field[] guiFields = gui.getFields();
 			Integer oldPosition = player2position.get(player);

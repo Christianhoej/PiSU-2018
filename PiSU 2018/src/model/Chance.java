@@ -16,7 +16,7 @@ public class Chance extends Fields {
 
 
 	private String text;//Hvad er den til for?
-	private int cardToDraw = 0;
+	private Integer cardToDraw = 0;
 	ChanceCard[] chanceCards = new ChanceCard[32];
 	private Map<Integer,ChanceCard> integer2ChanceCard = new HashMap<Integer,ChanceCard>();
 
@@ -30,17 +30,14 @@ public class Chance extends Fields {
 
 		//Adds the different chanceCards to the chanceCard[]
 		for(Integer i = 0; i<chanceCards.length; i++){
-
-
 			if(i<10) {
 				chanceCards[i] = new CardReceive(i+1,texts[i],Integer.parseInt(prices[i]));
 				integer2ChanceCard.put(i, chanceCards[i]);
-				
+				System.out.println();
 			}
 			else if(i<19) {
 				chanceCards[i] = new CardPay(i+1,texts[i],Integer.parseInt(prices[i]));	
-				integer2ChanceCard.put(i, chanceCards[i]);
-						
+				integer2ChanceCard.put(i, chanceCards[i]);			
 			}
 			else if(i<28) {
 				chanceCards[i] = new CardMove(i+1,texts[i],Integer.parseInt(prices[i]));
@@ -56,7 +53,13 @@ public class Chance extends Fields {
 			}
 
 			//Shuffles the deck
-			 chanceCards = ChanceCard.shuffleDeck(chanceCards);
+			 
+			 
+//			 
+		}
+		chanceCards = ChanceCard.shuffleDeck(chanceCards);
+		for(int j=0; j<chanceCards.length; j++) {
+			System.out.println(j + ": " + chanceCards[j].toString());
 		}
 	}
 
@@ -74,6 +77,7 @@ public class Chance extends Fields {
 	@Override
 	public void landOnField(GameController gameController) {
 		
+//		System.out.println(chanceCards[cardToDraw].getCardNumber());
 //		System.out.println(chanceCards[cardToDraw].getCardNumber());
 		
 		integer2ChanceCard.get(chanceCards[cardToDraw].getCardNumber()).performAction(gameController);

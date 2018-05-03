@@ -10,18 +10,25 @@ import controller.GameController;
  *
  */
 public class CardPrison extends ChanceCard {
-
-	private int fieldNumber;
 	
 	public CardPrison(int cardNumber, String text) {
-		super(cardNumber, text);
-		fieldNumber = 10;
-	
+		super(cardNumber, text);	
+		System.out.println(cardNumber);
 	}
+	
+	@Override
+	public int getCardNumber() {
+		return cardNumber;
+	}
+	
+	@Override
+	public String toString() {
+		return text;
+	}
+	
 	@Override
 	public void performAction(GameController gameController) {
-		gameController.getGame().getCurrentPlayer().setInPrison(1);		
-		gameController.getGame().getCurrentPlayer().setPosition(fieldNumber);
+		gameController.cardGoToJail(this);
 
 	}
 	

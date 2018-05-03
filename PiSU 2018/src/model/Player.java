@@ -25,25 +25,25 @@ public class Player extends Subject {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 		notifyChange();
 	}
-	
+
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
-	
+
 	public int getPlayerID() {
 		return playerID;
 	}
-	
+
 	public void setColour(Color colour) {
 		this.colour = colour;
 		notifyChange();
 	}
-	
+
 	public Color getColour() {
 		return colour;
 	}
@@ -55,9 +55,6 @@ public class Player extends Subject {
 	}
 
 	public void setPosition(int position) {
-		if (this.position > position && inPrison <1)
-	    account.updateCash(4000);
-		
 		this.position = position;
 		notifyChange();
 	}
@@ -111,33 +108,33 @@ public class Player extends Subject {
 	public int[] getOwnedProperties() {
 		return ownedProperties;
 	}
-	
+
 	public void setCurrent(boolean current) {
 		this.current = current;
 		notifyChange();
 	}
-	
+
 	public boolean getCurrent() {
 		return current;
 	}
-	
+
 	public void addHouses(int fieldNumber){
 		ownedHouses[fieldNumber] += 1;
 		notifyChange();
 	}
-	
+
 	public void removeHouses(int fieldNumber) {
 		ownedHouses[fieldNumber] -= 1;
 		notifyChange();
 	}
-	
+
 	public void pawnField(int fieldNumber) {
 		ownedHouses[fieldNumber] = -1;
 		notifyChange();
 	}
-	
+
 	public int[] getOwnedHouses() {
 		return ownedHouses;
 	}
-	
+
 }
