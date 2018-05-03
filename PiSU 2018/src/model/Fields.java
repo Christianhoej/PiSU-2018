@@ -1,8 +1,9 @@
 package model;
 
 import controller.GameController;
+import designpatterns.Subject;
 
-public abstract class Fields {
+public abstract class Fields extends Subject {
 
 	protected int fieldNumber; 
 	protected String colourSystem;
@@ -13,6 +14,7 @@ public abstract class Fields {
 
 	public Fields(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
+		notifyChange();
 	}
 
 	public int getFieldNumber() {
@@ -21,13 +23,14 @@ public abstract class Fields {
 
 	protected void setFieldNumber(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
+		notifyChange();
 	}
 	
 	public String getColourSystem() {
 		return colourSystem;
 	}
 
-	protected void setColourSystem(String colourSystem) {
+	public void setColourSystem(String colourSystem) {
 		this.colourSystem = colourSystem;
 	}
 	
@@ -39,6 +42,7 @@ public abstract class Fields {
 	public void setOwner(Player player) {
 		this.player = player;
 		player.addOwnedProperties(fieldNumber);
+		notifyChange();
 	}
 	
 	public Player getOwner() {
@@ -47,6 +51,7 @@ public abstract class Fields {
 	
 	public void setMortage(boolean mortage) {
 		this.mortage = mortage;
+		notifyChange();
 	}
 
 	public boolean getMortage() {
@@ -55,6 +60,7 @@ public abstract class Fields {
 	
 	public void setHouses(int houses) {
 		this.houses = houses;
+		notifyChange();
 	}
 	
 	public int getHouses() {
@@ -63,13 +69,10 @@ public abstract class Fields {
 
 	protected void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
+		notifyChange();
 	}
 
 	public abstract String toString();
-
-	
-//	public void landOnField(GameController gameController, Player player) {
-//	}
 
 	public void landOnField(GameController gameController) {
 		// TODO Auto-generated method stub

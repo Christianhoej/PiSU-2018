@@ -9,15 +9,20 @@ import controller.GameController;
  */
 public class NeutralField extends Fields{
 	
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 	public NeutralField(int fieldNumber) {
 		super(fieldNumber);
 	}
 	
-
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+	
+	
 	@Override
 	public void landOnField(GameController gameController) {
-
+		gameController.neutralField(this);
 	}
 
 	@Override

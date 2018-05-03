@@ -19,6 +19,7 @@ public class Player extends Subject {
 
 	public Player() {
 		this.account = new Account(30000);
+		notifyChange();
 
 	}
 	public String getName() {
@@ -27,6 +28,7 @@ public class Player extends Subject {
 	
 	public void setName(String name) {
 		this.name = name;
+		notifyChange();
 	}
 	
 	public void setPlayerID(int playerID) {
@@ -39,6 +41,7 @@ public class Player extends Subject {
 	
 	public void setColour(Color colour) {
 		this.colour = colour;
+		notifyChange();
 	}
 	
 	public Color getColour() {
@@ -56,7 +59,7 @@ public class Player extends Subject {
 	    account.updateCash(4000);
 		
 		this.position = position;
-		
+		notifyChange();
 	}
 
 	public int getPosition() {
@@ -69,6 +72,7 @@ public class Player extends Subject {
 
 	public void setBroke(boolean broke) {
 		this.broke = broke;
+		notifyChange();
 	}
 
 	public int getTotalValue() {
@@ -91,14 +95,17 @@ public class Player extends Subject {
 	 */
 	public void setInPrison(int inPrison) {
 		this.inPrison=inPrison;
+		notifyChange();
 	}
 
 	public void addOwnedProperties(int fieldNumber) {
 		ownedProperties[fieldNumber] = 1;
+		notifyChange();
 	}
 
 	public void removeOwnedProperties(int fieldNumber) {
 		ownedProperties[fieldNumber] = 0;
+		notifyChange();
 	}
 
 	public int[] getOwnedProperties() {
@@ -107,6 +114,7 @@ public class Player extends Subject {
 	
 	public void setCurrent(boolean current) {
 		this.current = current;
+		notifyChange();
 	}
 	
 	public boolean getCurrent() {
@@ -115,14 +123,17 @@ public class Player extends Subject {
 	
 	public void addHouses(int fieldNumber){
 		ownedHouses[fieldNumber] += 1;
+		notifyChange();
 	}
 	
 	public void removeHouses(int fieldNumber) {
 		ownedHouses[fieldNumber] -= 1;
+		notifyChange();
 	}
 	
 	public void pawnField(int fieldNumber) {
 		ownedHouses[fieldNumber] = -1;
+		notifyChange();
 	}
 	
 	public int[] getOwnedHouses() {
@@ -130,5 +141,3 @@ public class Player extends Subject {
 	}
 	
 }
-
-//Delvist taget fra CDIO3 - not done - Yoss

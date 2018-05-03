@@ -17,6 +17,11 @@ public class GoToPrison extends Fields{
 	public String toString() {
 		return null;
 	}
+	
+	@Override
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
 
 	@Override
 	public void landOnField(GameController gameController) {
