@@ -13,7 +13,6 @@ import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
-import test.Connector;
 import model.Property;
 import model.RealEstate;
 import model.Utility;

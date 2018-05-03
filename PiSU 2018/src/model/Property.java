@@ -16,7 +16,7 @@ public class Property extends Fields {
 	protected Player owner;
 	private GUI gui;
 	protected int houses;
-	String[] guiMessages = Txt.file("GameMessages.txt");
+	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 
 	public Property(int fieldNumber) {
@@ -41,6 +41,7 @@ public class Property extends Fields {
 
 	public void setPrice(int price) {
 		this.price = price;
+		notifyChange();
 	}
 
 	public int getRent() {
@@ -49,6 +50,7 @@ public class Property extends Fields {
 
 	public void setRent(int rent) {
 		this.rent = rent;
+		notifyChange();
 	}
 
 	public Player getOwner() {
@@ -57,6 +59,7 @@ public class Property extends Fields {
 
 	public void setMortage(boolean mortage) {
 		this.mortage = mortage;
+		notifyChange();
 	}
 
 	public boolean getMortage() {
@@ -65,6 +68,7 @@ public class Property extends Fields {
 
 	public void setMortagePrice(int mortagePrice) {
 		this.mortagePrice = mortagePrice;
+		notifyChange();
 	}
 
 	public int getMortagePrice () {
@@ -74,6 +78,7 @@ public class Property extends Fields {
 	public void setOwner(Player player) {
 		this.owner = player;
 		setForSale(false);
+		notifyChange();
 	}
 	public String getFieldName() {
 		return fieldName;
@@ -81,6 +86,7 @@ public class Property extends Fields {
 	
 	public void setHouses(int houses) {
 		this.houses = houses;
+		notifyChange();
 	}
 	
 	public int getHouses() {

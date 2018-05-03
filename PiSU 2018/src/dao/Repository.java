@@ -1,6 +1,4 @@
 package dao;
-import test.Connector;
-
 
 public class Repository 
 {

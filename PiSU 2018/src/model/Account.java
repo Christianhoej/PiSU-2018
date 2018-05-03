@@ -10,8 +10,10 @@ package model;
 
 import java.util.Set;
 
+import designpatterns.Subject;
 
-public class Account {
+
+public class Account extends Subject {
 	private int cash;
 	private int assetValue = 0;
 	private int prisonCard = 0;
@@ -29,6 +31,7 @@ public class Account {
 	 */
 	public void updateCash(int d) {
 		this.cash += d;
+		notifyChange();
 	}
 
 
@@ -51,6 +54,7 @@ public class Account {
 
 	public void updatePrisonCard(int prisonCard) {
 		this.prisonCard += prisonCard;
+		notifyChange();
 	}
 
 	public int getPrisonCard() {

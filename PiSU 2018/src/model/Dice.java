@@ -7,22 +7,24 @@ package model;
  */
 public class Dice {
 		 
-		private int faceValue;
+		private int faceValue1;
+		private int faceValue2;
+		private int[] faceValue = new int[2];
 
-		public int rollDice() {
-			faceValue = (int)(Math.random()*6+1);
-			return faceValue;
+		public void rollDice() {
+			faceValue[0] = (int)(Math.random()*6)+1;
+			faceValue[1] = (int)(Math.random()*6)+1;
 		}
 
-		public int getFaceValue() {
+		public int[] getFaceValue() {
 			return faceValue;
 		}
 		
-		public void setFaceValue(int faceValue) {
+		public void setFaceValue(int[] faceValue) {
 			this.faceValue = faceValue;
 		}
-		public static boolean isEqual(Dice[]dies) {
-			if (dies[0].getFaceValue()== dies[1].getFaceValue())
+		public static boolean isEqual(Dice[] dice) {
+			if (dice[0].getFaceValue()== dice[1].getFaceValue())
 				return true;
 			else
 				return false;
