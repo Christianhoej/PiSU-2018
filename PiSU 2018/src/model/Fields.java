@@ -11,6 +11,7 @@ public abstract class Fields extends Subject {
 	protected Player player;
 	protected boolean mortage;
 	protected int houses;
+	protected int buildingPrice;
 
 	public Fields(int fieldNumber) {
 		this.fieldNumber = fieldNumber;
@@ -62,6 +63,10 @@ public abstract class Fields extends Subject {
 		this.houses = houses;
 		notifyChange();
 	}
+	public void sellHouse() {
+		this.houses--;
+		notifyChange();
+	}
 	
 	public int getHouses() {
 		return houses;
@@ -70,6 +75,12 @@ public abstract class Fields extends Subject {
 	protected void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 		notifyChange();
+	}
+	public void setBuildingPrice(int buildingPrice) {
+		this.buildingPrice = buildingPrice;
+	}
+	public int getBuildingPrice() {
+		return buildingPrice;
 	}
 
 	public abstract String toString();
