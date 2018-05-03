@@ -14,7 +14,6 @@ public class Property extends Fields {
 	protected boolean mortage;
 	protected int mortagePrice;
 	protected Player owner;
-	private GUI gui;
 	protected int houses;
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 

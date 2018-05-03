@@ -34,8 +34,7 @@ public class CardReceive extends ChanceCard {
 				game.getCurrentPlayer().getAccount().updateCash(amount);
 				
 		}else
-
-		game.getCurrentPlayer().getAccount().updateCash(amount);
+			game.getCurrentPlayer().getAccount().updateCash(amount);
 	}
 
 	public int getAmount() {

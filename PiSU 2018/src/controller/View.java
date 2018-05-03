@@ -66,7 +66,6 @@ public class View implements Observer {
 
 	@Override
 	public void update(Subject subject) {
-		System.out.println(subject.getClass());
 		if (!disposed) {
 			if (subject instanceof Player) {
 				updatePlayer((Player) subject);

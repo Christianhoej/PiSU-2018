@@ -11,11 +11,11 @@ import controller.GameController;
  */
 
 public class ChanceCard {
- 
+
 	protected String text;
 	protected int cardNumber;
 
-	
+
 	/**
 	 * Constructor 
 	 * @param cardNumber
@@ -25,45 +25,32 @@ public class ChanceCard {
 		this.cardNumber = cardNumber;
 		this.text = text;
 
-		
-	}
-	
-	public static ChanceCard[] shuffleDeck(ChanceCard[] chanceDeck) {
-		 
-		 ChanceCard[] chanceCards = new ChanceCard[chanceDeck.length];
-			
-			int i = 0;
 
-			while(i < chanceDeck.length) {
-				int value =(int)(Math.random()*chanceDeck.length);
-				if(chanceCards[value]== null){
-					chanceCards[value] = chanceDeck[i];
-					i++;
-				}
+	}
+
+	public static ChanceCard[] shuffleDeck(ChanceCard[] chanceDeck) {
+
+		ChanceCard[] chanceCards = new ChanceCard[chanceDeck.length];
+
+		int i = 0;
+
+		while(i < chanceDeck.length) {
+			int value =(int)(Math.random()*chanceDeck.length);
+			if(chanceCards[value]== null){
+				chanceCards[value] = chanceDeck[i];
+				i++;
 			}
-			return chanceCards;
-							
 		}
+		return chanceCards;
+
+	}
 	public int getCardNumber() {
-		
-	return cardNumber;
-//	}
-//	
-//	public void performAction(Player player, int amount, Player[] playerArray) {
-//		
-//	}
-//
-//	public void performAction(Player currentPlayer, Player[] playerArray) {
-//		
-//	}
-//
-//	public void performAction(Player player) {
-		
+		return cardNumber;
 	}
 
 	public void performAction(GameController gameController) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

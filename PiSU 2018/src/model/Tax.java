@@ -31,6 +31,9 @@ public class Tax extends Fields{
 		if (fieldNumber == 4) {
 			return " vil du helst betale 10% af dine samlede værdier eller ";
 		}
+		else {
+			return "";
+		}
 	}
 	
 	@Override

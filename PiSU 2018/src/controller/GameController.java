@@ -6,6 +6,7 @@ import java.util.Random;
 
 import board.Gameboard;
 import gui_main.GUI;
+import model.ChanceCard;
 import model.Dice;
 import model.Fields;
 import model.Game;
@@ -50,12 +51,16 @@ public class GameController {
 		for(int i = 0; i<playerAmount; i++) {
 			Player player = new Player();
 			player.setName(gui.getUserString("Indsast navnet på spiller " + (i+1)));
+			if(player.getName().equals("")){  // hvis der ikke er indtastet noget, sættes et standard spillernavn
+				player.setName("Spiller " + (i+1));
+			}
 			for(int k=i-1; k>=0; k--) { //Loop der checker om 2 spillere hedder det samme
-				while(game.getPlayers().get(k).getName().equals(player.getName()))// tjekker om spillerne har samme navn
-				{
+				while(game.getPlayers().get(k).getName().equals(player.getName())) {// tjekker om spillerne har samme navn
+
 					player.setName(gui.getUserString("You cant have the same name as another player. Please try again"));   //skulle have været med i oversætter klassen
 					k=i-1; // tjekker forfra om der er ens navne
 				}
+
 			}		
 			// Adds the player to game.
 			game.addPlayer(player);
@@ -71,7 +76,7 @@ public class GameController {
 			case "Hvid": player.setColour(Color.white); break;
 			}
 			color.remove(carColor);
-			player.setPosition(0);
+			player.setPosition(37); // SKAL LAVES OM TIL 0!!!!!!
 		}
 	}
 
@@ -260,7 +265,8 @@ public class GameController {
 
 			Dice dice = new Dice();
 			dice.rollDice();
-			int[] faceValue = dice.getFaceValue();
+			//			int[] faceValue = dice.getFaceValue();
+			int[] faceValue = {2, 3};
 			gui.setDice(faceValue[0], faceValue[1]);
 			throwDouble = (faceValue[0]== faceValue[1]);
 			int doubleCount=0;
@@ -634,7 +640,7 @@ public class GameController {
 
 	public void payTax(Tax tax) {
 		if(tax.getPrice() == 4000) {
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?");
+			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?", "4000", "10%");
 			if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
 				payMoney(game.getCurrentPlayer(), tax.getPrice());
 
@@ -651,4 +657,104 @@ public class GameController {
 	}
 
 
+	public void cardMoveToField(ChanceCard chanceCard) {
+		gui.showMessage(chanceCard.toString());
+		if(chanceCard.getCardNumber()<=21) {
+			//nearest ferry + double rent
+			moveToFerryDouble();
+		}
+		else if(chanceCard.getCardNumber()<=23) {
+			//Move -3
+			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
+//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
+//			//land on field
+//			getGame().getFields().get(getGame().getCurrentPlayer().getPosition()).landOnField(this);;
+		}
+		else if(chanceCard.getCardNumber()==24) {
+			//Start
+//			getGame().getCurrentPlayer().setPosition(0);//1 alt efter hvordan position kalkuleres
+			moveToField(game.getCurrentPlayer(), 0);
+			//landOnField
+//			getGame().getFields().get(0).landOnField(this);
+		}
+		else if(chanceCard.getCardNumber() == 25) {
+			//rådhuspladsen
+//			getGame().getCurrentPlayer().setPosition(39);//40 alt efter hvordan position kalkuleres
+			moveToField(game.getCurrentPlayer(), 39);
+			// landOnField
+//			getGame().getFields().get(39).landOnField(this);
+
+		}
+		else if(chanceCard.getCardNumber()==26) {
+			//molslinje
+//			getGame().getCurrentPlayer().setPosition(25);//26 alt efter hvordan position kalkuleres
+			moveToField(game.getCurrentPlayer(), 25);
+			// landOnField
+//			getGame().getFields().get(25).landOnField(this);
+
+		}
+		else if (chanceCard.getCardNumber() == 27) {
+			//Move to Grønningen
+//			getGame().getCurrentPlayer().setPosition(24);//25 alt efter hvordan position kalkuleres
+			moveToField(game.getCurrentPlayer(), 24);
+			//landOnField
+//			getGame().getFields().get(24).landOnField(this);
+
+		}
+		else {
+			//Move to Frederiksberg Allé
+//			getGame().getCurrentPlayer().setPosition(11);//12 alt efter hvordan position kalkuleres
+			moveToField(game.getCurrentPlayer(), 11);
+			//landOnField
+//			getGame().getFields().get(11).landOnField(this);
+		}
+
+	}
+
+	private void moveToFerryDouble() {
+		int position = game.getCurrentPlayer().getPosition();
+		game.getCurrentPlayer();
+//		int arrayPositionOfFerry = 0;
+
+		if ((position)<6 || (position)>=36) {
+//			int oldPosition = position;
+			moveToField(game.getCurrentPlayer(), 5);
+			//			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
+//			arrayPositionOfFerry = 5;
+			//If player passes start
+			//			if ((oldPosition)>(position))
+			//				game.getCurrentPlayer().getAccount().updateCash(4000);
+		}
+		else if (position < 16) {
+			moveToField(game.getCurrentPlayer(), 15);
+			//			game.getCurrentPlayer().setPosition(15);
+//			arrayPositionOfFerry = 15;
+		}
+		else if (position < 26) { 
+			moveToField(game.getCurrentPlayer(), 25);
+			//			game.getCurrentPlayer().setPosition(25);
+//			arrayPositionOfFerry = 25;
+		}
+		else if ((position) < 36) {
+
+			moveToField(game.getCurrentPlayer(), 35);
+//			arrayPositionOfFerry = 35;
+		}
+
+		//		if(!game.getFields().get(arrayPositionOfFerry).getOwner().equals(null)) {//.equals or == null test
+		//		gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
+		//		gameController.ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), player);
+		//		}
+
+		//		else {
+		//			game.getFields().get(arrayPositionOfFerry).landOnField(gameController);
+		//	}
+
+
+
+	}
+
+
 }
+
+
