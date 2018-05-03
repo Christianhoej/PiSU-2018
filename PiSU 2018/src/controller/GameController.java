@@ -23,8 +23,8 @@ public class GameController {
 	private Game game;
 	private GUI gui;
 	private String[] guiMessages = Txt.fileString("GameMessages.txt");
+	private int[][] rent = Txt.fileInt2D("RentPrices.txt");
 	private View view;
-	private Random rand = new Random();
 
 	public GameController(Game game) {
 		this.game = game;
@@ -157,21 +157,21 @@ public class GameController {
 	 */
 	public void auction(Player player, Property property) {
 		int currentPlayer = -1;
-		gui.showMessage(property.getFieldName() + " er sat på auktion!");	
-		for (int i=0; i<game.getPlayers().size(); i++) {
-			if (player.equals(game.getPlayers().get(i))) {
-				currentPlayer=i;
-			}
-		}
+		gui.showMessage(property.getFieldName() + " er sat på auktion!");
+
+		currentPlayer = game.getPlayers().indexOf(player);
 		int currentBid=100;
 		//New array with the player originally landing on the field, as the last. 
+
 		Player[] auctionArray = new Player[game.getPlayers().size()];
+		int j = 0;
 		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
-			auctionArray[i]= game.getPlayers().get(i);
+			auctionArray[0+j++]= game.getPlayers().get(i);
 		}
 		for(int i=0; i<=currentPlayer; i++) {
-			auctionArray[i] = game.getPlayers().get(i);
+			auctionArray[0+j++] = game.getPlayers().get(i);
 		}
+
 		//The amount of player withdrawn from the auction. 
 		int playersOut=0;
 		//index at the highest bidder at the current time. 
@@ -188,6 +188,9 @@ public class GameController {
 				if (bidOver==0) {
 					auctionArray[i]=null;
 					playersOut++;
+					if(playersOut>=auctionArray.length-1) {
+						break;
+					}
 				}
 				//The player with the current highest bid, is set as winner, until the next bid.
 				else {
@@ -226,18 +229,22 @@ public class GameController {
 		Player currentPlayer = game.getCurrentPlayer();
 
 		// Getting the index for the currentPlayer - useful when loading a game.
-		int currentIndex=0;
-		for(int i = 0; i<players.size(); i++) {
-			if(currentPlayer.equals(players.get(i))) {
-				currentIndex = i;
-				break;
-			}
-		}
+		int currentIndex= game.getPlayers().indexOf(currentPlayer);
+		//		for(int i = 0; i<players.size(); i++) {
+		//			if(currentPlayer.equals(players.get(i))) {
+		//				currentIndex = i;
+		//				break;
+		//			}
+		//		}
 		boolean noWinner=true;
 		while(noWinner) {
+			currentPlayer = game.getCurrentPlayer();
 			if(!currentPlayer.isBroke()) {
 				playerTurn(currentPlayer);
 			}
+
+			currentIndex = (currentIndex+1)%players.size();
+			game.setCurrentPlayer(players.get(currentIndex));
 
 		}
 
@@ -247,10 +254,6 @@ public class GameController {
 	public void playerTurn(Player player) {
 		boolean throwDouble=false;
 		do {
-			if(throwDouble) {
-				gui.showMessage("Du har kastet to ens og får et ekstra kast");
-			}
-
 			if(player.getInPrison()>0) {
 				playerInPrison(player);
 			}
@@ -264,10 +267,10 @@ public class GameController {
 			if(throwDouble && player.getInPrison()>0) {
 				doubleCount++;
 				player.setInPrison(0);
-				gui.showMessage("Du har kastet to ens, mens du var i fængsel, og kan "
+				gui.showMessage(player.getName() + ", du har kastet to ens, mens du var i fængsel, og kan "
 						+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + "felter frem");
 				if(doubleCount>2) {
-					gui.showMessage("Du har kastet to ens tre gange i træk, og skal derfor "
+					gui.showMessage(player.getName() + ", du har kastet to ens tre gange i træk, og skal derfor "
 							+ "i fængsel");
 					player.setPosition(10);
 					player.setInPrison(1);
@@ -275,19 +278,24 @@ public class GameController {
 				}
 			}
 			else if(player.getInPrison()>0) {
-				gui.showMessage("Du kastede ikke to ens, og forbliver i fængsel en runde til");
+				gui.showMessage(player.getName() + ", du kastede ikke to ens, og forbliver i fængsel en runde til");
 				return;
 			}
 			int position = player.getPosition() + faceValue[0]+faceValue[1];
 			moveToField(player, position);
 
+			if(throwDouble) {
+				gui.showMessage(player.getName() + ", du har kastet to ens og får et ekstra kast");
+			}
+
 		}while(throwDouble);
 	}
 
 	public void moveToField(Player player, int position) {
+		//		player.setPosition(30);
 		player.setPosition(position % game.getFields().size());
-		if(position>player.getPosition()) {
-			gui.showMessage("Du har passeret start, og modtager 4000 kr");
+		if(position>player.getPosition() && player.getInPrison()==0) {
+			gui.showMessage(player.getName() + ", du har passeret start, og modtager 4000 kr");
 			player.getAccount().updateCash(4000);
 		}
 		gui.showMessage(player.getName() + " har landet på " + game.getFields().get(player.getPosition()).getFieldName());
@@ -303,14 +311,14 @@ public class GameController {
 			if(player.getAccount().getCash()>=1000) {
 				// the player can choose between using the get out of jail free
 				// card, paying 1000 kr to the bank and throw the dices.
-				choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende"
+				choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende"
 						+ " muligheder for at komme ud af fængslet", "Betal 1000 kr",
 						"Brug fængselskort", "Kast terningerne");
 			}
 			else {
 				// the player can choose between using the get out of jail free
 				// card and throw the dices.
-				choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende"
+				choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende"
 						+ " muligheder for at komme ud af fængslet", "Brug "
 								+ "fængselskort", "Kast terningerne");
 			}
@@ -319,13 +327,13 @@ public class GameController {
 		else if(player.getAccount().getCash()>=1000) {
 			// the player can choose between paying 1000 kr to the bank and throw 
 			// the dices.
-			choice = gui.getUserButtonPressed("Du er i fængsel. Du har følgende "
+			choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende "
 					+ "muligheder for at komme ud af fængslet", "Betal 1000 kr", 
 					"Kast terningerne");
 		}
 		else {
 			// the player has to throw the dices.
-			choice = gui.getUserButtonPressed("Du er i fængsel. Da du hverken har et"
+			choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Da du hverken har et"
 					+ " fængselskort eller nok penge, må du kaste med terningerne", 
 					"Kast terningerne");
 		}
@@ -333,13 +341,13 @@ public class GameController {
 		switch(choice) {
 		case "Betal 1000 kr": 	player.getAccount().updateCash(1000);
 		player.setInPrison(0);						
-		gui.showMessage("Du har betalt 1000 kr og er kommet "
+		gui.showMessage(player.getName() + ", du har betalt 1000 kr og er kommet "
 				+ "ud af fængslet. Fortsæt turen ved at kaste"
 				+ " med terningerne");
 		break;
 		case "Brug fængselskort": player.getAccount().updatePrisonCard(-1);
 		player.setInPrison(0);
-		gui.showMessage("Du har brugt et fængsels kort og er "
+		gui.showMessage(player.getName() + ", du har brugt et fængsels kort og er "
 				+ "kommet ud af fængslet. Fortsæt turen ved at "
 				+ "kaste med terningerne");
 		break;
@@ -474,42 +482,45 @@ public class GameController {
 		int colourCount = 0;
 		int ownerCount = 0;
 		for (int i = 0; i<game.getFields().size(); i++) {
-			if (game.getFields().get(i).getColourSystem().equals(realEstate.getColourSystem())){
-				colourCount++;
-				if (game.getFields().get(i).getOwner().equals(realEstate.getOwner())){
-					ownerCount++;
+			if(game.getFields().get(i) instanceof RealEstate) {
+				if (game.getFields().get(i).getColourSystem().equals(realEstate.getColourSystem())){
+					colourCount++;
+					if (game.getFields().get(i).getOwner() != null && game.getFields().get(i).getOwner().equals(realEstate.getOwner())){
+						ownerCount++;
+					}
 				}
 			}
 		}
 		if(colourCount == ownerCount) {
 
 			switch(realEstate.getHouses()){
-			case 0: receiveMoney(realEstate.getOwner(), realEstate.getRent()*2); //PRIS FOR ET HUS
-			payMoney(player, realEstate.getRent()*2); //MINUSPRIS FOR ET HUS
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + (realEstate.getRent()*2));
+			case 0: receiveMoney(realEstate.getOwner(), realEstate.getRent()*2); //PRIS FOR alle grunde
+			payMoney(player, realEstate.getRent()*2); //MINUSPRIS FOR alle grunde
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[game.getFields().indexOf(realEstate)][0]*2) + " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			case 1: receiveMoney(realEstate.getOwner(), 1); //PRIS FOR ET HUS
 			payMoney(player, 1); //MINUSPRIS FOR ET HUS
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 1);
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][1]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			case 2: receiveMoney(realEstate.getOwner(), 2); // PRIS FOR TO HUSE
 			payMoney(player, 2); // MINUS PRIS FOR TO HUSE
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 2);
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][2]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			case 3: receiveMoney(realEstate.getOwner(), 3);;
 			payMoney(player, 3);
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 3);
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][3]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			case 4: receiveMoney(realEstate.getOwner(), 4);
 			payMoney(player, 4);
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 4);
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][4]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			case 5: receiveMoney(realEstate.getOwner(), 5); // FOR HOTEL
 			payMoney(player, 5); // MINUS HOTEL
-			gui.showMessage("Du er landet på " + realEstate.getOwner() +"'s ejendom og skal betale " + 5);
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][5]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 			break;
 			}
 		} else { 
+			gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][0] + " i leje");
 			receiveMoney(player, realEstate.getRent());
 			payMoney(player, realEstate.getRent());
 		}	
@@ -526,10 +537,12 @@ public class GameController {
 		int colourCount = 0;
 		int ownerCount = 0;
 		for (int i = 0; i<game.getFields().size(); i++) {
-			if (game.getFields().get(i).getColourSystem().equals(utility.getColourSystem())){
-				colourCount++;
-				if (game.getFields().get(i).getOwner().equals(utility.getOwner())){
-					ownerCount++;
+			if(game.getFields().get(i) instanceof Utility) {
+				if (game.getFields().get(i).getColourSystem().equals(utility.getColourSystem())){
+					colourCount++;
+					if (game.getFields().get(i).getOwner() != null && game.getFields().get(i).getOwner().equals(utility.getOwner())){
+						ownerCount++;
+					}
 				}
 			}
 		}
@@ -618,10 +631,10 @@ public class GameController {
 			}
 		}
 	}
-	
+
 	public void payTax(Tax tax) {
 		if(tax.getPrice() == 4000) {
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ guiMessages[26] + tax.getPrice() + guiMessages[27] , guiMessages[28], guiMessages[29]);
+			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?");
 			if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
 				payMoney(game.getCurrentPlayer(), tax.getPrice());
 
@@ -632,6 +645,10 @@ public class GameController {
 			payMoney(game.getCurrentPlayer(), tax.getPrice());
 		}
 	}
-	
+
+	public void neutralField(Fields field) {
+		gui.showMessage(game.getCurrentPlayer().getName() + field.toString());
+	}
+
 
 }

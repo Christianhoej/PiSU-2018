@@ -22,7 +22,7 @@ public class NeutralField extends Fields{
 	
 	@Override
 	public void landOnField(GameController gameController) {
-
+		gameController.neutralField(this);
 	}
 
 	@Override

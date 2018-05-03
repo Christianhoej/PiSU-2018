@@ -28,7 +28,9 @@ public class Tax extends Fields{
 	
 	@Override
 	public String toString() {
-		return null;
+		if (fieldNumber == 4) {
+			return " vil du helst betale 10% af dine samlede værdier eller ";
+		}
 	}
 	
 	@Override
