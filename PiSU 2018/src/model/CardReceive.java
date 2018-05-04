@@ -14,7 +14,8 @@ public class CardReceive extends ChanceCard {
 	private int amount;
 	
 	public CardReceive(int cardNumber, String text, int amount){
-		super(cardNumber, text);
+		this.cardNumber = cardNumber;
+		this.text = text;
 		this.amount = amount;
 	}
 	

@@ -14,7 +14,8 @@ public class CardGetOutOfPrison extends ChanceCard {
 		 * @param text
 		 */
 	public CardGetOutOfPrison(int cardNumber, String text) {
-		super(cardNumber, text);
+		this.cardNumber = cardNumber;
+		this.text = text;
 		
 	}
 	
