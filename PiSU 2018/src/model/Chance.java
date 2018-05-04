@@ -28,27 +28,22 @@ public class Chance extends Fields {
 			if(i<10) {
 				chanceCards.add(new CardReceive(i+1,texts[i],Integer.parseInt(prices[i])));
 				integer2ChanceCard.put(i, chanceCards.get(i));
-				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if(i<19) {
 				chanceCards.add(new CardPay(i+1,texts[i],Integer.parseInt(prices[i])));	
 				integer2ChanceCard.put(i, chanceCards.get(i));
-				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if(i<28) {
 				chanceCards.add(new CardMove(i+1,texts[i],Integer.parseInt(prices[i])));
 				integer2ChanceCard.put(i, chanceCards.get(i));
-				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else if (i<30) {
 				chanceCards.add(new CardGetOutOfPrison(i+1,texts[i]));
 				integer2ChanceCard.put(i, chanceCards.get(i));
-				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 			else {
 				chanceCards.add(new CardPrison(i+1,texts[i]));
 				integer2ChanceCard.put(i, chanceCards.get(i));
-				System.out.println(i + ": " + chanceCards.get(i).toString());
 			}
 
 
