@@ -750,23 +750,23 @@ public class GameController {
 
 				for(int i=0; i<player.getOwnedProperties().size(); i++) {
 					// If the property is mortaged
-					if(game.getFields().get(player.getOwnedProperties().get(i)).getMortage()) {
+					if(player.getOwnedProperties().get(i).getMortage()) {
 						// player can unmortage property
 						unMortageProperty = true;
 					}
 					// if the property the player owns is of type realEstate
-					if(game.getFields().get(player.getOwnedProperties().get(i)) instanceof RealEstate) {
+					if(player.getOwnedProperties().get(i) instanceof RealEstate) {
 
 						// if the player owns all properties of the same type
-						if(ownedRealEstateSameColour((RealEstate) game.getFields().get(player.getOwnedProperties().get(i)), player)) {
+						if(ownedRealEstateSameColour((RealEstate) player.getOwnedProperties().get(i), player)) {
 
 							// if the player doesn't have hotel on property
-							if(game.getFields().get(player.getOwnedProperties().get(i)).getHouses() <= 4 && !game.getFields().get(player.getOwnedProperties().get(i)).getMortage()) {
+							if(player.getOwnedProperties().get(i).getHouses() <= 4 && !player.getOwnedProperties().get(i).getMortage()) {
 								// Player can by houses
 								byHouses = true;
 							}
 							// if the player has houses on the property
-							if(game.getFields().get(player.getOwnedProperties().get(i)).getHouses()>0) {
+							if(player.getOwnedProperties().get(i).getHouses()>0) {
 								// Player can sell houses
 								sellHouses = true;
 							}
