@@ -9,7 +9,6 @@ import controller.GameController;
 import model.Game;
 public class CardMove extends ChanceCard {
 
-	private int moveTo;
 	private String text;
 	/**
 	 * Constructor 
