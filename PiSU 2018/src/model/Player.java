@@ -14,7 +14,7 @@ public class Player extends Subject {
 	private int inPrison;
 	private ArrayList<Fields> ownedProperties = new ArrayList<>();
 //	private int[] ownedProperties = new int[40];
-	private int[] ownedHouses = new int[40];
+//	private int[] ownedHouses = new int[40];
 	private int playerID;
 	private Color colour;
 	private boolean current;
@@ -126,32 +126,32 @@ public class Player extends Subject {
 //		return ownedProperties;
 //	}
 
-	public void setCurrent(boolean current) {
-		this.current = current;
-		notifyChange();
-	}
+//	public void setCurrent(boolean current) {
+//		this.current = current;
+//		notifyChange();
+//	}
+//
+//	public boolean getCurrent() {
+//		return current;
+//	}
 
-	public boolean getCurrent() {
-		return current;
-	}
+//	public void addHouses(int fieldNumber){
+//		ownedHouses[fieldNumber] += 1;
+//		notifyChange();
+//	}
 
-	public void addHouses(int fieldNumber){
-		ownedHouses[fieldNumber] += 1;
-		notifyChange();
-	}
+//	public void removeHouses(int fieldNumber) {
+//		ownedHouses[fieldNumber] -= 1;
+//		notifyChange();
+//	}
 
-	public void removeHouses(int fieldNumber) {
-		ownedHouses[fieldNumber] -= 1;
-		notifyChange();
-	}
+//	public void pawnField(Fields field) {
+//		field.houses = -1;
+//		notifyChange();
+//	}
 
-	public void pawnField(int fieldNumber) {
-		ownedHouses[fieldNumber] = -1;
-		notifyChange();
-	}
-
-	public int[] getOwnedHouses() {
-		return ownedHouses;
-	}
+//	public int[] getOwnedHouses() {
+//		return ownedHouses;
+//	}
 
 }

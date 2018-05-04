@@ -44,7 +44,7 @@ public abstract class Fields extends Subject {
 	
 	public void setOwner(Player player) {
 		this.player = player;
-		player.addOwnedProperties(fieldNumber);
+		player.addOwnedProperties(this);
 		notifyChange();
 	}
 		
