@@ -225,27 +225,53 @@ public class GameController {
 
 
 
-	public int pawn(Player player, boolean pawnAll) {
-//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
-//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
-//		Pantsætningen ophæves efterfølgende.
-			ArrayList<Fields> fields = game.getFields();
+	public void pawn(Player player) {
+		//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
+		//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
+		//		Pantsætningen ophæves efterfølgende.
+		String choice = "";
+		ArrayList<Fields> fields = game.getFields();
 
 		ArrayList<Fields> propsWithoutHouses = new ArrayList<Fields>();
-		
+		ArrayList<Fields> propsWithHouses = new ArrayList<Fields>();
+
+
+
 		for( int i = 0; i<fields.size(); i++) {
 			//&& fields.
 			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
 				propsWithoutHouses.add(fields.get(i));
-			}
-		}
-		//I
-		//Eliminer alle ejendomsfarver hvor en spiller har minimum en ejendom på bygninger
-		//
 
-		return 0;
+			}
+			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
+				propsWithHouses.add(fields.get(i));
+		}
+
+		for (int j = 0; j<propsWithoutHouses.size();j++) {
+
+			for(int j1 = 0; j1<propsWithHouses.size();j1++) {
+
+				if(propsWithoutHouses.get(j).getColourSystem().equals(propsWithHouses.get(j1).getColourSystem()))
+					propsWithoutHouses.remove(j);
+			}
+		
+		}
+		String[] propUserSelection = new String[propsWithoutHouses.size()];
+		for (int i = 0; i<propsWithoutHouses.size(); i++) {
+			propUserSelection[i] = propsWithoutHouses.get(i).getFieldName();
+		}
+		
+		choice = gui.getUserSelection("Vælg grund du gerne vil pantsætte:", propUserSelection);
+		
+		
+		// Find
 
 	}
+
+
+
+
+
 
 	private void loadGame() {
 		//Kald til databaser om at loade
@@ -292,7 +318,7 @@ public class GameController {
 
 			game.getDice().rollDice();
 			int[] faceValue = game.getDice().getFaceValue();
-//			int[] faceValue = {2, 3};
+			//			int[] faceValue = {2, 3};
 			gui.setDice(faceValue[0], faceValue[1]);
 			throwDouble = (game.getDice().isEqual(faceValue));
 			int doubleCount=0;
@@ -325,9 +351,9 @@ public class GameController {
 	}
 
 	public void playerOption(Player player) {
-		
-		
-		
+
+
+
 
 
 	}
@@ -566,49 +592,49 @@ public class GameController {
 			}
 		}
 	}
-	
+
 	public void paySameTypeUtility(Property property, Player player, int[] count) {
 		// If there only exist two types of this utility, it is a "bryggeri"
-				if (count[0] == 2) {
-					switch(count[1]) {
-					case 1: receiveMoney(property.getOwner(), property.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
-					payMoney(player, property.getRent()/*gange med tærningeværdi*/);
-					gui.showMessage(guiMessages[38] + property.getOwner().getName() +guiMessages[39] + 1);
-					break;
-					case 2: receiveMoney(property.getOwner(),property.getRent()); // PRIS FOR TO TYPER
-					payMoney(player, property.getRent()/*gange med tærningeværdi*/);
+		if (count[0] == 2) {
+			switch(count[1]) {
+			case 1: receiveMoney(property.getOwner(), property.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
+			payMoney(player, property.getRent()/*gange med tærningeværdi*/);
+			gui.showMessage(guiMessages[38] + property.getOwner().getName() +guiMessages[39] + 1);
+			break;
+			case 2: receiveMoney(property.getOwner(),property.getRent()); // PRIS FOR TO TYPER
+			payMoney(player, property.getRent()/*gange med tærningeværdi*/);
 
-					gui.showMessage(guiMessages[40] + property.getOwner().getName() + guiMessages[41] + 2);
-					break;
-					}
+			gui.showMessage(guiMessages[40] + property.getOwner().getName() + guiMessages[41] + 2);
+			break;
+			}
 
-				}
-				// else it is a "rederi".
-				else {
-					switch(count[1]){
-					case 1: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR EN TYPE
-					payMoney(player, property.getRent());
-					game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
-					gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
-					break;
-					case 2: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TO TYPE
-					payMoney(player, property.getRent());
-					gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
-					break;
-					case 3: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TRE TYPE
-					payMoney(player, property.getRent());
-					gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
-					break;
-					case 4: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR FIRE TYPE
-					payMoney(player, property.getRent());
-					gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
-					break;
-					} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
-				}
+		}
+		// else it is a "rederi".
+		else {
+			switch(count[1]){
+			case 1: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR EN TYPE
+			payMoney(player, property.getRent());
+			game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
+			gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
+			break;
+			case 2: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TO TYPE
+			payMoney(player, property.getRent());
+			gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
+			break;
+			case 3: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TRE TYPE
+			payMoney(player, property.getRent());
+			gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
+			break;
+			case 4: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR FIRE TYPE
+			payMoney(player, property.getRent());
+			gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
+			break;
+			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
+		}
 
 	}
-	
-	
+
+
 	public void paySameTypeRealEstate(Property property, Player player) {
 		switch(property.getHouses()){
 		case 0: receiveMoney(property.getOwner(), property.getRent()*2); //PRIS FOR alle grunde
@@ -637,8 +663,8 @@ public class GameController {
 		break;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Method, to find out, if an owner of a real estate, also owns
 	 * the other real estates in the same color.
@@ -699,13 +725,12 @@ public class GameController {
 	public int generateCash(Player player, int ammount) {
 		String choice = "";
 		boolean done = false;
-		boolean pawnAll = false;
 		while (!done) {
 
 			gui.getUserButtonPressed(game.getCurrentPlayer() + ", hvad vil du nu?", "Afslut og gem spil", 
 					"Pantsæt grund", "Køb hus", "Sælg hus", "Byt med medspiller", "Kast terningerne");
 			String[] option;
-			
+
 			if(!game.getDice().isRolled() && player.getOwnedProperties() == null) {
 				option = new String[]{"Kast terningerne"};
 			}
@@ -721,9 +746,9 @@ public class GameController {
 					option = new String[] {"Pantsæt grunde", "Kast terningerne"};
 				}
 			}
-			
-			
-			
+
+
+
 			else if(player.getAccount().getCash()<ammount) {
 				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Erklær dig konkurs");
 			}
@@ -764,7 +789,7 @@ public class GameController {
 		else
 		{
 
-			int allPlayerHas = player.getAccount().getCash() + pawn(player, pawnAll);
+			int allPlayerHas = player.getAccount().getCash() + pawn(player);
 			//player goes bankrupt()
 			return allPlayerHas;
 		}
@@ -856,7 +881,7 @@ public class GameController {
 				}
 				//Buttons to either continue or finish selling
 				choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
-				
+
 				switch(choice) {
 				case "Fortsæt med at sælge i farven" :
 
