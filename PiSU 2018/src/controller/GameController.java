@@ -78,7 +78,7 @@ public class GameController {
 			case "Hvid": player.setColour(Color.white); break;
 			}
 			color.remove(carColor);
-			player.setPosition(0);
+			player.setPosition(37);
 			player.getAccount().setOwner(player);
 		}
 	}
@@ -309,7 +309,6 @@ public class GameController {
 		while(noWinner) {
 			currentPlayer = game.getCurrentPlayer();
 			if(!currentPlayer.isBroke()) {
-				generateCash(currentPlayer, 0);
 				playerTurn(currentPlayer);
 			}
 
@@ -329,7 +328,7 @@ public class GameController {
 			}
 
 			if(player.getInPrison()==0) {
-				playerOption(game.getCurrentPlayer());
+				generateCash(game.getCurrentPlayer(), 0);
 			}
 
 			game.getDice().rollDice();
@@ -342,7 +341,7 @@ public class GameController {
 				doubleCount++;
 				player.setInPrison(0);
 				gui.showMessage(player.getName() + ", du har kastet to ens, mens du var i fængsel, og kan "
-						+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + "felter frem");
+						+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + " felter frem");
 				if(doubleCount>2) {
 					gui.showMessage(player.getName() + ", du har kastet to ens tre gange i træk, og skal derfor "
 							+ "i fængsel");
@@ -366,14 +365,6 @@ public class GameController {
 		}while(throwDouble);
 	}
 
-	public void playerOption(Player player) {
-
-
-
-
-
-	}
-
 	public void moveToField(Player player, int position) {
 		position = position % game.getFields().size();
 		if(position<player.getPosition() && player.getInPrison()==0) {
@@ -387,7 +378,7 @@ public class GameController {
 		else {
 			player.setPosition(position % game.getFields().size());
 		}
-		gui.showMessage(player.getName() + " har landet på " + game.getFields().get(player.getPosition()).getFieldName());
+		gui.showMessage(player.getName() + " slog " + (game.getDice().getSum()) + " og har landet på " + game.getFields().get(player.getPosition()).getFieldName());
 		game.getFields().get(player.getPosition()).landOnField(this);
 	}
 
@@ -761,8 +752,14 @@ public class GameController {
 			// If the player has properties
 			if(player.getOwnedProperties().size()>0) {  
 				// Player can pawn property and trade with other players
+				for(int i = 0; i<game.getPlayers().size(); i++) {
+					if(game.getPlayers().get(i).getOwnedProperties().size()>0 && !game.getPlayers().get(i).equals(player)) {
+						trade = true;
+						break;
+					}
+				}
 				mortageProperty = true;
-				trade = true;
+
 
 				for(int i=0; i<player.getOwnedProperties().size(); i++) {
 					// If the property is mortaged
@@ -826,10 +823,10 @@ public class GameController {
 
 
 			if(player.getAccount().getCash()<ammount) {
-				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
+				choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
 			}
 			else {
-				choice = gui.getUserButtonPressed("Hvordan vil du fortsætte?", optionStrings);
+				choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", hvordan vil du fortsætte?", optionStrings);
 			}
 
 
@@ -849,11 +846,11 @@ public class GameController {
 
 				done= true;
 				break;
-				
+
 			case "Kast med terningen":
 				done = true;
 				break;
-				
+
 			case "Afslut og betal":
 
 				done=true;
@@ -884,9 +881,9 @@ public class GameController {
 
 		boolean done = false;
 		while(!done) {
-			
+
 			ArrayList<Fields> propsWithHouses = player.getOwnedProperties();
-			
+
 			//initial array with a players owned houses
 			//Saves the color system (buddyfields reference)
 			Set<String> colorSystem = new HashSet<String>();
@@ -952,7 +949,7 @@ public class GameController {
 					//remove houses from the array the used to sell houses from:
 					sameTypePropertiesFields.get(h1).sellHouse();
 					//remove house on players houseArray()
-//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
+					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
 					player.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
@@ -986,7 +983,7 @@ public class GameController {
 
 	public void payTax(Tax tax) {
 		if(tax.getPrice() == 4000) {
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?", "4000", "10%");
+			String playerChoice = gui.getUserButtonPressed(game.getCurrentPlayer().getName()+ tax.toString() + "?", "4000", "10%");
 			if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
 				payMoney(game.getCurrentPlayer(), tax.getPrice());
 
@@ -1011,7 +1008,13 @@ public class GameController {
 		}
 		else if(chanceCard.getCardNumber()<=23) {
 			//Move -3
-			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
+			if(game.getCurrentPlayer().getPosition()==2) {
+				game.getCurrentPlayer().setPosition(39);
+			}
+			else {
+				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
+			}
+			//			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
 			//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
 			//			//land on field
 			//			getGame().getFields().get(getGame().getCurrentPlayer().getPosition()).landOnField(this);;
@@ -1134,14 +1137,14 @@ public class GameController {
 		int houses=0;
 		int hotels=0;
 		Player player = game.getCurrentPlayer();
-		
+
 		ArrayList<Fields> fields = game.getFields(); 
 		int[]array = new int[fields.size()];
 		for(int i = 0; i<array.length; i++) {
 			if(player.equals(fields.get(i).getOwner()))
-			array[i]=fields.get(i).getHouses();
+				array[i]=fields.get(i).getHouses();
 		}
-		
+
 		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
 			if (array[i]==5)
 				hotels++;
@@ -1156,7 +1159,7 @@ public class GameController {
 		if (chanceCard.getCardNumber() == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
 			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*chanceCard.getAmount()+chanceCard.getAmount()); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
 			for(int i = 0; i<(game.getPlayers().size()); i++) {
-//				int ammountPaid = 0;
+				//				int ammountPaid = 0;
 				if(game.getPlayers().get(i).getAccount().getCash()>=200)
 					game.getPlayers().get(i).getAccount().updateCash(-chanceCard.getAmount());
 
