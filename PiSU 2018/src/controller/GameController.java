@@ -586,22 +586,22 @@ public class GameController {
 				// else it is a "rederi".
 				else {
 					switch(count[1]){
-					case 1: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR EN TYPE
-					payMoney(player, utility.getRent());
+					case 1: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR EN TYPE
+					payMoney(player, property.getRent());
 					game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
-					gui.showMessage(guiMessages[42] + utility.getOwner().getName() + guiMessages[43] + 1);
+					gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
 					break;
-					case 2: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TO TYPE
-					payMoney(player, utility.getRent());
-					gui.showMessage(guiMessages[44] + utility.getOwner().getName() + guiMessages[45] + 2);
+					case 2: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TO TYPE
+					payMoney(player, property.getRent());
+					gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
 					break;
-					case 3: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TRE TYPE
-					payMoney(player, utility.getRent());
-					gui.showMessage(guiMessages[46] + utility.getOwner().getName() + guiMessages[47] + 3);
+					case 3: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR TRE TYPE
+					payMoney(player, property.getRent());
+					gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
 					break;
-					case 4: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR FIRE TYPE
-					payMoney(player, utility.getRent());
-					gui.showMessage(guiMessages[48] + utility.getOwner().getName() +guiMessages[49] + 4);
+					case 4: receiveMoney(property.getOwner(), property.getRent()); // PRIS FOR FIRE TYPE
+					payMoney(player, property.getRent());
+					gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
 					break;
 					} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 				}
@@ -718,7 +718,7 @@ public class GameController {
 					}
 				}
 				if(owned) {
-					option = new String[] {"Pantsæt grunde", "Kast terningerne"}
+					option = new String[] {"Pantsæt grunde", "Kast terningerne"};
 				}
 			}
 			
@@ -872,53 +872,6 @@ public class GameController {
 			}
 		}
 
-	}
-
-	
-
-
-
-
-	public void offerToBuyProperty(Property property) {
-		Player player = game.getCurrentPlayer();
-		if (property.isForSale()) {
-			//Vil spilleren købe den ellers skal den sættes på auktion 
-
-			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8] + property.getFieldName() + guiMessages[9] + property.getPrice(), "Nej", "Ja");
-
-			if (playerChoice.equals("Ja")) {
-				property.setForSale(false);
-				property.setOwner(player);
-				payMoney(player, property.getPrice());
-				addOwnedProperties(player, property.getFieldNumber());
-			}
-			else auction(player, property);
-		}
-
-		//Hvis grunden ikke er til salg
-		//Spilleren kan, når han lander på grunden:
-		//Betale leje 
-		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-		//Sætte ejendommen på auktion. 
-		else if (!property.isForSale()) {
-			if (property.getOwner().equals(player)) {
-				gui.showMessage(property.toString() + guiMessages[13]);
-			}
-			else if (property.getOwner().getInPrison()!= 0) { 
-				gui.showMessage(property.toString() + guiMessages[14]);
-			}
-			else if (property.getMortage()) {
-				gui.showMessage(property.toString() + guiMessages[15]);
-			}
-			else {
-				if(property.getColourSystem().equals("ship") || property.getColourSystem().equals("darkgreen")) {
-					ownedUtilitiesSameType((Utility) property, player);
-				}
-				else {
-					ownedRealEstateSameColour((RealEstate) property, player);
-				}
-			}
-		}
 	}
 
 	public void payTax(Tax tax) {
