@@ -227,45 +227,66 @@ public class GameController {
 		//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
 		//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
 		//		Pantsætningen ophæves efterfølgende.
-		String choice = "";
-		ArrayList<Fields> fields = game.getFields();
+		boolean done = false;
+		while(!done) {
+			String choice = "";
 
-		ArrayList<Fields> propsWithoutHouses = new ArrayList<Fields>();
-		ArrayList<Fields> propsWithHouses = new ArrayList<Fields>();
+			ArrayList<Fields> fields = game.getFields();
+
+			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
+			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
 
 
 
-		for( int i = 0; i<fields.size(); i++) {
-			//&& fields.
-			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
-				propsWithoutHouses.add(fields.get(i));
+			for( int i = 0; i<fields.size(); i++) {
+				//&& fields.
+				if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
+					propsWithoutHouses.add((Property)fields.get(i));
+
+				}
+				if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
+					propsWithHouses.add((Property)fields.get(i));
+			}
+
+			for (int j = 0; j<propsWithoutHouses.size();j++) {
+
+				for(int j1 = 0; j1<propsWithHouses.size();j1++) {
+
+					if(propsWithoutHouses.get(j).getColourSystem().equals(propsWithHouses.get(j1).getColourSystem()))
+						propsWithoutHouses.remove(j);
+				}
 
 			}
-			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
-				propsWithHouses.add(fields.get(i));
-		}
-
-		for (int j = 0; j<propsWithoutHouses.size();j++) {
-
-			for(int j1 = 0; j1<propsWithHouses.size();j1++) {
-
-				if(propsWithoutHouses.get(j).getColourSystem().equals(propsWithHouses.get(j1).getColourSystem()))
-					propsWithoutHouses.remove(j);
+			String[] propUserSelection = new String[propsWithoutHouses.size()+1];
+			int mortgagePrice;
+			for (int i = 0; i<propsWithoutHouses.size(); i++) {
+				propUserSelection[i] = propsWithoutHouses.get(i).getFieldName();
+				mortgagePrice = propsWithoutHouses.get(i).getMortagePrice();
 			}
-		
-		}
-		String[] propUserSelection = new String[propsWithoutHouses.size()];
-		for (int i = 0; i<propsWithoutHouses.size(); i++) {
-			propUserSelection[i] = propsWithoutHouses.get(i).getFieldName();
-		}
-		
-		choice = gui.getUserSelection("Vælg grund du gerne vil pantsætte:", propUserSelection);
-		
-		
-		// Find
+			propUserSelection[propUserSelection.length-1] = "tilbage";
 
+			choice = gui.getUserSelection("Vælg grund du gerne vil pantsætte:", propUserSelection);
+
+			if(!choice.equals("tilbage")) {
+
+				String choice2 = gui.getUserButtonPressed("Er du sikker på du vil pantsætte " + choice + " for " + mortgagePrice + "?" , "ja" , "nej");
+
+				if(choice2.equals("ja")) {
+					for(int k = 0; k<propsWithoutHouses.size(); k++) {
+						if(propsWithoutHouses.get(k).getFieldName().equals(choice)) {
+							//game.getFields().get(propsWithoutHouses.get(k).getFieldNumber()).setMortage(true);
+							propsWithoutHouses.get(k).setMortage(true);//Tjek om objekterne opdateres efter hensigten
+							receiveMoney(player, propsWithoutHouses.get(k).getMortagePrice());
+						}
+					}
+				}
+				choice = gui.getUserButtonPressed("Vil du fortsætte med at pantsætte?","ja","nej");
+				if(choice.equals("nej")) {
+					done= true;
+				}
+			}
+		}
 	}
-
 
 
 
@@ -740,7 +761,7 @@ public class GameController {
 			else {
 				endTurn = true;
 			}
-			
+
 			// If the player hasn't thrown the dice and has properties
 			if(player.getOwnedProperties() != null) {  
 				// Player can pawn property and trade with other players
@@ -774,11 +795,11 @@ public class GameController {
 					}
 				}
 			}
-			
-			
-			
+
+
+
 			ArrayList<String> option = new ArrayList<>();
-			
+
 			if(byHouses) {
 				option.add("Køb hus");
 			}
@@ -800,15 +821,15 @@ public class GameController {
 			if(endTurn) {
 				option.add("Afslut tur");
 			}
-			
-//			if(player.getAccount())
+
+			//			if(player.getAccount())
 			choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Erklær dig konkurs");
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
 			if(false) {
 
 			}
@@ -856,300 +877,300 @@ public class GameController {
 		//			//player goes bankrupt()
 		//			return allPlayerHas;
 		//		}
-			int allPlayerHas = player.getAccount().getCash() + pawn(player);
-			//player goes bankrupt()
-			return allPlayerHas;
-		}
-
-	}
-	public void sellHousesAndHotels(Player payingPlayer, int ammount) {
-		String choice = "";
-
-
-		boolean done = false;
-		while(!done) {
-			//initial array with a players owned houses
-			int[] propsWithHouses = payingPlayer.getOwnedHouses();
-			//Saves the color system (buddyfields reference)
-			Set<String> colorSystem = new HashSet<String>();
-
-			ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
-
-			for(int i = 0 ; i<propsWithHouses.length; i++) {
-
-				if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
-					colorSystem.add(game.getFields().get(i).getColourSystem());
-					fieldsWithHouses.add(game.getFields().get(i));
-				}	
-			}
-
-			//List og set skal konverteres for at kunne gives som 
-			//Array der skal anvendes til userSelection
-			String[] displayColorSystem = new String[colorSystem.size()];
-			displayColorSystem = colorSystem.toArray(displayColorSystem);
-
-			//Array med Fields
-			Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
-			fieldsWithHouses.toArray(fieldArray);
-
-
-			//Evt start loop her der holder spilleren i ejendomsfarven
-			//Spiller vælger ejendomsfarve
-			choice = gui.getUserSelection("Vælg ejendomsfarve du vil sælge bygning på:", displayColorSystem);
-
-			ArrayList<String> sameTypePropertiesNames = new ArrayList<String>();
-			ArrayList<Fields> sameTypePropertiesFields = new ArrayList<Fields>();
-			for (int j = 0; j<fieldArray.length; j++) {
-
-				if(choice.equals(fieldArray[j].getColourSystem())) {
-					sameTypePropertiesNames.add(fieldArray[j].getFieldName());
-					sameTypePropertiesFields.add(fieldArray[j]);
-				}
-
-
-			}
-			// converts to array. Array contains names of properties of a type with houses on it
-			String[] availableBuildings = new String[sameTypePropertiesNames.size()];
-			availableBuildings = sameTypePropertiesNames.toArray(availableBuildings);
-
-
-			boolean ableToSell = false;
-
-			while(!ableToSell) {
-
-				choice = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
-				int h1=0;
-				double h2=0;
-
-
-				for(int h = 0; h< availableBuildings.length; h++) {
-					h2+=sameTypePropertiesFields.get(h).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
-					if(choice.equals(availableBuildings[h])) {
-						h1 = sameTypePropertiesFields.get(h).getHouses();
-					}
-				}
-				if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses[h1] >0)) {
-					//remove house on field(nr)
-					payingPlayer.removeHouses(sameTypePropertiesFields.get(h1).getFieldNumber());
-					//remove houses from the array the used to sell houses from:
-					sameTypePropertiesFields.get(h1).sellHouse();
-					//remove house on players houseArray()
-					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
-					// remove getHouseBuildingPrice from players account (assets)
-					payingPlayer.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
-					//return half of HouseBuildingPrice to Players cash in account.
-					payingPlayer.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
-
-					ableToSell = true;
-
-				}
-				else {
-					gui.showMessage("Du kan enten ikke sælge flere huse i denne farve eller ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt.");
-				}
-				//Buttons to either continue or finish selling
-				choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
-
-				switch(choice) {
-				case "Fortsæt med at sælge i farven" :
-
-					break;
-				case "Fortsæt med anden farve" :
-					ableToSell = true;
-					break;
-				case "afslut":
-					ableToSell = true;
-					done = true;
-					break;
-				}
-			}
-		}
-
+		int allPlayerHas = player.getAccount().getCash() + pawn(player);
+		//player goes bankrupt()
+		return allPlayerHas;
 	}
 
-	public void payTax(Tax tax) {
-		if(tax.getPrice() == 4000) {
-			String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?", "4000", "10%");
-			if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
-				payMoney(game.getCurrentPlayer(), tax.getPrice());
+}
+public void sellHousesAndHotels(Player payingPlayer, int ammount) {
+	String choice = "";
 
-			} else {
-				payMoney(game.getCurrentPlayer(), (int) (-game.getCurrentPlayer().getTotalValue()*0.1));
+
+	boolean done = false;
+	while(!done) {
+		//initial array with a players owned houses
+		int[] propsWithHouses = payingPlayer.getOwnedHouses();
+		//Saves the color system (buddyfields reference)
+		Set<String> colorSystem = new HashSet<String>();
+
+		ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
+
+		for(int i = 0 ; i<propsWithHouses.length; i++) {
+
+			if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
+				colorSystem.add(game.getFields().get(i).getColourSystem());
+				fieldsWithHouses.add(game.getFields().get(i));
+			}	
+		}
+
+		//List og set skal konverteres for at kunne gives som 
+		//Array der skal anvendes til userSelection
+		String[] displayColorSystem = new String[colorSystem.size()];
+		displayColorSystem = colorSystem.toArray(displayColorSystem);
+
+		//Array med Fields
+		Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
+		fieldsWithHouses.toArray(fieldArray);
+
+
+		//Evt start loop her der holder spilleren i ejendomsfarven
+		//Spiller vælger ejendomsfarve
+		choice = gui.getUserSelection("Vælg ejendomsfarve du vil sælge bygning på:", displayColorSystem);
+
+		ArrayList<String> sameTypePropertiesNames = new ArrayList<String>();
+		ArrayList<Fields> sameTypePropertiesFields = new ArrayList<Fields>();
+		for (int j = 0; j<fieldArray.length; j++) {
+
+			if(choice.equals(fieldArray[j].getColourSystem())) {
+				sameTypePropertiesNames.add(fieldArray[j].getFieldName());
+				sameTypePropertiesFields.add(fieldArray[j]);
 			}
-		} else {
+
+
+		}
+		// converts to array. Array contains names of properties of a type with houses on it
+		String[] availableBuildings = new String[sameTypePropertiesNames.size()];
+		availableBuildings = sameTypePropertiesNames.toArray(availableBuildings);
+
+
+		boolean ableToSell = false;
+
+		while(!ableToSell) {
+
+			choice = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
+			int h1=0;
+			double h2=0;
+
+
+			for(int h = 0; h< availableBuildings.length; h++) {
+				h2+=sameTypePropertiesFields.get(h).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
+				if(choice.equals(availableBuildings[h])) {
+					h1 = sameTypePropertiesFields.get(h).getHouses();
+				}
+			}
+			if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses[h1] >0)) {
+				//remove house on field(nr)
+				payingPlayer.removeHouses(sameTypePropertiesFields.get(h1).getFieldNumber());
+				//remove houses from the array the used to sell houses from:
+				sameTypePropertiesFields.get(h1).sellHouse();
+				//remove house on players houseArray()
+				game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
+				// remove getHouseBuildingPrice from players account (assets)
+				payingPlayer.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
+				//return half of HouseBuildingPrice to Players cash in account.
+				payingPlayer.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
+
+				ableToSell = true;
+
+			}
+			else {
+				gui.showMessage("Du kan enten ikke sælge flere huse i denne farve eller ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt.");
+			}
+			//Buttons to either continue or finish selling
+			choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
+
+			switch(choice) {
+			case "Fortsæt med at sælge i farven" :
+
+				break;
+			case "Fortsæt med anden farve" :
+				ableToSell = true;
+				break;
+			case "afslut":
+				ableToSell = true;
+				done = true;
+				break;
+			}
+		}
+	}
+
+}
+
+public void payTax(Tax tax) {
+	if(tax.getPrice() == 4000) {
+		String playerChoice = gui.getUserSelection(game.getCurrentPlayer().getName()+ tax.toString() + "?", "4000", "10%");
+		if(playerChoice.equals(Integer.toString(tax.getPrice()))) {
 			payMoney(game.getCurrentPlayer(), tax.getPrice());
+
+		} else {
+			payMoney(game.getCurrentPlayer(), (int) (-game.getCurrentPlayer().getTotalValue()*0.1));
 		}
+	} else {
+		payMoney(game.getCurrentPlayer(), tax.getPrice());
 	}
+}
 
-	public void neutralField(Fields field) {
-		gui.showMessage(game.getCurrentPlayer().getName() + field.toString());
+public void neutralField(Fields field) {
+	gui.showMessage(game.getCurrentPlayer().getName() + field.toString());
+}
+
+
+public void cardMoveToField(ChanceCard chanceCard) {
+	gui.displayChanceCard(chanceCard.toString());
+	if(chanceCard.getCardNumber()<=21) {
+		//nearest ferry + double rent
+		moveToFerryDouble();
 	}
-
-
-	public void cardMoveToField(ChanceCard chanceCard) {
-		gui.displayChanceCard(chanceCard.toString());
-		if(chanceCard.getCardNumber()<=21) {
-			//nearest ferry + double rent
-			moveToFerryDouble();
-		}
-		else if(chanceCard.getCardNumber()<=23) {
-			//Move -3
-			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
-			//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
-			//			//land on field
-			//			getGame().getFields().get(getGame().getCurrentPlayer().getPosition()).landOnField(this);;
-		}
-		else if(chanceCard.getCardNumber()==24) {
-			//Start
-			//			getGame().getCurrentPlayer().setPosition(0);//1 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 0);
-			//landOnField
-			//			getGame().getFields().get(0).landOnField(this);
-		}
-		else if(chanceCard.getCardNumber() == 25) {
-			//rådhuspladsen
-			//			getGame().getCurrentPlayer().setPosition(39);//40 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 39);
-			// landOnField
-			//			getGame().getFields().get(39).landOnField(this);
-
-		}
-		else if(chanceCard.getCardNumber()==26) {
-			//molslinje
-			//			getGame().getCurrentPlayer().setPosition(25);//26 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 15);
-			// landOnField
-			//			getGame().getFields().get(25).landOnField(this);
-
-		}
-		else if (chanceCard.getCardNumber() == 27) {
-			//Move to Grønningen
-			//			getGame().getCurrentPlayer().setPosition(24);//25 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 24);
-			//landOnField
-			//			getGame().getFields().get(24).landOnField(this);
-
-		}
-		else {
-			//Move to Frederiksberg Allé
-			//			getGame().getCurrentPlayer().setPosition(11);//12 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 11);
-			//landOnField
-			//			getGame().getFields().get(11).landOnField(this);
-		}
+	else if(chanceCard.getCardNumber()<=23) {
+		//Move -3
+		moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
+		//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
+		//			//land on field
+		//			getGame().getFields().get(getGame().getCurrentPlayer().getPosition()).landOnField(this);;
+	}
+	else if(chanceCard.getCardNumber()==24) {
+		//Start
+		//			getGame().getCurrentPlayer().setPosition(0);//1 alt efter hvordan position kalkuleres
+		moveToField(game.getCurrentPlayer(), 0);
+		//landOnField
+		//			getGame().getFields().get(0).landOnField(this);
+	}
+	else if(chanceCard.getCardNumber() == 25) {
+		//rådhuspladsen
+		//			getGame().getCurrentPlayer().setPosition(39);//40 alt efter hvordan position kalkuleres
+		moveToField(game.getCurrentPlayer(), 39);
+		// landOnField
+		//			getGame().getFields().get(39).landOnField(this);
 
 	}
+	else if(chanceCard.getCardNumber()==26) {
+		//molslinje
+		//			getGame().getCurrentPlayer().setPosition(25);//26 alt efter hvordan position kalkuleres
+		moveToField(game.getCurrentPlayer(), 15);
+		// landOnField
+		//			getGame().getFields().get(25).landOnField(this);
 
-	private void moveToFerryDouble() {
-		int position = game.getCurrentPlayer().getPosition();
+	}
+	else if (chanceCard.getCardNumber() == 27) {
+		//Move to Grønningen
+		//			getGame().getCurrentPlayer().setPosition(24);//25 alt efter hvordan position kalkuleres
+		moveToField(game.getCurrentPlayer(), 24);
+		//landOnField
+		//			getGame().getFields().get(24).landOnField(this);
 
-		int arrayPositionOfFerry = 0;
-
-		if ((position)<6 || (position)>=36) {
-			//			int oldPosition = position;
-			//			moveToField(game.getCurrentPlayer(), 5);
-			//			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
-			arrayPositionOfFerry = 5;
-			//If player passes start
-			//			if ((oldPosition)>(position))
-			//				game.getCurrentPlayer().getAccount().updateCash(4000);
-		}
-		else if (position < 16) {
-			//			moveToField(game.getCurrentPlayer(), 15);
-			//			game.getCurrentPlayer().setPosition(15);
-			arrayPositionOfFerry = 15;
-		}
-		else if (position < 26) { 
-			//			moveToField(game.getCurrentPlayer(), 25);
-			//			game.getCurrentPlayer().setPosition(25);
-			arrayPositionOfFerry = 25;
-		}
-		else if ((position) < 36) {
-
-			//			moveToField(game.getCurrentPlayer(), 35);
-			arrayPositionOfFerry = 35;
-		}
-
-		if(game.getFields().get(arrayPositionOfFerry).getOwner() !=null ) {//.equals or == null test
-			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
-			//			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
-			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
-		}
-
-		else {
-			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
-		}
+	}
+	else {
+		//Move to Frederiksberg Allé
+		//			getGame().getCurrentPlayer().setPosition(11);//12 alt efter hvordan position kalkuleres
+		moveToField(game.getCurrentPlayer(), 11);
+		//landOnField
+		//			getGame().getFields().get(11).landOnField(this);
 	}
 
-	public void playerGetsPrisonCard(ChanceCard chanceCard) {
-		gui.displayChanceCard(chanceCard.toString());
-		game.getCurrentPlayer().getAccount().updatePrisonCard(1);
+}
+
+private void moveToFerryDouble() {
+	int position = game.getCurrentPlayer().getPosition();
+
+	int arrayPositionOfFerry = 0;
+
+	if ((position)<6 || (position)>=36) {
+		//			int oldPosition = position;
+		//			moveToField(game.getCurrentPlayer(), 5);
+		//			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
+		arrayPositionOfFerry = 5;
+		//If player passes start
+		//			if ((oldPosition)>(position))
+		//				game.getCurrentPlayer().getAccount().updateCash(4000);
+	}
+	else if (position < 16) {
+		//			moveToField(game.getCurrentPlayer(), 15);
+		//			game.getCurrentPlayer().setPosition(15);
+		arrayPositionOfFerry = 15;
+	}
+	else if (position < 26) { 
+		//			moveToField(game.getCurrentPlayer(), 25);
+		//			game.getCurrentPlayer().setPosition(25);
+		arrayPositionOfFerry = 25;
+	}
+	else if ((position) < 36) {
+
+		//			moveToField(game.getCurrentPlayer(), 35);
+		arrayPositionOfFerry = 35;
 	}
 
-	public void cardGoToJail(ChanceCard chanceCard) {
-		gui.displayChanceCard(chanceCard.toString());
-		game.getCurrentPlayer().setInPrison(1);		
-		game.getCurrentPlayer().setPosition(10);
+	if(game.getFields().get(arrayPositionOfFerry).getOwner() !=null ) {//.equals or == null test
+		moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
+		//			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
+		ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 	}
 
-	public void cardPay(ChanceCard chanceCard) {
-		gui.displayChanceCard(chanceCard.toString());
-		if(chanceCard.getCardNumber()==18) { //kortet betaler per hus og hotel
-			int housePrice = 800;
-			int hotelPrice = 2300;
+	else {
+		moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
+	}
+}
 
-			game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
+public void playerGetsPrisonCard(ChanceCard chanceCard) {
+	gui.displayChanceCard(chanceCard.toString());
+	game.getCurrentPlayer().getAccount().updatePrisonCard(1);
+}
 
-		}
-		else if(chanceCard.getCardNumber()==19) { //kortet betaler per hus og hotel
-			int housePrice = 500;
-			int hotelPrice = 2000;
+public void cardGoToJail(ChanceCard chanceCard) {
+	gui.displayChanceCard(chanceCard.toString());
+	game.getCurrentPlayer().setInPrison(1);		
+	game.getCurrentPlayer().setPosition(10);
+}
 
-			game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
-		}
+public void cardPay(ChanceCard chanceCard) {
+	gui.displayChanceCard(chanceCard.toString());
+	if(chanceCard.getCardNumber()==18) { //kortet betaler per hus og hotel
+		int housePrice = 800;
+		int hotelPrice = 2300;
 
+		game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
+
+	}
+	else if(chanceCard.getCardNumber()==19) { //kortet betaler per hus og hotel
+		int housePrice = 500;
+		int hotelPrice = 2000;
+
+		game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
+	}
+
+	else
+		game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
+
+}
+
+private int payPerHouseAndHotel(int housePrice, int hotelPrice) {
+	int houses=0;
+	int hotels=0;
+	int[]array = game.getCurrentPlayer().getOwnedHouses();
+	for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
+		if (array[i]==5)
+			hotels++;
 		else
-			game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
-
+			houses+= array[i];
 	}
+	return -(houses*housePrice + hotels*hotelPrice);
+}
 
-	private int payPerHouseAndHotel(int housePrice, int hotelPrice) {
-		int houses=0;
-		int hotels=0;
-		int[]array = game.getCurrentPlayer().getOwnedHouses();
-		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
-			if (array[i]==5)
-				hotels++;
-			else
-				houses+= array[i];
+public void cardReceiveMoney(ChanceCard chanceCard) {
+	gui.displayChanceCard(chanceCard.toString());
+	if (chanceCard.getCardNumber() == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
+		game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*chanceCard.getAmount()+chanceCard.getAmount()); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
+		for(int i = 0; i<(game.getPlayers().size()); i++) {
+			int ammountPaid = 0;
+			if(game.getPlayers().get(i).getAccount().getCash()>=200)
+				game.getPlayers().get(i).getAccount().updateCash(-chanceCard.getAmount());
+
+			else 
+				ammountPaid = generateCash(game.getPlayers().get(i), 200); //MANGLER NOGET
 		}
-		return -(houses*housePrice + hotels*hotelPrice);
-	}
-
-	public void cardReceiveMoney(ChanceCard chanceCard) {
-		gui.displayChanceCard(chanceCard.toString());
-		if (chanceCard.getCardNumber() == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
-			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*chanceCard.getAmount()+chanceCard.getAmount()); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
-			for(int i = 0; i<(game.getPlayers().size()); i++) {
-				int ammountPaid = 0;
-				if(game.getPlayers().get(i).getAccount().getCash()>=200)
-					game.getPlayers().get(i).getAccount().updateCash(-chanceCard.getAmount());
-
-				else 
-					ammountPaid = generateCash(game.getPlayers().get(i), 200); //MANGLER NOGET
-			}
-		} 
-		else if(chanceCard.getCardNumber() == 10) { // Matador legatet: assetValue<15.000 Modtager 40.000
-			//Hensigten med assets/cash Det antages at cash/assets opdateres hver for sig og at assets også opdateres når der købes huse/hoteller.
-			int totValue = game.getCurrentPlayer().getTotalValue(); // Gets cash and assets
-			if (totValue < 15000) {
-				game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
-			}
-
-		}
-		else {
+	} 
+	else if(chanceCard.getCardNumber() == 10) { // Matador legatet: assetValue<15.000 Modtager 40.000
+		//Hensigten med assets/cash Det antages at cash/assets opdateres hver for sig og at assets også opdateres når der købes huse/hoteller.
+		int totValue = game.getCurrentPlayer().getTotalValue(); // Gets cash and assets
+		if (totValue < 15000) {
 			game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
 		}
+
 	}
+	else {
+		game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
+	}
+}
 }
 
 
