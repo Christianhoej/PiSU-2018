@@ -373,7 +373,13 @@ public class GameController {
 
 
 	}
-
+/**
+ * This method moves the player to another field.
+ * The method is used in the "cardMoveToField" and the "moveToFerryDouble" methods. 
+ * @author 
+ * @param player
+ * @param position
+ */
 	public void moveToField(Player player, int position) {
 		position = position % game.getFields().size();
 		if(position<player.getPosition() && player.getInPrison()==0) {
@@ -981,7 +987,6 @@ public class GameController {
 				}
 			}
 		}
-
 	}
 
 	public void payTax(Tax tax) {
