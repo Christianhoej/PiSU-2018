@@ -78,7 +78,7 @@ public class GameController {
 			case "Hvid": player.setColour(Color.white); break;
 			}
 			color.remove(carColor);
-			player.setPosition(37); // SKAL LAVES OM TIL 0!!!!!!
+			player.setPosition(0);
 			player.getAccount().setOwner(player);
 		}
 	}
@@ -794,12 +794,14 @@ public class GameController {
 
 
 			ArrayList<String> option = new ArrayList<>();
-
+			if(player.getAccount().getCash()<ammount) {
+				option.add("Erklær dig konkurs");
+			}
 			if(byHouses) {
 				option.add("Køb hus");
 			}
 			if(sellHouses) {
-				option.add("Sælg hus");
+				option.add("Sælg hus/hotel");
 			}
 			if(mortageProperty) {
 				option.add("Pantsæt grund");
@@ -816,36 +818,28 @@ public class GameController {
 			if(endTurn) {
 				option.add("Afslut tur");
 			}
+
 			String[]optionStrings = new String[option.size()];
 			optionStrings = option.toArray(optionStrings);
-			//			if(player.getAccount())
-			choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
+
+			//			choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
 
 
-
-
-
-
-			if(false) {
-
-			}
-			else if(player.getAccount().getCash()<ammount) {
-				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Erklær dig konkurs");
+			if(player.getAccount().getCash()<ammount) {
+				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
 			}
 			else {
-				choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", "Sælg huse/hoteller", "Pantsæt ejendomme", "Byt med medspiller", "Afslut og betal");
+				choice = gui.getUserButtonPressed("Hvordan vil du fortsætte?", optionStrings);
 			}
 
 
 			switch(choice) {
-			case "Sælg huse/hoteller": 
+			case "Sælg hus/hotel": 
 				sellHousesAndHotels(player, ammount);
-
-
-
-
 				break;
-			case "Pantsæt ejendomme":
+			case "Køb hus":
+				break;
+			case "Pantsæt grund":
 
 				break;
 			case "Byt med medspiller":
@@ -854,8 +848,12 @@ public class GameController {
 			case "Erklær dig konkurs":
 
 				done= true;
-
 				break;
+				
+			case "Kast med terningen":
+				done = true;
+				break;
+				
 			case "Afslut og betal":
 
 				done=true;
@@ -887,7 +885,7 @@ public class GameController {
 		boolean done = false;
 		while(!done) {
 			ArrayList<Fields> fields = game.getFields();
-			
+
 			//initial array with a players owned houses
 			Fields[] propsWithHouses = player.getOwnedHouses();
 			//Saves the color system (buddyfields reference)
@@ -993,7 +991,7 @@ public class GameController {
 				payMoney(game.getCurrentPlayer(), tax.getPrice());
 
 			} else {
-				payMoney(game.getCurrentPlayer(), (int) (-game.getCurrentPlayer().getTotalValue()*0.1));
+				payMoney(game.getCurrentPlayer(), (int) (game.getCurrentPlayer().getTotalValue()*0.1));
 			}
 		} else {
 			payMoney(game.getCurrentPlayer(), tax.getPrice());
