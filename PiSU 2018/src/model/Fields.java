@@ -46,6 +46,13 @@ public abstract class Fields extends Subject {
 		notifyChange();
 	}
 	
+	public boolean buildHouses(Player player) {
+		
+		
+	}
+	
+	
+	
 	public Player getOwner() {
 		return player;
 	}

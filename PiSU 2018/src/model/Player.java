@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import designpatterns.Subject;
 
@@ -11,7 +12,8 @@ public class Player extends Subject {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
-	private int[] ownedProperties = new int[40];
+	private ArrayList<Integer> ownedProperties = new ArrayList<>();
+//	private int[] ownedProperties = new int[40];
 	private int[] ownedHouses = new int[40];
 	private int playerID;
 	private Color colour;
@@ -95,19 +97,34 @@ public class Player extends Subject {
 		notifyChange();
 	}
 
-	public void addOwnedProperties(int fieldNumber) {
-		ownedProperties[fieldNumber] = 1;
+//	public void addOwnedProperties(int fieldNumber) {
+//		ownedProperties[fieldNumber] = 1;
+//		notifyChange();
+//	}
+	
+	public void addOwnedProperties(Integer field) {
+		ownedProperties.add(field);
 		notifyChange();
 	}
-
-	public void removeOwnedProperties(int fieldNumber) {
-		ownedProperties[fieldNumber] = 0;
+	
+	public void removeOwnedProperties(Integer field) {
+		ownedProperties.remove(field);
 		notifyChange();
 	}
-
-	public int[] getOwnedProperties() {
+	
+	public ArrayList<Integer> getOwnedProperties(){
 		return ownedProperties;
 	}
+	
+
+//	public void removeOwnedProperties(int fieldNumber) {
+//		ownedProperties[fieldNumber] = 0;
+//		notifyChange();
+//	}
+//
+//	public int[] getOwnedProperties() {
+//		return ownedProperties;
+//	}
 
 	public void setCurrent(boolean current) {
 		this.current = current;

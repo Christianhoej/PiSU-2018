@@ -13,7 +13,7 @@ public class Game extends Subject{
 	private String date;
 	private ArrayList<Fields> fields = new ArrayList<Fields>();
 	private Player currentPlayer;
-	private Dice[] dice = {new Dice(), new Dice()};
+	private Dice dice = new Dice();
 
 	public void setGameID(int gameID) {
 		this.gameID=gameID;
@@ -56,7 +56,7 @@ public class Game extends Subject{
 		return date;
 	}
 
-	public Dice[] getDice() {
+	public Dice getDice() {
 		return dice;
 	}
 

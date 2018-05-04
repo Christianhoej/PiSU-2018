@@ -7,9 +7,8 @@ package model;
  */
 public class Dice {
 		 
-		private int faceValue1;
-		private int faceValue2;
 		private int[] faceValue = new int[2];
+		private boolean rolled = false;
 
 		public void rollDice() {
 			faceValue[0] = (int)(Math.random()*6)+1;
@@ -23,10 +22,19 @@ public class Dice {
 		public void setFaceValue(int[] faceValue) {
 			this.faceValue = faceValue;
 		}
-		public static boolean isEqual(Dice[] dice) {
-			if (dice[0].getFaceValue()== dice[1].getFaceValue())
+		
+		public boolean isEqual(int[] faceValue) {
+			if (faceValue[0]== faceValue[1])
 				return true;
 			else
 				return false;
+		}
+
+		public boolean isRolled() {
+			return rolled;
+		}
+
+		public void setRolled(boolean rolled) {
+			this.rolled = rolled;
 		}
 }
