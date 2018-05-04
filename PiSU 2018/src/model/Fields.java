@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import controller.GameController;
 import designpatterns.Subject;
 
@@ -45,6 +47,22 @@ public abstract class Fields extends Subject {
 		player.addOwnedProperties(fieldNumber);
 		notifyChange();
 	}
+	
+	public boolean buildHouses(Player player, ArrayList<Fields> fields) {
+		if(player.getOwnedProperties() != null) {
+			for(int i = 0; i<fields.size(); i++) {
+				if(fields.gplayer.getOwnedProperties().get(i))
+			}
+			
+			
+		}
+		
+		
+		return true;
+		
+	}
+	
+	
 	
 	public Player getOwner() {
 		return player;
