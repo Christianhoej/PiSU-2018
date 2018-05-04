@@ -11,6 +11,8 @@ public class Dice {
 		private boolean rolled = false;
 
 		public void rollDice() {
+//			faceValue[0] = 2;
+//			faceValue[1] = 3;
 			faceValue[0] = (int)(Math.random()*6)+1;
 			faceValue[1] = (int)(Math.random()*6)+1;
 		}
@@ -36,5 +38,9 @@ public class Dice {
 
 		public void setRolled(boolean rolled) {
 			this.rolled = rolled;
+		}
+		
+		public int getSum() {
+			return (faceValue[0]+ faceValue[1]);
 		}
 }
