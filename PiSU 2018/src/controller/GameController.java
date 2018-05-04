@@ -919,8 +919,43 @@ public class GameController {
 		//player goes bankrupt()
 
 	}
-	public void buyHousesAndHotels() {
+	public void buyHousesAndHotels(Player player) {
+		String choice = "";
 		
+		ArrayList<Fields> ownedFields = player.getOwnedProperties();
+		HashSet<String> fieldColors = new HashSet<String>();
+		
+		for (int i = 0; i<ownedFields.size(); i++) {
+			if(ownedRealEstateSameColour((RealEstate)ownedFields.get(i), player)==true) {
+				fieldColors.add(ownedFields.get(i).getColourSystem());
+				
+			}
+			else
+				ownedFields.remove(i);
+		}
+		String[] guiChoice = new String[fieldColors.size()+1];
+		guiChoice[guiChoice.length-1] = "Annuller";
+		
+		choice = gui.getUserSelection("Vælg farve på felt du vil bygge på: ", guiChoice);
+		ArrayList<String> guiPropertyNames = new ArrayList<String>();
+		ArrayList<Property> propertiesInColor = new ArrayList<Property>();
+		
+		for(int i = 0; i<ownedFields.size(); i++) {
+			if(choice.equals(ownedFields.get(i).getColourSystem())){
+				propertiesInColor.add((Property)ownedFields.get(i));
+				guiPropertyNames.add(ownedFields.get(i).getFieldName());
+			}
+		}
+		String[] guiChoice2 = new String[guiPropertyNames.size()+1];
+		guiChoice2 = guiPropertyNames.toArray(guiChoice2);
+		guiChoice2[guiChoice2.length-1] = "Annuller";
+		
+		choice = gui.getUserButtonPressed("", guiChoice2);
+		//if =="Annuller" -> do something
+		// ellers:
+		// loop igennem og find navn på grund; øg huse med +1
+		//guichoice med 
+		//
 	}
 
 
