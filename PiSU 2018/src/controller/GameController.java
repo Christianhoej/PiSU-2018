@@ -556,32 +556,7 @@ public class GameController {
 				}
 				else {
 					if(ownedRealEstateSameColour((RealEstate) property, player)) {
-						switch(property.getHouses()){
-						case 0: receiveMoney(property.getOwner(), property.getRent()*2); //PRIS FOR alle grunde
-						payMoney(player, property.getRent()*2); //MINUSPRIS FOR alle grunde
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + (rent[game.getFields().indexOf(property)][0]*2) + " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						case 1: receiveMoney(property.getOwner(), 1); //PRIS FOR ET HUS
-						payMoney(player, 1); //MINUSPRIS FOR ET HUS
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][1]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						case 2: receiveMoney(property.getOwner(), 2); // PRIS FOR TO HUSE
-						payMoney(player, 2); // MINUS PRIS FOR TO HUSE
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][2]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						case 3: receiveMoney(property.getOwner(), 3);;
-						payMoney(player, 3);
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][3]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						case 4: receiveMoney(property.getOwner(), 4);
-						payMoney(player, 4);
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][4]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						case 5: receiveMoney(property.getOwner(), 5); // FOR HOTEL
-						payMoney(player, 5); // MINUS HOTEL
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][5]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
-						break;
-						}
+						paySameTypeRealEstate(property, player);
 					} else { 
 						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][0] + " i leje");
 						receiveMoney(player, property.getRent());
@@ -591,6 +566,78 @@ public class GameController {
 			}
 		}
 	}
+	
+	public void paySameTypeUtility(Property property, Player player, int[] count) {
+		// If there only exist two types of this utility, it is a "bryggeri"
+				if (count[0] == 2) {
+					switch(count[1]) {
+					case 1: receiveMoney(property.getOwner(), property.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
+					payMoney(player, property.getRent()/*gange med tærningeværdi*/);
+					gui.showMessage(guiMessages[38] + property.getOwner().getName() +guiMessages[39] + 1);
+					break;
+					case 2: receiveMoney(property.getOwner(),property.getRent()); // PRIS FOR TO TYPER
+					payMoney(player, property.getRent()/*gange med tærningeværdi*/);
+
+					gui.showMessage(guiMessages[40] + property.getOwner().getName() + guiMessages[41] + 2);
+					break;
+					}
+
+				}
+				// else it is a "rederi".
+				else {
+					switch(count[1]){
+					case 1: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR EN TYPE
+					payMoney(player, utility.getRent());
+					game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
+					gui.showMessage(guiMessages[42] + utility.getOwner().getName() + guiMessages[43] + 1);
+					break;
+					case 2: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TO TYPE
+					payMoney(player, utility.getRent());
+					gui.showMessage(guiMessages[44] + utility.getOwner().getName() + guiMessages[45] + 2);
+					break;
+					case 3: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TRE TYPE
+					payMoney(player, utility.getRent());
+					gui.showMessage(guiMessages[46] + utility.getOwner().getName() + guiMessages[47] + 3);
+					break;
+					case 4: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR FIRE TYPE
+					payMoney(player, utility.getRent());
+					gui.showMessage(guiMessages[48] + utility.getOwner().getName() +guiMessages[49] + 4);
+					break;
+					} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
+				}
+
+	}
+	
+	
+	public void paySameTypeRealEstate(Property property, Player player) {
+		switch(property.getHouses()){
+		case 0: receiveMoney(property.getOwner(), property.getRent()*2); //PRIS FOR alle grunde
+		payMoney(player, property.getRent()*2); //MINUSPRIS FOR alle grunde
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + (rent[game.getFields().indexOf(property)][0]*2) + " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		case 1: receiveMoney(property.getOwner(), 1); //PRIS FOR ET HUS
+		payMoney(player, 1); //MINUSPRIS FOR ET HUS
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][1]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		case 2: receiveMoney(property.getOwner(), 2); // PRIS FOR TO HUSE
+		payMoney(player, 2); // MINUS PRIS FOR TO HUSE
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][2]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		case 3: receiveMoney(property.getOwner(), 3);;
+		payMoney(player, 3);
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][3]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		case 4: receiveMoney(property.getOwner(), 4);
+		payMoney(player, 4);
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][4]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		case 5: receiveMoney(property.getOwner(), 5); // FOR HOTEL
+		payMoney(player, 5); // MINUS HOTEL
+		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][5]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		break;
+		}
+	}
+	
 	
 	/**
 	 * Method, to find out, if an owner of a real estate, also owns
@@ -622,7 +669,7 @@ public class GameController {
 	 * @param property the real estate the player has landed on
 	 * @param player the player that has landed on the real estate
 	 */
-	public void ownedUtilitiesSameType(Utility utility, Player player) {
+	public int[] ownedUtilitiesSameType(Utility utility, Player player) {
 		int colourCount = 0;
 		int ownerCount = 0;
 		for (int i = 0; i<game.getFields().size(); i++) {
@@ -635,44 +682,8 @@ public class GameController {
 				}
 			}
 		}
-		// If there only exist two types of this utility, it is a "bryggeri"
-		if (colourCount == 2) {
-			switch(ownerCount) {
-			case 1: receiveMoney(utility.getOwner(), utility.getRent()/*gange med tærningeværdi*/); // PRIS FOR EN TYPE * øjenværdi --> HUSK DER SKAL ÆNDRES SÅ DER TÆLLES FOR TO TERNINGER
-			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
-			gui.showMessage(guiMessages[38] + utility.getOwner().getName() +guiMessages[39] + 1);
-			break;
-			case 2: receiveMoney(utility.getOwner(),utility.getRent()); // PRIS FOR TO TYPER
-			payMoney(player, utility.getRent()/*gange med tærningeværdi*/);
-
-			gui.showMessage(guiMessages[40] + utility.getOwner().getName() + guiMessages[41] + 2);
-			break;
-			}
-
-		}
-		// else it is a "rederi".
-		else {
-			switch(ownerCount){
-			case 1: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR EN TYPE
-			payMoney(player, utility.getRent());
-			game.getCurrentPlayer().getAccount().updateCash(-1); //MINUSPRIS FOR EN TYPE
-			gui.showMessage(guiMessages[42] + utility.getOwner().getName() + guiMessages[43] + 1);
-			break;
-			case 2: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TO TYPE
-			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[44] + utility.getOwner().getName() + guiMessages[45] + 2);
-			break;
-			case 3: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR TRE TYPE
-			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[46] + utility.getOwner().getName() + guiMessages[47] + 3);
-			break;
-			case 4: receiveMoney(utility.getOwner(), utility.getRent()); // PRIS FOR FIRE TYPE
-			payMoney(player, utility.getRent());
-			gui.showMessage(guiMessages[48] + utility.getOwner().getName() +guiMessages[49] + 4);
-			break;
-			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
-		}
-
+		int[] count = {colourCount, ownerCount}; 
+		return count;
 	}
 	public Game getGame() {
 		return game;
