@@ -226,6 +226,7 @@ public class GameController {
 
 
 	public int pawn(Player player, boolean pawnAll) {
+//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. Pantsætningen ophæves efterfølgende.
 
 		return 0;
 
@@ -637,7 +638,7 @@ public class GameController {
 			case "Sælg huse/hoteller": 
 				sellHousesAndHotels( payingPlayer, ammount);
 
-				
+
 				break;
 			case "Pantsæt ejendomme":
 
@@ -646,12 +647,12 @@ public class GameController {
 
 				break;
 			case "Erklær dig konkurs":
-				
+
 				done= true;
 
 				break;
 			case "Afslut og betal":
-				
+
 				done=true;
 				break;
 			}
@@ -671,21 +672,26 @@ public class GameController {
 	}
 	public void sellHousesAndHotels(Player payingPlayer, int ammount) {
 		String choice = "";
-		//array with a players owned houses
-		int[] propsWithHouses = payingPlayer.getOwnedHouses();
 
-		//Saves the color system (buddyfields reference)
-		Set<String> colorSystem = new HashSet<String>();
 
-		ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
+		boolean done = false;
+		while(!done) {
+			//initial array with a players owned houses
+			int[] propsWithHouses = payingPlayer.getOwnedHouses();
+			//Saves the color system (buddyfields reference)
+			Set<String> colorSystem = new HashSet<String>();
 
-		for(int i = 0 ; i<propsWithHouses.length; i++) {
+			ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
 
-			if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell
-				colorSystem.add(game.getFields().get(i).getColourSystem());
-				fieldsWithHouses.add(game.getFields().get(i));
-			}	
+			for(int i = 0 ; i<propsWithHouses.length; i++) {
 
+				if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
+					colorSystem.add(game.getFields().get(i).getColourSystem());
+					fieldsWithHouses.add(game.getFields().get(i));
+				}	
+			}
+
+			//List og set skal konverteres for at kunne gives som 
 			//Array der skal anvendes til userSelection
 			String[] displayColorSystem = new String[colorSystem.size()];
 			displayColorSystem = colorSystem.toArray(displayColorSystem);
@@ -695,63 +701,80 @@ public class GameController {
 			fieldsWithHouses.toArray(fieldArray);
 
 
-
+			//Evt start loop her der holder spilleren i ejendomsfarven
 			//Spiller vælger ejendomsfarve
 			choice = gui.getUserSelection("Vælg ejendomsfarve du vil sælge bygning på:", displayColorSystem);
 
-			ArrayList<String> sameTypeProperties = new ArrayList<String>();
+			ArrayList<String> sameTypePropertiesNames = new ArrayList<String>();
 			ArrayList<Fields> sameTypePropertiesFields = new ArrayList<Fields>();
 			for (int j = 0; j<fieldArray.length; j++) {
 
 				if(choice.equals(fieldArray[j].getColourSystem())) {
-					sameTypeProperties.add(fieldArray[j].getFieldName());
+					sameTypePropertiesNames.add(fieldArray[j].getFieldName());
 					sameTypePropertiesFields.add(fieldArray[j]);
 				}
 
 
 			}
 			// converts to array. Array contains names of properties of a type with houses on it
-			String[] availableBuildings = new String[sameTypeProperties.size()];
-			availableBuildings = sameTypeProperties.toArray(availableBuildings);
+			String[] availableBuildings = new String[sameTypePropertiesNames.size()];
+			availableBuildings = sameTypePropertiesNames.toArray(availableBuildings);
 
 
 			boolean ableToSell = false;
+
 			while(!ableToSell) {
 
 				choice = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
 				int h1=0;
 				double h2=0;
 
+
 				for(int h = 0; h< availableBuildings.length; h++) {
 					h2+=sameTypePropertiesFields.get(h).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
 					if(choice.equals(availableBuildings[h])) {
 						h1 = sameTypePropertiesFields.get(h).getHouses();
 					}
-					if (h1 >= (h2/sameTypePropertiesFields.size())) {
-						//remove house on field(nr)
-						payingPlayer.removeHouses(sameTypePropertiesFields.get(h1).getFieldNumber());
-						//remove house on players houseArray()
-						game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
-						// remove getHouseBuildingPrice from players account (assets)
-						payingPlayer.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
-						//return half of HouseBuildingPrice to Players cash in account.
-						payingPlayer.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
-
-						ableToSell = true;
-						//Buttons to either continue or finish pawning
-						choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at pantsætte i ?", "afslut", "fortsæt");
-					}
-					else {
-						gui.showMessage("Du kan ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt");
-					}
 				}
+				if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses[h1] >0)) {
+					//remove house on field(nr)
+					payingPlayer.removeHouses(sameTypePropertiesFields.get(h1).getFieldNumber());
+					//remove houses from the array the used to sell houses from:
+					sameTypePropertiesFields.get(h1).sellHouse();
+					//remove house on players houseArray()
+					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
+					// remove getHouseBuildingPrice from players account (assets)
+					payingPlayer.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
+					//return half of HouseBuildingPrice to Players cash in account.
+					payingPlayer.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
 
+					ableToSell = true;
 
+				}
+				else {
+					gui.showMessage("Du kan enten ikke sælge flere huse i denne farve eller ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt.");
+				}
+				//Buttons to either continue or finish selling
+				choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
+				
+				switch(choice) {
+				case "Fortsæt med at sælge i farven" :
+
+					break;
+				case "Fortsæt med anden farve" :
+					ableToSell = true;
+					break;
+				case "afslut":
+					ableToSell = true;
+					done = true;
+					break;
+				}
 			}
-
 		}
 
 	}
+
+
 
 
 
