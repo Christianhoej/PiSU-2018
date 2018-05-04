@@ -1132,13 +1132,15 @@ public class GameController {
 
 	}
 
-	private int payPerHouseAndHotel(int housePrice, int hotelPrice) {
+	private int payPerHouseAndHotel( int housePrice, int hotelPrice) {
 		int houses=0;
 		int hotels=0;
-
+		Player player = game.getCurrentPlayer();
+		
 		ArrayList<Fields> fields = game.getFields(); 
 		int[]array = new int[fields.size()];
 		for(int i = 0; i<array.length; i++) {
+			if(player.equals(fields.get(i).getOwner()))
 			array[i]=fields.get(i).getHouses();
 		}
 		
