@@ -286,6 +286,53 @@ public class GameController {
 			}
 		}
 	}
+	public void unPawn(Player player) {
+		boolean done = false;
+		while(!done){
+			String choice = "";
+			ArrayList<Fields> ownedProps = player.getOwnedProperties();
+			ArrayList<Property> pawnedProps = new ArrayList<Property>();
+			ArrayList<String> pawnedPropsNames = new ArrayList<String>();
+			for(int i = 0; i< ownedProps.size();i++) {
+				if(ownedProps.get(i).getMortage()) {
+					pawnedProps.add((Property)ownedProps.get(i));
+					pawnedPropsNames.add(ownedProps.get(i).getFieldName());
+				}
+			}
+			String[] usNames = new String[pawnedPropsNames.size()+1];
+			usNames = pawnedPropsNames.toArray(usNames);
+			usNames[usNames.length-1] = "Annuller";
+
+			choice = gui.getUserSelection("Vælg ejendom du ønsker at købe fri af banken. Vælg ejendom og se pris: ", usNames);
+			if(choice.equals("Annuller")) {
+				done = true;
+			}
+			else {
+				double unPawnPrice=0;
+				for(int i = 0 ; i < pawnedProps.size(); i++) {
+					if(pawnedProps.get(i).getFieldName().equals(choice)) {
+						unPawnPrice =(int)(pawnedProps.get(i).getPrice())*1.1;
+					}
+				}
+				String choice2 = gui.getUserButtonPressed("Vil du gerne betale banken " + unPawnPrice + " for at købe " + choice + " fri af banken?", "ja", "nej");
+				
+				if(choice2.equals("ja")) { //Unpawn Property
+					for(int i = 0 ; i < pawnedProps.size(); i++) {
+						if(pawnedProps.get(i).getFieldName().equals(choice)) {
+							pawnedProps.get(i).setMortage(false);
+							player.getAccount().updateCash(-(int)unPawnPrice);
+						}
+					}
+				}
+				
+				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
+				if(choice.equals("ja"))
+					done = true;
+			}
+
+
+		}
+	}
 
 
 
@@ -875,7 +922,9 @@ public class GameController {
 		//player goes bankrupt()
 
 	}
-
+	public void buyHousesAndHotels() {
+		
+	}
 
 
 	public void sellHousesAndHotels(Player player, int ammount) {
@@ -884,9 +933,9 @@ public class GameController {
 
 		boolean done = false;
 		while(!done) {
-			
+
 			ArrayList<Fields> propsWithHouses = player.getOwnedProperties();
-			
+
 			//initial array with a players owned houses
 			//Saves the color system (buddyfields reference)
 			Set<String> colorSystem = new HashSet<String>();
@@ -952,7 +1001,7 @@ public class GameController {
 					//remove houses from the array the used to sell houses from:
 					sameTypePropertiesFields.get(h1).sellHouse();
 					//remove house on players houseArray()
-//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
+					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
 					player.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
@@ -1134,14 +1183,14 @@ public class GameController {
 		int houses=0;
 		int hotels=0;
 		Player player = game.getCurrentPlayer();
-		
+
 		ArrayList<Fields> fields = game.getFields(); 
 		int[]array = new int[fields.size()];
 		for(int i = 0; i<array.length; i++) {
 			if(player.equals(fields.get(i).getOwner()))
-			array[i]=fields.get(i).getHouses();
+				array[i]=fields.get(i).getHouses();
 		}
-		
+
 		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
 			if (array[i]==5)
 				hotels++;
@@ -1156,7 +1205,7 @@ public class GameController {
 		if (chanceCard.getCardNumber() == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
 			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*chanceCard.getAmount()+chanceCard.getAmount()); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
 			for(int i = 0; i<(game.getPlayers().size()); i++) {
-//				int ammountPaid = 0;
+				//				int ammountPaid = 0;
 				if(game.getPlayers().get(i).getAccount().getCash()>=200)
 					game.getPlayers().get(i).getAccount().updateCash(-chanceCard.getAmount());
 
