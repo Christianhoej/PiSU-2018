@@ -17,7 +17,7 @@ public class Player extends Subject {
 //	private int[] ownedHouses = new int[40];
 	private int playerID;
 	private Color colour;
-	private boolean current;
+//	private boolean current;
 
 	public Player() {
 		this.account = new Account(30000);
