@@ -341,6 +341,7 @@ public class GameController {
 					}
 				}
 
+				if(player.get)
 				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
 				if(choice.equals("ja")) {
 					done = true;
@@ -794,15 +795,15 @@ public class GameController {
 	public void generateCash(Player player, int ammount) {
 		String choice = "";
 		boolean done = false;
-		boolean byHouses = false;
-		boolean sellHouses = false;
-		boolean mortageProperty = false;
-		boolean unMortageProperty = false;
-		boolean trade = false;
-		boolean throwDice = false;
-		boolean endTurn = false;
 		while (!done) {
 
+			boolean byHouses = false;
+			boolean sellHouses = false;
+			boolean mortageProperty = false;
+			boolean unMortageProperty = false;
+			boolean trade = false;
+			boolean throwDice = false;
+			boolean endTurn = false;
 			// If the player hasn't thrown the dice and has no properties
 			if(!game.getDice().isRolled()) {
 				throwDice = true;
