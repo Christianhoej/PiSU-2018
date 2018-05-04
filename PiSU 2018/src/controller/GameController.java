@@ -223,27 +223,53 @@ public class GameController {
 
 
 
-	public int pawn(Player player, boolean pawnAll) {
+	public void pawn(Player player) {
 		//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
 		//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
 		//		Pantsætningen ophæves efterfølgende.
+		String choice = "";
 		ArrayList<Fields> fields = game.getFields();
 
 		ArrayList<Fields> propsWithoutHouses = new ArrayList<Fields>();
+		ArrayList<Fields> propsWithHouses = new ArrayList<Fields>();
+
+
 
 		for( int i = 0; i<fields.size(); i++) {
 			//&& fields.
 			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
 				propsWithoutHouses.add(fields.get(i));
-			}
-		}
-		//I
-		//Eliminer alle ejendomsfarver hvor en spiller har minimum en ejendom på bygninger
-		//
 
-		return 0;
+			}
+			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
+				propsWithHouses.add(fields.get(i));
+		}
+
+		for (int j = 0; j<propsWithoutHouses.size();j++) {
+
+			for(int j1 = 0; j1<propsWithHouses.size();j1++) {
+
+				if(propsWithoutHouses.get(j).getColourSystem().equals(propsWithHouses.get(j1).getColourSystem()))
+					propsWithoutHouses.remove(j);
+			}
+		
+		}
+		String[] propUserSelection = new String[propsWithoutHouses.size()];
+		for (int i = 0; i<propsWithoutHouses.size(); i++) {
+			propUserSelection[i] = propsWithoutHouses.get(i).getFieldName();
+		}
+		
+		choice = gui.getUserSelection("Vælg grund du gerne vil pantsætte:", propUserSelection);
+		
+		
+		// Find
 
 	}
+
+
+
+
+
 
 	private void loadGame() {
 		//Kald til databaser om at loade
@@ -830,6 +856,10 @@ public class GameController {
 		//			//player goes bankrupt()
 		//			return allPlayerHas;
 		//		}
+			int allPlayerHas = player.getAccount().getCash() + pawn(player);
+			//player goes bankrupt()
+			return allPlayerHas;
+		}
 
 	}
 	public void sellHousesAndHotels(Player payingPlayer, int ammount) {
