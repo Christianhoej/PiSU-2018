@@ -78,7 +78,7 @@ public class GameController {
 			case "Hvid": player.setColour(Color.white); break;
 			}
 			color.remove(carColor);
-			player.setPosition(37);
+			player.setPosition(0);
 			player.getAccount().setOwner(player);
 		}
 	}
@@ -239,12 +239,16 @@ public class GameController {
 
 			for( int i = 0; i<fields.size(); i++) {
 				//&& fields.
-				if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
-					propsWithoutHouses.add((Property)fields.get(i));
+				if(fields.get(i).getOwner()!= null) {
+					if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
+						if(!fields.get(i).getMortage()) {
+							propsWithoutHouses.add((Property)fields.get(i));
+						}
 
+					}
+					if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
+						propsWithHouses.add((Property)fields.get(i));
 				}
-				if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
-					propsWithHouses.add((Property)fields.get(i));
 			}
 
 			for (int j = 0; j<propsWithoutHouses.size();j++) {
@@ -274,18 +278,30 @@ public class GameController {
 					for(int k = 0; k<propsWithoutHouses.size(); k++) {
 						if(propsWithoutHouses.get(k).getFieldName().equals(choice)) {
 							//game.getFields().get(propsWithoutHouses.get(k).getFieldNumber()).setMortage(true);
+							gui.showMessage(player.getName() + ", du har valgt at pansætte " + propsWithoutHouses.get(k).getFieldName() + " for " + mortgagePrice);
 							propsWithoutHouses.get(k).setMortage(true);//Tjek om objekterne opdateres efter hensigten
 							receiveMoney(player, propsWithoutHouses.get(k).getMortagePrice());
+							propsWithoutHouses.remove(k);
 						}
 					}
 				}
-				choice = gui.getUserButtonPressed("Vil du fortsætte med at pantsætte?","ja","nej");
-				if(choice.equals("nej")) {
-					done= true;
+
+				if(propsWithoutHouses.size()>0) {
+					choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at pantsætte?","ja","nej");
+
+
+					if(choice.equals("nej")) {
+						done= true;
+					}
+				}
+				else {
+					gui.showMessage(player.getName() + ", du har ikke flere grunde at pantsætte");
+					done = true;
 				}
 			}
 		}
 	}
+
 	public void unPawn(Player player) {
 		boolean done = false;
 		while(!done){
@@ -311,11 +327,11 @@ public class GameController {
 				double unPawnPrice=0;
 				for(int i = 0 ; i < pawnedProps.size(); i++) {
 					if(pawnedProps.get(i).getFieldName().equals(choice)) {
-						unPawnPrice =(int)(pawnedProps.get(i).getPrice())*1.1;
+						unPawnPrice =(int)((pawnedProps.get(i).getPrice())*1.1);
 					}
 				}
 				String choice2 = gui.getUserButtonPressed("Vil du gerne betale banken " + unPawnPrice + " for at købe " + choice + " fri af banken?", "ja", "nej");
-				
+
 				if(choice2.equals("ja")) { //Unpawn Property
 					for(int i = 0 ; i < pawnedProps.size(); i++) {
 						if(pawnedProps.get(i).getFieldName().equals(choice)) {
@@ -324,13 +340,12 @@ public class GameController {
 						}
 					}
 				}
-				
+
 				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
-				if(choice.equals("ja"))
+				if(choice.equals("ja")) {
 					done = true;
+				}
 			}
-
-
 		}
 	}
 
@@ -425,7 +440,7 @@ public class GameController {
 		else {
 			player.setPosition(position % game.getFields().size());
 		}
-		gui.showMessage(player.getName() + " slog " + (game.getDice().getSum()) + " og har landet på " + game.getFields().get(player.getPosition()).getFieldName());
+//		gui.showMessage(player.getName() + " slog " + (game.getDice().getSum()) + " og har landet på " + game.getFields().get(player.getPosition()).getFieldName());
 		game.getFields().get(player.getPosition()).landOnField(this);
 	}
 
@@ -805,7 +820,7 @@ public class GameController {
 						break;
 					}
 				}
-				mortageProperty = true;
+				
 
 
 				for(int i=0; i<player.getOwnedProperties().size(); i++) {
@@ -813,6 +828,9 @@ public class GameController {
 					if(player.getOwnedProperties().get(i).getMortage()) {
 						// player can unmortage property
 						unMortageProperty = true;
+					}
+					else {
+						mortageProperty = true;
 					}
 					// if the property the player owns is of type realEstate
 					if(player.getOwnedProperties().get(i) instanceof RealEstate) {
@@ -884,10 +902,12 @@ public class GameController {
 			case "Køb hus":
 				break;
 			case "Pantsæt grund":
-
+				pawn(player);
 				break;
+			case "Tilbagebetaling af pantsæt grund":	
+				unPawn(player);
 			case "Byt med medspiller":
-
+				trade(player);
 				break;
 			case "Erklær dig konkurs":
 
@@ -920,7 +940,7 @@ public class GameController {
 
 	}
 	public void buyHousesAndHotels() {
-		
+
 	}
 
 

@@ -11,10 +11,10 @@ public class Dice {
 		private boolean rolled = false;
 
 		public void rollDice() {
-			faceValue[0] = 2;
-			faceValue[1] = 3;
-//			faceValue[0] = (int)(Math.random()*6)+1;
-//			faceValue[1] = (int)(Math.random()*6)+1;
+//			faceValue[0] = 2;
+//			faceValue[1] = 3;
+			faceValue[0] = (int)(Math.random()*6)+1;
+			faceValue[1] = (int)(Math.random()*6)+1;
 		}
 
 		public int[] getFaceValue() {
