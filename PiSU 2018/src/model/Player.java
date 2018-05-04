@@ -12,7 +12,7 @@ public class Player extends Subject {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
-	private ArrayList<Integer> ownedProperties = new ArrayList<>();
+	private ArrayList<Fields> ownedProperties = new ArrayList<>();
 //	private int[] ownedProperties = new int[40];
 	private int[] ownedHouses = new int[40];
 	private int playerID;
@@ -102,17 +102,17 @@ public class Player extends Subject {
 //		notifyChange();
 //	}
 	
-	public void addOwnedProperties(Integer field) {
+	public void addOwnedProperties(Fields field) {
 		ownedProperties.add(field);
 		notifyChange();
 	}
 	
-	public void removeOwnedProperties(Integer field) {
+	public void removeOwnedProperties(Fields field) {
 		ownedProperties.remove(field);
 		notifyChange();
 	}
 	
-	public ArrayList<Integer> getOwnedProperties(){
+	public ArrayList<Fields> getOwnedProperties(){
 		return ownedProperties;
 	}
 	
