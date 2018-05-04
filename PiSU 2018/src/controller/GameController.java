@@ -226,7 +226,22 @@ public class GameController {
 
 
 	public int pawn(Player player, boolean pawnAll) {
-//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. Pantsætningen ophæves efterfølgende.
+//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
+//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
+//		Pantsætningen ophæves efterfølgende.
+			ArrayList<Fields> fields = game.getFields();
+
+		ArrayList<Fields> propsWithoutHouses = new ArrayList<Fields>();
+		
+		for( int i = 0; i<fields.size(); i++) {
+			//&& fields.
+			if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
+				propsWithoutHouses.add(fields.get(i));
+			}
+		}
+		//I
+		//Eliminer alle ejendomsfarver hvor en spiller har minimum en ejendom på bygninger
+		//
 
 		return 0;
 
