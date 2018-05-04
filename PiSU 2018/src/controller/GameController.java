@@ -884,18 +884,18 @@ public class GameController {
 
 		boolean done = false;
 		while(!done) {
-			ArrayList<Fields> fields = game.getFields();
-
+			
+			ArrayList<Fields> propsWithHouses = player.getOwnedProperties();
+			
 			//initial array with a players owned houses
-			Fields[] propsWithHouses = player.getOwnedHouses();
 			//Saves the color system (buddyfields reference)
 			Set<String> colorSystem = new HashSet<String>();
 
 			ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
 
-			for(int i = 0 ; i<propsWithHouses.length; i++) {
+			for(int i = 0 ; i<propsWithHouses.size(); i++) {
 
-				if(propsWithHouses[i]>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
+				if(propsWithHouses.get(i).getHouses()>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
 					colorSystem.add(game.getFields().get(i).getColourSystem());
 					fieldsWithHouses.add(game.getFields().get(i));
 				}	
@@ -946,17 +946,17 @@ public class GameController {
 						h1 = sameTypePropertiesFields.get(h).getHouses();
 					}
 				}
-				if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses[h1] >0)) {
-					//remove house on field(nr)
-					payingPlayer.removeHouses(sameTypePropertiesFields.get(h1).getFieldNumber());
+				if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses.get(h1).getHouses() >0)) {
+					//remove house on Fields that player owns
+					player.getOwnedProperties().get((sameTypePropertiesFields.get(h1).getFieldNumber())).sellHouse();;
 					//remove houses from the array the used to sell houses from:
 					sameTypePropertiesFields.get(h1).sellHouse();
 					//remove house on players houseArray()
-					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
+//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
-					payingPlayer.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
+					player.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
-					payingPlayer.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
+					player.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
 
 					ableToSell = true;
 
@@ -1130,10 +1130,18 @@ public class GameController {
 
 	}
 
-	private int payPerHouseAndHotel(int housePrice, int hotelPrice) {
+	private int payPerHouseAndHotel( int housePrice, int hotelPrice) {
 		int houses=0;
 		int hotels=0;
-		int[]array = game.getCurrentPlayer().getOwnedHouses();
+		Player player = game.getCurrentPlayer();
+		
+		ArrayList<Fields> fields = game.getFields(); 
+		int[]array = new int[fields.size()];
+		for(int i = 0; i<array.length; i++) {
+			if(player.equals(fields.get(i).getOwner()))
+			array[i]=fields.get(i).getHouses();
+		}
+		
 		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
 			if (array[i]==5)
 				hotels++;
@@ -1148,12 +1156,12 @@ public class GameController {
 		if (chanceCard.getCardNumber() == 1) { //Fødselsdag - Modtag 200 fra hver spiller.
 			game.getCurrentPlayer().getAccount().updateCash(game.getPlayers().size()*chanceCard.getAmount()+chanceCard.getAmount()); //all players are deducted 200, therefore the player to receive gets the extra "amount" which are then deducted in the loop below
 			for(int i = 0; i<(game.getPlayers().size()); i++) {
-				int ammountPaid = 0;
+//				int ammountPaid = 0;
 				if(game.getPlayers().get(i).getAccount().getCash()>=200)
 					game.getPlayers().get(i).getAccount().updateCash(-chanceCard.getAmount());
 
 				else 
-					ammountPaid = generateCash(game.getPlayers().get(i), 200); //MANGLER NOGET
+					generateCash(game.getPlayers().get(i), 200); //MANGLER NOGET
 			}
 		} 
 		else if(chanceCard.getCardNumber() == 10) { // Matador legatet: assetValue<15.000 Modtager 40.000
