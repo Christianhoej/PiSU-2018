@@ -65,8 +65,14 @@ public abstract class Fields extends Subject {
 		this.houses = houses;
 		notifyChange();
 	}
+	
 	public void sellHouse() {
 		this.houses--;
+		notifyChange();
+	}
+	
+	public void buyHouse() {
+		this.houses++;
 		notifyChange();
 	}
 	
