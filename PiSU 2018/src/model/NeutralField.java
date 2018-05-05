@@ -31,10 +31,7 @@ public class NeutralField extends Fields {
 
 	@Override
 	public String toString() {
-		if (fieldNumber == 10) {
-			return (", du er på besøg i fængslet! ");
-		} else 
-			return (", du har fået gratis parkering! Du sidder en tur over!");
-		
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
