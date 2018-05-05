@@ -905,6 +905,7 @@ public class GameController {
 				throwDice = true;
 			}
 			else {
+				throwDice = false;
 				endTurn = true;
 			}
 
@@ -973,6 +974,7 @@ public class GameController {
 			}
 			if(throwDice) {
 				option.add("Kast med terningen");
+				game.getDice().setRolled(false);
 			}
 			if(endTurn) {
 				option.add("Afslut tur");
