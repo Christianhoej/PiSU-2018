@@ -526,6 +526,7 @@ public class GameController {
 			game.getDice().rollDice();
 			int[] faceValue = game.getDice().getFaceValue();
 			gui.setDice(faceValue[0], faceValue[1]);
+			gui.showMessage(player.getName() + ", du har slået " + game.getDice().getSum());
 			throwDouble = (game.getDice().isEqual(faceValue));
 			int doubleCount=0;
 			if(throwDouble && player.getInPrison()>0) {
@@ -554,13 +555,11 @@ public class GameController {
 				gui.showMessage(player.getName() + ", du slog to ens og får et ekstra kast");
 			}
 
+			if(player.getInPrison()==0) {
+				generateCash(player, 0);
+			}
 		}while(throwDouble);
 	}
-
-
-	public void playerOption(Player player) {
-	}
-
 
 
 	/**
@@ -580,7 +579,7 @@ public class GameController {
 		else {
 			player.setPosition(position % game.getFields().size());
 		}
-		//		gui.showMessage(player.getName() + " slog " + (game.getDice().getSum()) + " og har landet på " + game.getFields().get(player.getPosition()).getFieldName());
+		gui.showMessage(player.getName() + " har landet på " + game.getFields().get(player.getPosition()).getFieldName());
 		game.getFields().get(player.getPosition()).landOnField(this);
 	}
 
@@ -644,7 +643,10 @@ public class GameController {
 	 * 
 	 * @author Gunn
 	 */
-	public void payMoney(Player player, int amount) {
+	public void payMoneyToBank(Player player, int amount) {
+		if(player.getAccount().getCash()<amount) {
+			if(generateCash(player, amount))
+		}
 		player.getAccount().updateCash(-amount);
 	}
 
@@ -865,9 +867,10 @@ public class GameController {
 	 * 
 	 * @return returns the full ammount if player is able to raise funds or returns a lesser ammount if the player cannot raise cash and goes bankrupt.
 	 */
-	public void generateCash(Player player, int ammount) {
+	public boolean generateCash(Player player, int ammount) {
 		String choice = "";
 		boolean done = false;
+		boolean bankrupt = false;
 		while (!done) {
 
 			boolean byHouses = false;
@@ -958,9 +961,6 @@ public class GameController {
 			String[]optionStrings = new String[option.size()];
 			optionStrings = option.toArray(optionStrings);
 
-			//			choice = gui.getUserButtonPressed("Du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
-
-
 			if(player.getAccount().getCash()<ammount) {
 				choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", du har ikke nok penge til at betale dit udestående. Hvordan vil du håndtere dette:", optionStrings);
 			}
@@ -968,7 +968,7 @@ public class GameController {
 				choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", hvordan vil du fortsætte?", optionStrings);
 			}
 
-
+			
 			switch(choice) {
 			case "Sælg hus/hotel": 
 				sellHousesAndHotels(player, ammount);
@@ -986,23 +986,19 @@ public class GameController {
 				trade(player);
 				break;
 			case "Erklær dig konkurs":
-
-				done= true;
+				bankrupt = true;
+				done = true;
 				break;
-
 			case "Kast med terningen":
 				done = true;
 				break;
 
-			case "Afslut og betal":
-
+			case "Afslut":
 				done=true;
 				break;
 			}
-
-
 		}
-
+		return bankrupt;
 		//		if(player.getAccount().getCash()>= ammount)
 		//			return ammount;
 		//		else
@@ -1055,6 +1051,7 @@ public class GameController {
 			}
 
 			String[] guiChoice = new String[fieldColors.size()+1];
+			guiChoice = fieldColors.toArray(guiChoice);
 			guiChoice[guiChoice.length-1] = "Annuller";
 
 			choice = gui.getUserSelection("Vælg farve på felt du vil bygge på: ", guiChoice);
@@ -1143,15 +1140,8 @@ public class GameController {
 
 
 						}else {
-							choice = gui.getUserButtonPressed("Du kan ikke bygge på den valgte ejendom. Vil du bygge på en anden ejendom i den valgte farve?", "Ja", "Nej");
-							if(choice.equals("Nej")) {
-								//									ableToBuild = false;
-								doMore = false;
-								//								}
-							}
+							gui.showMessage("Du kan ikke bygge på den valgte ejendom, før du har bygget lige mange huse på de andre ejendomme med samme farve");
 						}
-						//					}else {
-						//						doMore = true;
 					}
 					choice = gui.getUserButtonPressed("Hvad vil du gøre nu?", "Køb huse på andre felt-farver", "købe flere huse på samme felt-farve", "Afslut \"køb huse/hoteller\"");
 					if (choice.equals("Køb huse på andre felt-farver"))
