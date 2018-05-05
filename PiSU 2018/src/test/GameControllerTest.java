@@ -11,6 +11,7 @@ import model.Fields;
 import model.Game;
 import model.Player;
 import model.Property;
+import model.RealEstate;
 import model.Tax;
 import model.Utility;
 
@@ -25,7 +26,7 @@ public class GameControllerTest {
 	Game game;
 	Tax tax;
 //	Utility utility;
-	Property property;
+	RealEstate realEstate;
 	Player p1;
 	
 	
@@ -40,9 +41,9 @@ public class GameControllerTest {
 		realEstateTest = new GameController(game);
 		p1 = new Player();
 		Player p2 = new Player();
-		property = (Property)game.getFields().get(1);
-		property.setOwner(p2);
-		realEstateTest.paySameTypeRealEstate(property, p1);
+		realEstate = (RealEstate)game.getFields().get(1);
+		realEstate.setOwner(p2);
+		realEstateTest.paySameTypeRealEstate(realEstate, p1);
 		//Tests that p2 receives money
 		int actual=p2.getAccount().getCash();
 		int expected=30100;
