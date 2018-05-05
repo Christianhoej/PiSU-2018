@@ -549,7 +549,7 @@ public class GameController {
 				return;
 			}
 			int position = player.getPosition() + faceValue[0]+faceValue[1];
-			moveToField(player, position);
+			moveToField(player, position, false);
 
 			if(throwDouble) {
 				gui.showMessage(player.getName() + ", du slog to ens og får et ekstra kast");
@@ -569,9 +569,12 @@ public class GameController {
 	 * @param player
 	 * @param position
 	 */
-	public void moveToField(Player player, int position) {
+	public void moveToField(Player player, int position, boolean moveBack) {
 		position = position % game.getFields().size();
-		if(position<player.getPosition() && player.getInPrison()==0) {
+		if(moveBack) {
+			player.setPosition(position % game.getFields().size());
+		}
+		else if(position<player.getPosition() && player.getInPrison()==0) {
 			player.setPosition(position % game.getFields().size());
 			gui.showMessage(player.getName() + ", du har passeret start, og modtager 4000 kr");
 			player.getAccount().updateCash(4000);
@@ -1317,10 +1320,10 @@ public class GameController {
 		else if(chanceCard.getCardNumber()<=23) {
 			//Move -3
 			if(game.getCurrentPlayer().getPosition()==2) {
-				moveToField(game.getCurrentPlayer(), 39);
+				moveToField(game.getCurrentPlayer(), 39, false);
 			}
 			else {
-				moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
+				moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3, true);
 //				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
 			}
 			//			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
@@ -1331,14 +1334,14 @@ public class GameController {
 		else if(chanceCard.getCardNumber()==24) {
 			//Start
 			//			getGame().getCurrentPlayer().setPosition(0);//1 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 0);
+			moveToField(game.getCurrentPlayer(), 0, false);
 			//landOnField
 			//			getGame().getFields().get(0).landOnField(this);
 		}
 		else if(chanceCard.getCardNumber() == 25) {
 			//rådhuspladsen
 			//			getGame().getCurrentPlayer().setPosition(39);//40 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 39);
+			moveToField(game.getCurrentPlayer(), 39, false);
 			// landOnField
 			//			getGame().getFields().get(39).landOnField(this);
 
@@ -1346,7 +1349,7 @@ public class GameController {
 		else if(chanceCard.getCardNumber()==26) {
 			//molslinje
 			//			getGame().getCurrentPlayer().setPosition(25);//26 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 15);
+			moveToField(game.getCurrentPlayer(), 15, false);
 			// landOnField
 			//			getGame().getFields().get(25).landOnField(this);
 
@@ -1354,7 +1357,7 @@ public class GameController {
 		else if (chanceCard.getCardNumber() == 27) {
 			//Move to Grønningen
 			//			getGame().getCurrentPlayer().setPosition(24);//25 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 24);
+			moveToField(game.getCurrentPlayer(), 24, false);
 			//landOnField
 			//			getGame().getFields().get(24).landOnField(this);
 
@@ -1362,7 +1365,7 @@ public class GameController {
 		else {
 			//Move to Frederiksberg Allé
 			//			getGame().getCurrentPlayer().setPosition(11);//12 alt efter hvordan position kalkuleres
-			moveToField(game.getCurrentPlayer(), 11);
+			moveToField(game.getCurrentPlayer(), 11, false);
 			//landOnField
 			//			getGame().getFields().get(11).landOnField(this);
 		}
@@ -1400,13 +1403,13 @@ public class GameController {
 		}
 
 		if(((Property) game.getFields().get(arrayPositionOfFerry)).getOwner() !=null ) {//.equals or == null test
-			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
+			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry, false);
 			//			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 		}
 
 		else {
-			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
+			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry, false);
 		}
 	}
 
