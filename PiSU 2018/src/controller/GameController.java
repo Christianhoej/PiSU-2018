@@ -815,6 +815,7 @@ public class GameController {
 
 	public void addOwnedProperties(Player player, Property property) {
 		player.addOwnedProperties(property);
+		System.out.println("HALLOOOOO");
 	}
 
 	public void offerToBuyProperty(Property property) {
