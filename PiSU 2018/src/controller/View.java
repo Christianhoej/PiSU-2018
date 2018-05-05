@@ -91,20 +91,19 @@ public class View implements Observer {
 			guiPlayer.setBalance(account.getCash());
 		}
 	}
-	
-	
+
+
 	private void updateProperty(Property property) {
 		if(property != null) {
 			if(property.getColourSystem().equals("darkgreen")) {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
-					guiField.setBorder(property.getOwner().getColour());
-					guiField.setOwnerName(property.getOwner().getName());
-					if(property.getMortage()) {
-						guiField.setOwnableLabel("Pantsat");
+					if(!property.getMortage()) {
+						guiField.setBorder(property.getOwner().getColour());
+						guiField.setOwnerName(property.getOwner().getName());
+					}
+					else {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
-//						guiField.setOwnableLabel("Pantsat");
-//						guiField.setOwnerName("Pantsat");
 					}
 				}
 			}
@@ -112,38 +111,36 @@ public class View implements Observer {
 				GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					guiField.setBorder(property.getOwner().getColour());
-					guiField.setOwnerName(property.getOwner().getName());
-					if(property.getMortage()) {
-						guiField.setOwnableLabel("Pantsat");
+					if(!property.getMortage()) {
+						guiField.setBorder(property.getOwner().getColour());
+						guiField.setOwnerName(property.getOwner().getName());
+					}
+					else {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
-//						guiField.setOwnableLabel("Pantsat");
-//						guiField.setOwnerName("Pantsat");
 					}
 				}
-				
+
 			}
 			else {
 				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					if(property.getOwner()==null) {
-						guiField.setBorder(null);
-					}
-					else {
+					if(!property.getMortage()) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
+					else{
+						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
+					}
+
+
 					if(((RealEstate)property).getHouses()==5) {
 						guiField.setHotel(true);
 					}
 					else if(((RealEstate)property).getHouses()>0 && ((RealEstate)property).getHouses()<5) {
 						guiField.setHouses(((RealEstate)property).getHouses());
 					}
-					if(property.getMortage()) {
-//						guiField.setOwnerName("Pantsat");
-						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
-					}
+
 				}
 			}
 		}
@@ -160,7 +157,7 @@ public class View implements Observer {
 	private void updatePlayer(Player player) {
 		GUI_Player guiPlayer = this.player2GuiPlayer.get(player);
 		if (guiPlayer != null) {
-			
+
 
 			GUI_Field[] guiFields = gui.getFields();
 			Integer oldPosition = player2position.get(player);
