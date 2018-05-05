@@ -3,7 +3,9 @@ package model;
 import controller.GameController; 
 
 public class RealEstate extends Property {
-
+	protected int houses;
+	protected Player player;
+	protected int buildingPrice;
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 	public RealEstate(int fieldNumber ) {
@@ -59,5 +61,23 @@ public class RealEstate extends Property {
 //				gameController.ownedRealEstateSameColour(this, player);
 //			}
 //		}
+	}
+	public void setHouses(int houses) {
+		this.houses = houses;
+		notifyChange();
+	}
+	
+	public int getHouses() {
+		return houses;
+	}
+	public void sellHouse() {
+		this.houses--;
+		notifyChange();
+	}
+	public void setBuildingPrice(int buildingPrice) {
+		this.buildingPrice = buildingPrice;
+	}
+	public int getBuildingPrice() {
+		return buildingPrice;
 	}
 }

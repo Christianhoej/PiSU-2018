@@ -14,7 +14,10 @@ public class Property extends Fields {
 	protected boolean mortage;
 	protected int mortagePrice;
 	protected Player owner;
-	protected int houses;
+	
+	protected String colourSystem;
+
+	
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 
@@ -75,22 +78,25 @@ public class Property extends Fields {
 	}
 
 	public void setOwner(Player player) {
-		this.owner = player;
+		owner = player;
 		setForSale(false);
 		notifyChange();
 	}
 	public String getFieldName() {
 		return fieldName;
 	}
-	
-	public void setHouses(int houses) {
-		this.houses = houses;
-		notifyChange();
+	public String getColourSystem() {
+		return colourSystem;
+	}
+
+	public void setColourSystem(String colourSystem) {
+		this.colourSystem = colourSystem;
 	}
 	
-	public int getHouses() {
-		return houses;
-	}
+
+
+	
+
 
 	@Override
 	public String toString(){
