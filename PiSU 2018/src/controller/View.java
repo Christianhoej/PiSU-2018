@@ -99,6 +99,11 @@ public class View implements Observer {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					if(property.getMortage()) {
+						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnerName("Pantsat");
+					}
 				}
 			}
 			else if (property.getColourSystem().equals("ship")) {
@@ -106,18 +111,34 @@ public class View implements Observer {
 
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					if(property.getMortage()) {
+						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnerName("Pantsat");
+					}
 				}
+				
 			}
 			else {
 				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					guiField.setBorder(property.getOwner().getColour());
+					if(property.getOwner()==null) {
+						guiField.setBorder(null);
+					}
+					else {
+						guiField.setBorder(property.getOwner().getColour());
+					}
 					if(property.getHouses()==5) {
 						guiField.setHotel(true);
 					}
 					else if(property.getHouses()>0 && property.getHouses()<5) {
 						guiField.setHouses(property.getHouses());
+					}
+					if(property.getMortage()) {
+						guiField.setDescription("Pantsat");
+//						guiField.setOwnerName("Pantsat");
+						guiField.set
 					}
 				}
 			}

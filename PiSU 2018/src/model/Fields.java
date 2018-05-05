@@ -52,6 +52,11 @@ public abstract class Fields extends Subject {
 		return player;
 	}
 	
+	public void remowOwner(){
+		this.player=null;
+		notifyChange();
+	}
+	
 	public void setMortage(boolean mortage) {
 		this.mortage = mortage;
 		notifyChange();
