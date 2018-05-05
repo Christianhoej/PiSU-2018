@@ -23,7 +23,6 @@ public class GameController {
 
 	private Game game;
 	private GUI gui;
-	private String[] guiMessages = Txt.fileString("GameMessages.txt");
 	private int[][] rent = Txt.fileInt2D("RentPrices.txt");
 	private View view;
 
@@ -710,7 +709,7 @@ public class GameController {
 		if (property.isForSale()) {
 			//Vil spilleren købe den ellers skal den sættes på auktion 
 
-			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + guiMessages[8] + property.getFieldName() + guiMessages[9] + property.getPrice(), "Nej", "Ja");
+			String playerChoice = gui.getUserButtonPressed(player.getName()+ " " + "vil du købe" + property.getFieldName() + " for " + property.getPrice(), "Nej", "Ja");
 
 			if (playerChoice.equals("Ja")) {
 				property.setForSale(false);
@@ -728,13 +727,13 @@ public class GameController {
 		//Sætte ejendommen på auktion. 
 		else if (!property.isForSale()) {
 			if (property.getOwner().equals(player)) {
-				gui.showMessage(property.toString() + guiMessages[13]);
+				gui.showMessage(property.toString() + "Du er selv ejer af dette felt, og skal selvfølgelig ikke betale");
 			}
 			else if (property.getOwner().getInPrison()!= 0) { 
-				gui.showMessage(property.toString() + guiMessages[14]);
+				gui.showMessage(property.toString() + "Ejeren er i fængsel, du slipper denne gang!");
 			}
 			else if (property.getMortgage()) {
-				gui.showMessage(property.toString() + guiMessages[15]);
+				gui.showMessage(property.toString() + "Grunden er pantsat, du slipper denne gang!");
 			}
 			else {
 				if(property.getColourSystem().equals("ship") || property.getColourSystem().equals("darkgreen")) {
@@ -759,10 +758,10 @@ public class GameController {
 		if (count[0] == 2) {
 			switch(count[1]) {
 			case 1: payMoneyToPlayer(player, property.getRent()*game.getDice().getSum(), property.getOwner());
-			gui.showMessage(guiMessages[38] + property.getOwner().getName() +guiMessages[39] + 1);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale" + 1);
 			break;
 			case 2: payMoneyToPlayer(player, 2*property.getRent()*game.getDice().getSum(), property.getOwner());
-			gui.showMessage(guiMessages[40] + property.getOwner().getName() + guiMessages[41] + 2);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 2);
 			break;
 			}
 
@@ -771,16 +770,16 @@ public class GameController {
 		else {
 			switch(count[1]){
 			case 1: payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
-			gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 1);
 			break;
 			case 2: payMoneyToPlayer(player, rent[property.getFieldNumber()][1], property.getOwner());
-			gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 2);
 			break;
 			case 3: payMoneyToPlayer(player, rent[property.getFieldNumber()][2], property.getOwner());
-			gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 3);
 			break;
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
-			gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + 4);
 			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}

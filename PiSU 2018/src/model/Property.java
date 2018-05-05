@@ -24,7 +24,6 @@ public class Property extends Fields {
 	protected Player owner;
 	protected String colourSystem;
 
-	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 	/**
 	 * Constructor
@@ -112,7 +111,7 @@ public class Property extends Fields {
 
 	@Override
 	public String toString() {
-		return guiMessages[3] + fieldName;
+		return "Du er landet på " + fieldName;
 	}
 
 	@Override
