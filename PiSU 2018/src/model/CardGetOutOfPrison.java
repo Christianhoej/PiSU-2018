@@ -13,6 +13,11 @@ public class CardGetOutOfPrison extends ChanceCard {
 		 * @param cardNumber
 		 * @param text
 		 */
+	/**
+	 * Constructor
+	 * @param cardNumber
+	 * @param text
+	 */
 	public CardGetOutOfPrison(int cardNumber, String text) {
 		this.cardNumber = cardNumber;
 		this.text = text;

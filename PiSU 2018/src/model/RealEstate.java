@@ -1,14 +1,25 @@
 package model;
 
-import controller.GameController; 
+import controller.GameController;
 
+/**
+ * Contains methods for the real estates on the gameboard.
+ * This includes methods for houses build on real estates.
+ * @author 
+ *
+ */
 public class RealEstate extends Property {
 	protected int houses;
 	protected Player player;
 	protected int buildingPrice;
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
-	public RealEstate(int fieldNumber ) {
+	/**
+	 * Constructor
+	 * 
+	 * @param fieldNumber
+	 */
+	public RealEstate(int fieldNumber) {
 		super(fieldNumber);
 	}
 
@@ -17,70 +28,39 @@ public class RealEstate extends Property {
 		this.fieldName = fieldName;
 		notifyChange();
 	}
-	
-	
+
+	/**
+	 * offers the real estate to the player who lands on it. 
+	 */
 	@Override
-	public void landOnField(GameController gameController) { 
+	public void landOnField(GameController gameController) {
 		gameController.offerToBuyProperty(this);
 		notifyChange();
-//		Player player = gameController.getGame().getCurrentPlayer();
-//		//If the property is for sale
-//		if (forSale) {
-//			//Vil spilleren købe den ellers skal den sættes på auktion 
-//
-//			String playerChoice = gui.getUserSelection(player.getName()+ guiMessages[8] + getFieldName() + guiMessages[9] + getPrice(), guiMessages[10], guiMessages[11]);
-//
-//			if (playerChoice.equals(guiMessages[12])) {
-//				setForSale(false);
-//				setOwner(player);
-//				gameController.payMoney(player, getPrice());
-//				gameController.addOwnedProperties(player, fieldNumber);
-//				notifyChange();
-//			}
-//			else gameController.auction(player, this);
-//
-//		}
-//
-//
-//		//Hvis grunden ikke er til salg
-//		//Spilleren kan, når han lander på grunden:
-//		//Betale leje 
-//		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-//		//Sætte ejendommen på auktion. 
-//		else if (forSale==false) {
-//			if (owner.equals(player)) {
-//				gui.showMessage(toString() + guiMessages[13]);
-//			}
-//			else if (owner.getInPrison()!= 0) { 
-//				gui.showMessage(toString() + guiMessages[14]);
-//			}
-//			else if (getMortgage()) {
-//				gui.showMessage(toString() + guiMessages[15]);
-//			}
-//			else {
-//				gameController.ownedRealEstateSameColour(this, player);
-//			}
-//		}
 	}
+
 	public void setHouses(int houses) {
 		this.houses = houses;
 		notifyChange();
 	}
-	
+
 	public int getHouses() {
 		return houses;
 	}
+
 	public void sellHouse() {
 		this.houses--;
 		notifyChange();
 	}
+
 	public void buyHouse() {
 		this.houses++;
 		notifyChange();
 	}
+
 	public void setBuildingPrice(int buildingPrice) {
 		this.buildingPrice = buildingPrice;
 	}
+
 	public int getBuildingPrice() {
 		return buildingPrice;
 	}

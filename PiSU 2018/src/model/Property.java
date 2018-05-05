@@ -6,6 +6,14 @@ import controller.GameController;
  */
 import gui_main.GUI;
 
+/**
+ * Contains methods and attributes of the games properties. 
+ * Includes methods for price, rent, mortgage, owner and colourSystem.
+ * 
+ * @author
+ *
+ */
+
 public class Property extends Fields {
 
 	protected boolean forSale = true;
@@ -14,13 +22,15 @@ public class Property extends Fields {
 	protected boolean morgtage;
 	protected int morgtagePrice;
 	protected Player owner;
-	
 	protected String colourSystem;
 
-	
 	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
-
+	/**
+	 * Constructor
+	 * 
+	 * @param fieldNumber
+	 */
 	public Property(int fieldNumber) {
 		super(fieldNumber);
 	}
@@ -28,7 +38,7 @@ public class Property extends Fields {
 	public int getFieldNumber() {
 		return fieldNumber;
 	}
-	
+
 	public boolean isForSale() {
 		return forSale;
 	}
@@ -77,14 +87,21 @@ public class Property extends Fields {
 		return morgtagePrice;
 	}
 
+	/**
+	 * Makes a player the owner of a property
+	 * 
+	 * @param player
+	 */
 	public void setOwner(Player player) {
 		owner = player;
 		setForSale(false);
 		notifyChange();
 	}
+
 	public String getFieldName() {
 		return fieldName;
 	}
+
 	public String getColourSystem() {
 		return colourSystem;
 	}
@@ -92,20 +109,14 @@ public class Property extends Fields {
 	public void setColourSystem(String colourSystem) {
 		this.colourSystem = colourSystem;
 	}
-	
-
-
-	
-
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return guiMessages[3] + fieldName;
 	}
-	
+
 	@Override
 	public void landOnField(GameController gameController) {
 	}
 
 }
-
