@@ -418,6 +418,9 @@ public class GameController {
 					done = true;
 				}
 			}
+			else {
+				done = true;
+			}
 		}
 	}
 
@@ -901,11 +904,11 @@ public class GameController {
 			boolean throwDice = false;
 			boolean endTurn = false;
 			// If the player hasn't thrown the dice
-			System.out.println("Er der kastet: "+ game.getDice().isRolled());
 			if(!game.getDice().isRolled()) {
 				throwDice = true;
-				System.out.println("Skal der kastes: " + throwDice);
-				
+			}
+			else if(game.getDice().isEqual(game.getDice().getFaceValue())) {
+				throwDice = true;
 			}
 			else {
 				throwDice = false;
@@ -978,7 +981,6 @@ public class GameController {
 			if(throwDice) {
 				option.add("Kast med terningen");
 				game.getDice().setRolled(true);
-				System.out.println("is rolled er sat til 0: "+ game.getDice().isRolled());
 			}
 			if(endTurn) {
 				option.add("Afslut tur");
@@ -1315,10 +1317,11 @@ public class GameController {
 		else if(chanceCard.getCardNumber()<=23) {
 			//Move -3
 			if(game.getCurrentPlayer().getPosition()==2) {
-				game.getCurrentPlayer().setPosition(39);
+				moveToField(game.getCurrentPlayer(), 39);
 			}
 			else {
-				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
+				moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
+//				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
 			}
 			//			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
 			//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
