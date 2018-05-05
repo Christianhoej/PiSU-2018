@@ -99,8 +99,10 @@ public class View implements Observer {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					guiField.setOwnerName(property.getOwner().getName());
 					if(property.getMortage()) {
 						guiField.setOwnableLabel("Pantsat");
+						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
 //						guiField.setOwnableLabel("Pantsat");
 //						guiField.setOwnerName("Pantsat");
 					}
@@ -111,8 +113,10 @@ public class View implements Observer {
 
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					guiField.setOwnerName(property.getOwner().getName());
 					if(property.getMortage()) {
 						guiField.setOwnableLabel("Pantsat");
+						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
 //						guiField.setOwnableLabel("Pantsat");
 //						guiField.setOwnerName("Pantsat");
 					}
@@ -128,6 +132,7 @@ public class View implements Observer {
 					}
 					else {
 						guiField.setBorder(property.getOwner().getColour());
+						guiField.setOwnerName(property.getOwner().getName());
 					}
 					if(property.getHouses()==5) {
 						guiField.setHotel(true);
@@ -136,9 +141,8 @@ public class View implements Observer {
 						guiField.setHouses(property.getHouses());
 					}
 					if(property.getMortage()) {
-						guiField.setDescription("Pantsat");
 //						guiField.setOwnerName("Pantsat");
-						guiField.set
+						guiField.setOwnerName(property.getOwner().getName() + ", pantsat");
 					}
 				}
 			}
