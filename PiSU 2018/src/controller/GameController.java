@@ -96,20 +96,6 @@ public class GameController {
 	 *  
 	 */
 	private void trade(Player player) {
-		//		int currentPlayer=-1;
-		//		for (int i=0; i<game.getPlayers().size(); i++) {
-		//			if (player.equals(game.getPlayers().get(i))) {
-		//				currentPlayer=i;
-		//			}
-		//		}
-		//		Player[] otherPlayer = new Player[game.getPlayers().size()-1];
-		//		for(int i=0; i<otherPlayer.length; i++) {
-		//			otherPlayer[i] = game.getPlayers().get(i);
-		//			if(otherPlayer[i].equals(game.getPlayers().get(currentPlayer))) {
-		//				i--;
-		//			}
-		//		}
-
 		ArrayList<String> tradePlayers = new ArrayList<String>();
 
 		for(int i=0; i<game.getPlayers().size(); i++) {
@@ -200,7 +186,7 @@ public class GameController {
 			tradePlayerOption(player, tradingPlayer, Integer.toString(money));
 			payMoney(player, money);
 			receiveMoney(tradingPlayer, money);
-			
+
 			break;
 		case "Ud af fængsel lykke kort":
 			tradePlayerOption(player, tradingPlayer, "Ud af fængsel lykke kort");
@@ -988,6 +974,7 @@ public class GameController {
 				sellHousesAndHotels(player, ammount);
 				break;
 			case "Køb hus":
+				buyHousesAndHotels(player);
 				break;
 			case "Pantsæt grund":
 				pawn(player);
