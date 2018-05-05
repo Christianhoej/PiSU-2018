@@ -669,7 +669,7 @@ public class GameController {
 			return;
 		}
 		payingPlayer.getAccount().updateCash(-amount);
-		payingPlayer.getAccount().updateCash(amount);
+		receivingPlayer.getAccount().updateCash(amount);
 	}
 
 	/**
@@ -729,7 +729,7 @@ public class GameController {
 		//Betale leje 
 		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 		//Sætte ejendommen på auktion. 
-		else if (!property.isForSale()) {
+		else {
 			if (property.getOwner().equals(player)) {
 				gui.showMessage(property.toString() + "Du er selv ejer af dette felt, og skal selvfølgelig ikke betale");
 			}
@@ -749,8 +749,8 @@ public class GameController {
 						paySameTypeRealEstate((RealEstate)property, player);
 
 					} else { 
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][0] + " i leje");
-						payMoneyToPlayer(player, property.getRent(), property.getOwner());
+						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[property.getFieldNumber()][0] + " i leje");
+						payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
 					}
 				}
 			}
