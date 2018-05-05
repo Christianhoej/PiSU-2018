@@ -443,7 +443,7 @@ public class GameController {
 		while(!done) {
 			String choice = "";
 
-			ArrayList<Fields> fields = game.getFields();
+			ArrayList<Property> fields = player.getOwnedProperties();
 
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
@@ -452,16 +452,16 @@ public class GameController {
 
 			for( int i = 0; i<fields.size(); i++) {
 				//&& fields.
-				if(fields.get(i).getOwner()!= null) {
-					if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()==0)) {
-						if(!fields.get(i).getMortage()) {
-							propsWithoutHouses.add((Property)fields.get(i));
-						}
 
-					}
-					if(fields.get(i).getOwner().equals(player) && (fields.get(i).getHouses()>0))
-						propsWithHouses.add((Property)fields.get(i));
+				if(fields.get(i).getOwner().equals(player) && (((RealEstate)fields.get(i)).getHouses()==0)) {
+					propsWithoutHouses.add((Property)fields.get(i));
+
+
 				}
+
+				if(fields.get(i).getOwner().equals(player) && (((RealEstate)fields.get(i)).getHouses()>0))
+					propsWithHouses.add((Property)fields.get(i));
+
 			}
 
 			for (int j = 0; j<propsWithoutHouses.size();j++) {
@@ -554,6 +554,12 @@ public class GameController {
 						}
 					}
 				}
+
+				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
+				if(choice.equals("ja"))
+					done = true;
+			}
+
 
 				if(pawnedProps.size()>0) {
 					choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at købe grunde fri af banken?","ja","nej");
@@ -878,7 +884,7 @@ public class GameController {
 				}
 				else {
 					if(ownedRealEstateSameColour((RealEstate) property, player)) {
-						paySameTypeRealEstate(property, player);
+						paySameTypeRealEstate((RealEstate)property, player);
 					} else { 
 						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][0] + " i leje");
 						receiveMoney(player, property.getRent());
@@ -931,31 +937,31 @@ public class GameController {
 	}
 
 
-	public void paySameTypeRealEstate(Property property, Player player) {
-		switch(property.getHouses()){
-		case 0: receiveMoney(property.getOwner(), property.getRent()*2); //PRIS FOR alle grunde
-		payMoney(player, property.getRent()*2); //MINUSPRIS FOR alle grunde
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + (rent[game.getFields().indexOf(property)][0]*2) + " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+	public void paySameTypeRealEstate(RealEstate realEstate, Player player) {
+		switch(realEstate.getHouses()){
+		case 0: receiveMoney(realEstate.getOwner(), realEstate.getRent()*2); //PRIS FOR alle grunde
+		payMoney(player, realEstate.getRent()*2); //MINUSPRIS FOR alle grunde
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[game.getFields().indexOf(realEstate)][0]*2) + " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
-		case 1: receiveMoney(property.getOwner(), 1); //PRIS FOR ET HUS
+		case 1: receiveMoney(realEstate.getOwner(), 1); //PRIS FOR ET HUS
 		payMoney(player, 1); //MINUSPRIS FOR ET HUS
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][1]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][1]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
-		case 2: receiveMoney(property.getOwner(), 2); // PRIS FOR TO HUSE
+		case 2: receiveMoney(realEstate.getOwner(), 2); // PRIS FOR TO HUSE
 		payMoney(player, 2); // MINUS PRIS FOR TO HUSE
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][2]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][2]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
-		case 3: receiveMoney(property.getOwner(), 3);;
+		case 3: receiveMoney(realEstate.getOwner(), 3);;
 		payMoney(player, 3);
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][3]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][3]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
-		case 4: receiveMoney(property.getOwner(), 4);
+		case 4: receiveMoney(realEstate.getOwner(), 4);
 		payMoney(player, 4);
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][4]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][4]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
-		case 5: receiveMoney(property.getOwner(), 5); // FOR HOTEL
+		case 5: receiveMoney(realEstate.getOwner(), 5); // FOR HOTEL
 		payMoney(player, 5); // MINUS HOTEL
-		gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][5]+ " da " + property.getOwner().getName() + " ejer alle felterne af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(realEstate)][5]+ " da " + realEstate.getOwner().getName() + " ejer alle felterne af denne type");
 		break;
 		}
 	}
@@ -973,9 +979,9 @@ public class GameController {
 		int ownerCount = 0;
 		for (int i = 0; i<game.getFields().size(); i++) {
 			if(game.getFields().get(i) instanceof RealEstate) {
-				if (game.getFields().get(i).getColourSystem().equals(realEstate.getColourSystem())){
+				if ((((Property) (game.getFields().get(i))).getColourSystem()).equals(realEstate.getColourSystem())){
 					colourCount++;
-					if (game.getFields().get(i).getOwner() != null && game.getFields().get(i).getOwner().equals(realEstate.getOwner())){
+					if (((Property) (game.getFields().get(i))).getOwner() != null && (((Property) (game.getFields().get(i))).getOwner()).equals(realEstate.getOwner())){
 						ownerCount++;
 					}
 				}
@@ -996,9 +1002,9 @@ public class GameController {
 		int ownerCount = 0;
 		for (int i = 0; i<game.getFields().size(); i++) {
 			if(game.getFields().get(i) instanceof Utility) {
-				if (game.getFields().get(i).getColourSystem().equals(utility.getColourSystem())){
+				if (((Property) game.getFields().get(i)).getColourSystem().equals(utility.getColourSystem())){
 					colourCount++;
-					if (game.getFields().get(i).getOwner() != null && game.getFields().get(i).getOwner().equals(utility.getOwner())){
+					if (((Property) game.getFields().get(i)).getOwner() != null && ((Property) game.getFields().get(i)).getOwner().equals(utility.getOwner())){
 						ownerCount++;
 					}
 				}
@@ -1066,12 +1072,12 @@ public class GameController {
 						if(ownedRealEstateSameColour((RealEstate) player.getOwnedProperties().get(i), player)) {
 
 							// if the player doesn't have hotel on property
-							if(player.getOwnedProperties().get(i).getHouses() <= 4 && !player.getOwnedProperties().get(i).getMortage()) {
+							if(((RealEstate) player.getOwnedProperties().get(i)).getHouses() <= 4 && !player.getOwnedProperties().get(i).getMortage()) {
 								// Player can by houses
 								byHouses = true;
 							}
 							// if the player has houses on the property
-							if(player.getOwnedProperties().get(i).getHouses()>0) {
+							if(((RealEstate) player.getOwnedProperties().get(i)).getHouses()>0) {
 								// Player can sell houses
 								sellHouses = true;
 							}
@@ -1170,42 +1176,123 @@ public class GameController {
 	public void buyHousesAndHotels(Player player) {
 		String choice = "";
 
-		ArrayList<Fields> ownedFields = player.getOwnedProperties();
-		HashSet<String> fieldColors = new HashSet<String>();
+		boolean done = false;
 
-		for (int i = 0; i<ownedFields.size(); i++) {
-			if(ownedRealEstateSameColour((RealEstate)ownedFields.get(i), player)==true) {
-				fieldColors.add(ownedFields.get(i).getColourSystem());
+		while(!done) {
+			ArrayList<Property> ownedFields = player.getOwnedProperties();
+			HashSet<String> fieldColors = new HashSet<String>();
+
+			//
+			for (int i = 0; i<ownedFields.size(); i++) {
+				//Hvis spilleren ejer alle felter i samme farve
+				if(ownedRealEstateSameColour((RealEstate)ownedFields.get(i), player)==true) {
+
+					String testIfPawned = ownedFields.get(i).getColourSystem();
+					int numberOfPawned=0;
+
+					for(int i2 = 0; i2<ownedFields.size(); i2++) {
+						//Hvis farven på grundene matcher og grunden er pantsat tælles numberOfPawned op.
+						if(testIfPawned.equals(ownedFields.get(i2).getColourSystem()) && (ownedFields.get(i2).getMortage() == true)) {
+							numberOfPawned ++;
+						}
+
+					}
+					//Hvis antallet af pantsatte ejendomme i en given farve er større end 0, så fjern alle i den frave fra ownedFields
+					if(numberOfPawned > 0)
+						for(int i3 = 0; i3<ownedFields.size(); i3++) {
+							if (testIfPawned.equals(ownedFields.get(i3).getColourSystem())){
+								ownedFields.remove(i3);
+							}
+						}
+					else
+						fieldColors.add(ownedFields.get(i).getColourSystem());
+
+				}
+				else
+					ownedFields.remove(i);
 
 			}
-			else
-				ownedFields.remove(i);
-		}
-		String[] guiChoice = new String[fieldColors.size()+1];
-		guiChoice[guiChoice.length-1] = "Annuller";
 
-		choice = gui.getUserSelection("Vælg farve på felt du vil bygge på: ", guiChoice);
-		ArrayList<String> guiPropertyNames = new ArrayList<String>();
-		ArrayList<Property> propertiesInColor = new ArrayList<Property>();
+			String[] guiChoice = new String[fieldColors.size()+1];
+			guiChoice[guiChoice.length-1] = "Annuller";
 
-		for(int i = 0; i<ownedFields.size(); i++) {
-			if(choice.equals(ownedFields.get(i).getColourSystem())){
-				propertiesInColor.add((Property)ownedFields.get(i));
-				guiPropertyNames.add(ownedFields.get(i).getFieldName());
+			choice = gui.getUserSelection("Vælg farve på felt du vil bygge på: ", guiChoice);
+			if(choice.equals("Annuller")) {
+				done = true;
+			}
+			else {
+				ArrayList<String> guiPropertyNames = new ArrayList<String>();
+				ArrayList<Property> propertiesInColor = new ArrayList<Property>();
+
+				for(int i = 0; i<ownedFields.size(); i++) {
+					//Hvis spilleren har valgt en given farve, så lægges de forskellige farver in i en arrayListe.
+					if(choice.equals(ownedFields.get(i).getColourSystem())){
+						propertiesInColor.add((Property)ownedFields.get(i));
+						guiPropertyNames.add(ownedFields.get(i).getFieldName());
+					}
+				}
+
+				//Konverter til array så det kan bruges i gui
+				String[] guiChoice2 = new String[guiPropertyNames.size()+1];
+				guiChoice2 = guiPropertyNames.toArray(guiChoice2);
+				guiChoice2[guiChoice2.length-1] = "Annuller";
+
+				boolean ableToBuild = false;
+				while(!ableToBuild)
+					//Vælger grund
+					choice = gui.getUserButtonPressed("", guiChoice2);
+
+
+				if(!choice.equals("Annuller")) {
+					int totalHousesInColor = 0;
+					int housesOnChoice = 0;
+
+					//Loop gemmer samlet antal huse og huse på valgt grund i variable
+					for(int i = 0; i<propertiesInColor.size(); i++) {
+						totalHousesInColor+=((RealEstate) propertiesInColor.get(i)).getHouses();
+
+						if (propertiesInColor.get(i).getFieldName().equals(choice)) {
+							housesOnChoice = ((RealEstate) propertiesInColor.get(i)).getHouses();
+						}
+					}
+					double avgBuildings = totalHousesInColor/propertiesInColor.size();
+					//Hvis gennemsnittet af byggede huse er større end på den valgte grund, må der bygges.
+					boolean doMore = false;
+					while(!doMore) {
+						//Hvis muligt at bygge:
+						if(avgBuildings>=housesOnChoice) {
+
+							//Hvis spilleren ikke har nok penge til at købe et hus
+							if(((RealEstate) propertiesInColor.get(0)).getBuildingPrice()> player.getAccount().getCash()) {
+								gui.showMessage("Du har ikke penge til at købe et hus på den valgte ejendom.");
+							}
+							else {
+								//Byg
+								for(int i = 0; i<propertiesInColor.size(); i++) {
+									if (propertiesInColor.get(i).getFieldName().equals(choice)) {
+//										 (RealEstate)propertiesInColor.get(i).hou;
+									}
+
+									//Træk Penge fra spiller
+								}
+
+
+
+
+
+							}
+
+
+						}else {
+							gui.getUserButtonPressed("Du kan ikke bygge på den valgte ejendom. Vil du bygge på en anden ejendom i den valgte farve?", "Ja", "Nej");
+						}
+					}
+				}
+				//
 			}
 		}
-		String[] guiChoice2 = new String[guiPropertyNames.size()+1];
-		guiChoice2 = guiPropertyNames.toArray(guiChoice2);
-		guiChoice2[guiChoice2.length-1] = "Annuller";
 
-		choice = gui.getUserButtonPressed("", guiChoice2);
-		//if =="Annuller" -> do something
-		// ellers:
-		// loop igennem og find navn på grund; øg huse med +1
-		//guichoice med 
-		//
 	}
-
 
 	public void sellHousesAndHotels(Player player, int ammount) {
 		String choice = "";
@@ -1214,19 +1301,19 @@ public class GameController {
 		boolean done = false;
 		while(!done) {
 
-			ArrayList<Fields> propsWithHouses = player.getOwnedProperties();
+			ArrayList<Property> propsWithHouses = player.getOwnedProperties();
 
 			//initial array with a players owned houses
 			//Saves the color system (buddyfields reference)
 			Set<String> colorSystem = new HashSet<String>();
 
-			ArrayList<Fields> fieldsWithHouses = new ArrayList<Fields>();
+			ArrayList<Property> fieldsWithHouses = new ArrayList<Property>();
 
 			for(int i = 0 ; i<propsWithHouses.size(); i++) {
 
-				if(propsWithHouses.get(i).getHouses()>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
-					colorSystem.add(game.getFields().get(i).getColourSystem());
-					fieldsWithHouses.add(game.getFields().get(i));
+				if(((RealEstate) propsWithHouses.get(i)).getHouses()>1) { // if something is build on property - add name to houseToSell and Field to fieldsWithHouses
+					colorSystem.add(((Property) game.getFields().get(i)).getColourSystem());
+					fieldsWithHouses.add((Property) game.getFields().get(i));
 				}	
 			}
 
@@ -1248,7 +1335,7 @@ public class GameController {
 			ArrayList<Fields> sameTypePropertiesFields = new ArrayList<Fields>();
 			for (int j = 0; j<fieldArray.length; j++) {
 
-				if(choice.equals(fieldArray[j].getColourSystem())) {
+				if(choice.equals(((Property) fieldArray[j]).getColourSystem())) {
 					sameTypePropertiesNames.add(fieldArray[j].getFieldName());
 					sameTypePropertiesFields.add(fieldArray[j]);
 				}
@@ -1270,22 +1357,22 @@ public class GameController {
 
 
 				for(int h = 0; h< availableBuildings.length; h++) {
-					h2+=sameTypePropertiesFields.get(h).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
+					h2+=((RealEstate) sameTypePropertiesFields.get(h)).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
 					if(choice.equals(availableBuildings[h])) {
-						h1 = sameTypePropertiesFields.get(h).getHouses();
+						h1 = ((RealEstate) sameTypePropertiesFields.get(h)).getHouses();
 					}
 				}
-				if (h1 >= (h2/sameTypePropertiesFields.size()) && (propsWithHouses.get(h1).getHouses() >0)) {
+				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) propsWithHouses.get(h1)).getHouses() >0)) {
 					//remove house on Fields that player owns
-					player.getOwnedProperties().get((sameTypePropertiesFields.get(h1).getFieldNumber())).sellHouse();;
+					((RealEstate) player.getOwnedProperties().get((sameTypePropertiesFields.get(h1).getFieldNumber()))).sellHouse();;
 					//remove houses from the array the used to sell houses from:
-					sameTypePropertiesFields.get(h1).sellHouse();
+					((RealEstate) sameTypePropertiesFields.get(h1)).sellHouse();
 					//remove house on players houseArray()
 					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
-					player.getAccount().updateAssetValue(-(game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice()));
+					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
-					player.getAccount().updateCash((game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).getBuildingPrice())/2);
+					player.getAccount().updateCash((((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice())/2);
 
 					ableToSell = true;
 
@@ -1421,7 +1508,7 @@ public class GameController {
 			arrayPositionOfFerry = 35;
 		}
 
-		if(game.getFields().get(arrayPositionOfFerry).getOwner() !=null ) {//.equals or == null test
+		if(((Property) game.getFields().get(arrayPositionOfFerry)).getOwner() !=null ) {//.equals or == null test
 			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry);
 			//			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
@@ -1472,8 +1559,8 @@ public class GameController {
 		ArrayList<Fields> fields = game.getFields(); 
 		int[]array = new int[fields.size()];
 		for(int i = 0; i<array.length; i++) {
-			if(player.equals(fields.get(i).getOwner()))
-				array[i]=fields.get(i).getHouses();
+			if(player.equals(((Property) fields.get(i)).getOwner()))
+				array[i]=((RealEstate) fields.get(i)).getHouses();
 		}
 
 		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes
