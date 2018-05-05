@@ -74,6 +74,10 @@ public class RealEstate extends Property {
 		this.houses--;
 		notifyChange();
 	}
+	public void buyHouse() {
+		this.houses++;
+		notifyChange();
+	}
 	public void setBuildingPrice(int buildingPrice) {
 		this.buildingPrice = buildingPrice;
 	}
