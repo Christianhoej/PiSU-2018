@@ -806,6 +806,30 @@ public class GameController {
 		break;
 		}
 	}
+	public void bankruptToBank(Player player) {
+		//Invoke Auction on properties owned by bankrupt Player.
+		player.setBroke(true);
+		ArrayList<Property> propertiesForAuction =player.getOwnedProperties();
+		for(int i = 0; i<propertiesForAuction.size(); i++) {
+			propertiesForAuction.get(i).setMortage(false);
+		auction(player, propertiesForAuction.get(i));
+		
+		//Evt. game.getPlayersArrayList.remove(player).
+		}
+	}
+	public void bankruptToPlayer(Player bankruptPlayer, Player receivingPlayer) {
+		ArrayList<Property> propsForTransfers = bankruptPlayer.getOwnedProperties();
+		int cashForReceiver = bankruptPlayer.getAccount().getCash();
+		for(int i = 0; i<propsForTransfers.size(); i++) {
+			if(propsForTransfers.get(i).getMortage()==false) {
+				cashForReceiver += propsForTransfers.get(i).getMortagePrice();
+				propsForTransfers.get(i).setMortage(true);
+			}
+			receivingPlayer.addOwnedProperties(propsForTransfers.get(i));
+		}
+		payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
+		
+	}
 
 
 	/**
