@@ -134,14 +134,14 @@ public class GameController {
 					}
 				}
 			}
-			currentOwnedMortgageProp.add("Annuller");
-			currentOwnedProp.add("Annuller");
-			
+
 			if(currentOwnedMortgageProp.size()>0) {
 				currentOptions.add("Pantsatte grunde");
+				currentOwnedMortgageProp.add("Annuller");
 			}
 			if(currentOwnedProp.size()>0) {
 				currentOptions.add("Grunde");
+				currentOwnedProp.add("Annuller");
 			}
 			if(player.getAccount().getPrisonCard()>0) {
 				currentOptions.add("Ud af fængsel lykke kort");
@@ -167,15 +167,17 @@ public class GameController {
 			case "Grunde": 
 				currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken grund vil du bytte ", currentPlayerOwnedProp);
 				if(!currentChoice1.equals("Annuller")) {
-				tradePlayerOption(player, tradingPlayer, currentChoice1);
-				for(int i = 0; i<player.getOwnedProperties().size(); i++) {
-					if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
-						player.getOwnedProperties().get(i).setOwner(tradingPlayer);
-						tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
-						player.removeOwnedProperties(player.getOwnedProperties().get(i));
+					boolean trade = tradePlayerOption(player, tradingPlayer, currentChoice1);
+					if(trade) {
+						for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+							if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+								player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+								tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+								player.removeOwnedProperties(player.getOwnedProperties().get(i));
+							}
+						}
 					}
-				}
-				break;
+					break;
 				}
 				else {
 					return;
@@ -183,16 +185,18 @@ public class GameController {
 			case "Pantsatte grunde":
 				currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken pantsat grund vil du bytte ", currentPlayerOwnedMort);
 				if(!currentChoice1.equals("Annuller")) {
-				tradePlayerOption(player, tradingPlayer, currentChoice1);
-				for(int i = 0; i<player.getOwnedProperties().size(); i++) {
-					if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
-						player.getOwnedProperties().get(i).setOwner(tradingPlayer);
-						tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
-						player.removeOwnedProperties(player.getOwnedProperties().get(i));
+					boolean trade = tradePlayerOption(player, tradingPlayer, currentChoice1);
+					if(trade) {
+						for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+							if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+								player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+								tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+								player.removeOwnedProperties(player.getOwnedProperties().get(i));
 
+							}
+						}
 					}
-				}
-				break;
+					break;
 				}
 				else {
 					return;
@@ -200,17 +204,23 @@ public class GameController {
 			case "Penge":
 				int money = gui.getUserInteger(player.getName() + ", hvor mange penge vil du bytte? Tryk 0 for at annullere", 0, player.getAccount().getCash());
 				if(money!=0) {
-				tradePlayerOption(player, tradingPlayer, Integer.toString(money));
-				payMoneyToPlayer(player, money, tradingPlayer);
-				break;
+					boolean trade = tradePlayerOption(player, tradingPlayer, Integer.toString(money));
+					if(trade) {
+						payMoneyToPlayer(player, money, tradingPlayer);
+						
+					}
+					break;
 				}
 				else {
 					return;
 				}
 			case "Ud af fængsel lykke kort":
-				tradePlayerOption(player, tradingPlayer, "Ud af fængsel lykke kort");
-				player.getAccount().updatePrisonCard(-1);
-				tradingPlayer.getAccount().updatePrisonCard(1);
+				boolean trade = tradePlayerOption(player, tradingPlayer, "Ud af fængsel lykke kort");
+				if(trade) {
+					player.getAccount().updatePrisonCard(-1);
+					tradingPlayer.getAccount().updatePrisonCard(1);
+					
+				}
 				break;
 			case "Annuller":
 				return;
@@ -233,13 +243,15 @@ public class GameController {
 				}
 			}
 		}
-		tradeOwnedProp.add("Annuller");
-		tradeOwnedMortgageProp.add("Annuller");
+
+
 		if(tradeOwnedMortgageProp.size()>0) {
 			tradeOptions.add("Pantsatte grunde");
+			tradeOwnedMortgageProp.add("Annuller");
 		}
 		if(tradeOwnedProp.size()>0) {
 			tradeOptions.add("Grunde");
+			tradeOwnedProp.add("Annuller");
 		}
 		if(tradingPlayer.getAccount().getPrisonCard()>0) {
 			tradeOptions.add("Ud af fængsel lykke kort");
@@ -454,7 +466,6 @@ public class GameController {
 			String choice = "";
 
 			ArrayList<Property> fields = player.getOwnedProperties();
-
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
 
@@ -465,14 +476,14 @@ public class GameController {
 					if(fields.get(i).getOwner().equals(player) && (((RealEstate)fields.get(i)).getHouses()==0)) {
 						propsWithoutHouses.add((Property)fields.get(i));
 					}
-
-					if(fields.get(i) instanceof Utility) {
-						if(fields.get(i).getOwner().equals(player)) {
-							propsWithoutHouses.add((Property)fields.get(i));
-						}
-					}
-
 				}
+
+				if(fields.get(i) instanceof Utility) {
+					if(fields.get(i).getOwner().equals(player)) {
+						propsWithoutHouses.add((Property)fields.get(i));
+					}
+				}
+
 				if(fields.get(i) instanceof RealEstate) {
 					if(fields.get(i).getOwner().equals(player) && (((RealEstate)fields.get(i)).getHouses()>0)) {
 						propsWithHouses.add((Property)fields.get(i));
@@ -490,6 +501,7 @@ public class GameController {
 				}
 
 			}
+
 			String[] propUserSelection = new String[propsWithoutHouses.size()+1];
 			int mortgagePrice = 0;
 			for (int i = 0; i<propsWithoutHouses.size(); i++) {
@@ -575,9 +587,9 @@ public class GameController {
 					}
 				}
 
-				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
-				if(choice.equals("ja"))
-					done = true;
+				//				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
+				//				if(choice.equals("ja"))
+				//					done = true;
 			}
 
 
@@ -818,7 +830,6 @@ public class GameController {
 
 	public void addOwnedProperties(Player player, Property property) {
 		player.addOwnedProperties(property);
-		System.out.println("HALLOOOOO");
 	}
 
 	public void offerToBuyProperty(Property property) {
