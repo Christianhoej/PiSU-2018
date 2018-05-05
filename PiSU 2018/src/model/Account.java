@@ -10,6 +10,7 @@ package model;
 
 import java.util.Set;
 
+
 import designpatterns.Subject;
 
 
@@ -52,6 +53,10 @@ public class Account extends Subject {
 		return assetValue;
 	}
 
+	/**
+	 * Updates the number of the players get out of prison cards
+	 * @param prisonCard
+	 */
 	public void updatePrisonCard(int prisonCard) {
 		this.prisonCard += prisonCard;
 		notifyChange();
