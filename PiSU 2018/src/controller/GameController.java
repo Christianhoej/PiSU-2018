@@ -884,7 +884,9 @@ public class GameController {
 				}
 				else {
 					if(ownedRealEstateSameColour((RealEstate) property, player)) {
+
 						paySameTypeRealEstate((RealEstate)property, player);
+
 					} else { 
 						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][0] + " i leje");
 						receiveMoney(player, property.getRent());
