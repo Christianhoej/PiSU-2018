@@ -271,64 +271,132 @@ public class GameController {
 	/**
 	 * Method for when a property is up for auction.
 	 * @param player
-	 * @param playerArray
+	 * @param property
 	 */
 	public void auction(Player player, Property property) {
-		int currentPlayer = -1;
-		gui.showMessage(property.getFieldName() + " er sat på auktion!");
+		ArrayList<Player> players = game.getPlayers();
+		ArrayList<Player> biddingPlayers = new ArrayList<Player>();
 
-		currentPlayer = game.getPlayers().indexOf(player);
-		int currentBid=100;
-		//New array with the player originally landing on the field, as the last. 
-
-		Player[] auctionArray = new Player[game.getPlayers().size()];
-		int j = 0;
-		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
-			auctionArray[0+j++]= game.getPlayers().get(i);
-		}
-		for(int i=0; i<=currentPlayer; i++) {
-			auctionArray[0+j++] = game.getPlayers().get(i);
+		//Eliminerer spillere der er broke
+		for( int i = 0; i<players.size(); i++) {
+			if(players.get(i).isBroke() == false)
+				biddingPlayers.add(players.get(i));
 		}
 
-		//The amount of player withdrawn from the auction. 
-		int playersOut=0;
-		//index at the highest bidder at the current time. 
-		int auctionWinner=-1;
-		//Running as long as there are at least 2 players left
-		while (playersOut<auctionArray.length-1) {
-			for (int i=0; i<auctionArray.length; i++) {
-				if (auctionArray[i]==null) {
-					continue;
-				}
-				//Get user input, of the amount of which the player will bid over the current bid
-				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ " hvor meget vil du bydde over " + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
-				//If the player bids 0, he is removed from the auction.
-				if (bidOver==0) {
-					auctionArray[i]=null;
-					playersOut++;
-					if(playersOut>=auctionArray.length-1) {
-						break;
-					}
-				}
-				//The player with the current highest bid, is set as winner, until the next bid.
-				else {
-					auctionWinner=i;
-					currentBid += bidOver;
-				}
+		//Person der starter buddet sættes til at være personen efter player
+		int bidder = players.indexOf(player)+1;
+
+		int highestBid= 0;
+		int newBid=0;
+
+		boolean firstRound = true;
+		boolean auctionOver = false;
+		while(!auctionOver) {
+			//Hvis 
+			if(bidder >players.size()) {
+				bidder=0;
 			}
+			String choice ="";
+
+			if(firstRound) {
+				choice = gui.getUserButtonPressed("Vil du gerne byde på " + property.getFieldName() + "?", "ja", "nej");
+				if(choice.equals("ja"))
+					newBid = gui.getUserInteger(biddingPlayers.get(bidder) + " Hvor meget vil du byde?", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
+				//Sætter nyt bud til 0 så de fjernes fra biddingPlayers
+				else
+				newBid= 0;
+			}
+			else {
+				choice = gui.getUserButtonPressed("Vil du gerne byde på " + property.getFieldName() + "? - Højeste bud er nu " + highestBid + ",-", "Ja","Nej");
+				newBid = gui.getUserInteger("Højeste bud er nu: " + highestBid +",-. Hvor meget ønsker du at byde " +  biddingPlayers.get(bidder) + "? \n - Byder du det samme eller mindre end højeste bud trækker du dig fra auktionen.", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
+
+			}
+			firstRound = false;
+			
+			//Tjekker budene
+			if (newBid <= highestBid) 
+				biddingPlayers.remove(bidder);
+			else
+				highestBid = newBid;
+			
+			
+			//Hvis en spiller vinder auktionen
+			if(biddingPlayers.size() == 1) {
+				gui.showMessage("Tillykke " + biddingPlayers.get(bidder).getName() + "! \n Du har købt " + property.getFieldName()+ " for " + highestBid + ",-.");
+				biddingPlayers.get(bidder).addOwnedProperties(property);
+				payMoneyToBank(biddingPlayers.get(bidder), highestBid);
+				auctionOver = true;
+			}
+				
+			else if(biddingPlayers.size() == 0) {//null?
+				gui.showMessage("Der var ingen der ville købe " + property.getFieldName() + ". Ejendommen beholdes af Banken og spillet fortsætter.");
+				auctionOver = true;
 		}
-		//Updates cash, assets and owned properties of the winner.
-		//Updates the owner of the field. 
-		if(auctionWinner != -1) {
-			auctionArray[auctionWinner].getAccount().updateCash(-currentBid);
-			auctionArray[auctionWinner].getAccount().updateAssetValue(property.getPrice());
-			property.setOwner(auctionArray[auctionWinner]);
-			auctionArray[auctionWinner].addOwnedProperties(property);
-			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
+			else
+			bidder++;
+
+			//Transfer funds
+			//Add property to players account
+
 		}
-		else {
-			gui.showMessage("Ingen har valgt at bydde på grunden, spillet fortsættes.");
-		}
+
+		//		int currentPlayer = -1;
+		//		gui.showMessage(property.getFieldName() + " er sat på auktion!");
+		//
+		//		currentPlayer = game.getPlayers().indexOf(player);
+		//		int currentBid=0;
+		//		//New array with the player originally landing on the field, as the last. 
+		//
+		//		Player[] auctionArray = new Player[game.getPlayers().size()];
+		//		int j = 0;
+		//		//auctionArray Fyldes med spillere
+		//		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
+		//			auctionArray[0+j++]= game.getPlayers().get(i);
+		//		}
+		//		for(int i=0; i<=currentPlayer; i++) {
+		//			auctionArray[0+j++] = game.getPlayers().get(i);
+		//		}
+		//
+		//
+		//		//The amount of player withdrawn from the auction. 
+		//		int playersOut=0;
+		//		//index at the highest bidder at the current time. 
+		//		int auctionWinner=-1;
+		//		//Running as long as there are at least 2 players left
+		//		while (playersOut<auctionArray.length-1) {
+		//			for (int i=0; i<auctionArray.length; i++) {
+		//				if (auctionArray[i]==null) {
+		//					continue;
+		//				}
+		//				//Get user input, of the amount of which the player will bid over the current bid
+		//				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ " hvor meget vil du bydde over " + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
+		//				//If the player bids 0, he is removed from the auction.
+		//				if (bidOver==0) {
+		//					auctionArray[i]=null;
+		//					playersOut++;
+		//					if(playersOut>=auctionArray.length-1) {
+		//						break;
+		//					}
+		//				}
+		//				//The player with the current highest bid, is set as winner, until the next bid.
+		//				else {
+		//					auctionWinner=i;
+		//					currentBid += bidOver;
+		//				}
+		//			}
+		//		}
+		//		//Updates cash, assets and owned properties of the winner.
+		//		//Updates the owner of the field. 
+		//		if(auctionWinner != -1) {
+		//			auctionArray[auctionWinner].getAccount().updateCash(-currentBid);
+		//			auctionArray[auctionWinner].getAccount().updateAssetValue(property.getPrice());
+		//			property.setOwner(auctionArray[auctionWinner]);
+		//			auctionArray[auctionWinner].addOwnedProperties(property);
+		//			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
+		//		}
+		//		else {
+		//			gui.showMessage("Ingen har valgt at bydde på grunden, spillet fortsættes.");
+		//		}
 	}
 
 
