@@ -1,6 +1,6 @@
 package controller;
 
-import model.Chance;
+import model.Chance; 
 import model.Game;
 import model.GoToPrison;
 import model.NeutralField;
@@ -8,6 +8,7 @@ import model.RealEstate;
 import model.Tax;
 import model.Txt;
 import model.Utility;
+import model.Property;
 
 public class MiniMatador {
 	
@@ -294,34 +295,34 @@ public class MiniMatador {
 	}
 	
 	public static void addColor(Game game) {
-		game.getFields().get(1).setColourSystem("blue");
-		game.getFields().get(3).setColourSystem("blue");
-		game.getFields().get(5).setColourSystem("ship");
-		game.getFields().get(6).setColourSystem("pink");
-		game.getFields().get(8).setColourSystem("pink");
-		game.getFields().get(9).setColourSystem("pink");
-		game.getFields().get(11).setColourSystem("green");
-		game.getFields().get(12).setColourSystem("darkgreen");
-		game.getFields().get(13).setColourSystem("green");
-		game.getFields().get(14).setColourSystem("green");
-		game.getFields().get(15).setColourSystem("ship");
-		game.getFields().get(16).setColourSystem("grey");
-		game.getFields().get(18).setColourSystem("grey");
-		game.getFields().get(19).setColourSystem("grey");
-		game.getFields().get(21).setColourSystem("red");
-		game.getFields().get(23).setColourSystem("red");
-		game.getFields().get(24).setColourSystem("red");
-		game.getFields().get(25).setColourSystem("ship");
-		game.getFields().get(26).setColourSystem("white");
-		game.getFields().get(27).setColourSystem("white");
-		game.getFields().get(28).setColourSystem("darkgreen");
-		game.getFields().get(29).setColourSystem("white");
-		game.getFields().get(31).setColourSystem("yellow");
-		game.getFields().get(32).setColourSystem("yellow");
-		game.getFields().get(34).setColourSystem("yellow");
-		game.getFields().get(35).setColourSystem("ship");
-		game.getFields().get(37).setColourSystem("purple");
-		game.getFields().get(39).setColourSystem("purple");
+		((Property)game.getFields().get(1)).setColourSystem("blue");
+		((Property)game.getFields().get(3)).setColourSystem("blue");
+		((Property)game.getFields().get(5)).setColourSystem("ship");
+		((Property)game.getFields().get(6)).setColourSystem("pink");
+		((Property)game.getFields().get(8)).setColourSystem("pink");
+		((Property)game.getFields().get(9)).setColourSystem("pink");
+		((Property)game.getFields().get(11)).setColourSystem("green");
+		((Property)game.getFields().get(12)).setColourSystem("darkgreen");
+		((Property)game.getFields().get(13)).setColourSystem("green");
+		((Property)game.getFields().get(14)).setColourSystem("green");
+		((Property)game.getFields().get(15)).setColourSystem("ship");
+		((Property)game.getFields().get(16)).setColourSystem("grey");
+		((Property)game.getFields().get(18)).setColourSystem("grey");
+		((Property)game.getFields().get(19)).setColourSystem("grey");
+		((Property)game.getFields().get(21)).setColourSystem("red");
+		((Property)game.getFields().get(23)).setColourSystem("red");
+		((Property)game.getFields().get(24)).setColourSystem("red");
+		((Property)game.getFields().get(25)).setColourSystem("ship");
+		((Property)game.getFields().get(26)).setColourSystem("white");
+		((Property)game.getFields().get(27)).setColourSystem("white");
+		((Property)game.getFields().get(28)).setColourSystem("darkgreen");
+		((Property)game.getFields().get(29)).setColourSystem("white");
+		((Property)game.getFields().get(31)).setColourSystem("yellow");
+		((Property)game.getFields().get(32)).setColourSystem("yellow");
+		((Property)game.getFields().get(34)).setColourSystem("yellow");
+		((Property)game.getFields().get(35)).setColourSystem("ship");
+		((Property)game.getFields().get(37)).setColourSystem("purple");
+		((Property)game.getFields().get(39)).setColourSystem("purple");
 	}
 	
 	

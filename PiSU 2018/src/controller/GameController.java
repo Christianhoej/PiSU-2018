@@ -273,11 +273,11 @@ public class GameController {
 			}
 		}
 
-		
-		
+
+
 	}
-	
-	
+
+
 	public void tradeField(Player currentPlayer, Player tradingPlayer, String currentField) {
 		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
 		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
@@ -561,21 +561,21 @@ public class GameController {
 			}
 
 
-				if(pawnedProps.size()>0) {
-					choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at købe grunde fri af banken?","ja","nej");
+			if(pawnedProps.size()>0) {
+				choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at købe grunde fri af banken?","ja","nej");
 
 
-					if(choice.equals("nej")) {
-						done= true;
-					}
+				if(choice.equals("nej")) {
+					done= true;
 				}
-				else {
-					gui.showMessage(player.getName() + ", du har ikke flere grunde at købe fri af banken");
-					done = true;
-				}
+			}
+			else {
+				gui.showMessage(player.getName() + ", du har ikke flere grunde at købe fri af banken");
+				done = true;
 			}
 		}
 	}
+
 
 	private void loadGame() {
 		//Kald til databaser om at loade
@@ -1270,7 +1270,7 @@ public class GameController {
 								//Byg
 								for(int i = 0; i<propertiesInColor.size(); i++) {
 									if (propertiesInColor.get(i).getFieldName().equals(choice)) {
-//										 (RealEstate)propertiesInColor.get(i).hou;
+										//										 (RealEstate)propertiesInColor.get(i).hou;
 									}
 
 									//Træk Penge fra spiller
@@ -1559,8 +1559,10 @@ public class GameController {
 		ArrayList<Fields> fields = game.getFields(); 
 		int[]array = new int[fields.size()];
 		for(int i = 0; i<array.length; i++) {
-			if(player.equals(((Property) fields.get(i)).getOwner()))
-				array[i]=((RealEstate) fields.get(i)).getHouses();
+			if(fields.get(i) instanceof RealEstate) {
+				if(player.equals(((RealEstate) fields.get(i)).getOwner()))
+					array[i]=((RealEstate) fields.get(i)).getHouses();
+			}
 		}
 
 		for (int i = 0; i< array.length; i++) {//antal huse og hoteller findes

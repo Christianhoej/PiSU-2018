@@ -134,15 +134,15 @@ public class View implements Observer {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
-					if(property.getHouses()==5) {
+					if(((RealEstate)property).getHouses()==5) {
 						guiField.setHotel(true);
 					}
-					else if(property.getHouses()>0 && property.getHouses()<5) {
-						guiField.setHouses(property.getHouses());
+					else if(((RealEstate)property).getHouses()>0 && ((RealEstate)property).getHouses()<5) {
+						guiField.setHouses(((RealEstate)property).getHouses());
 					}
 					if(property.getMortage()) {
 //						guiField.setOwnerName("Pantsat");
-						guiField.setOwnerName(property.getOwner().getName() + ", pantsat");
+						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
 					}
 				}
 			}
