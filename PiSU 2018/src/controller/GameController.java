@@ -646,10 +646,9 @@ public class GameController {
 			if(bankrupt) {
 				bankruptToBank(player);
 			}
-			else {
-				player.getAccount().updateCash(-amount);
-			}
+			return;
 		}
+		player.getAccount().updateCash(-amount);
 	}
 
 	public void payMoneyToPlayer(Player payingPlayer, int amount, Player receivingPlayer) {
@@ -658,13 +657,10 @@ public class GameController {
 			if(bankrupt) {
 				bankruptToPlayer(payingPlayer, receivingPlayer);
 			}
-			else {
-				payingPlayer.getAccount().updateCash(-amount);
-				payingPlayer.getAccount().updateCash(amount);
-			}
+			return;
 		}
-		
-		
+		payingPlayer.getAccount().updateCash(-amount);
+		payingPlayer.getAccount().updateCash(amount);
 	}
 
 	/**
@@ -769,17 +765,17 @@ public class GameController {
 		else {
 			switch(count[1]){
 			case 1: payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
-					gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
-					break;
+			gui.showMessage(guiMessages[42] + property.getOwner().getName() + guiMessages[43] + 1);
+			break;
 			case 2: payMoneyToPlayer(player, rent[property.getFieldNumber()][1], property.getOwner());
-					gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
-					break;
+			gui.showMessage(guiMessages[44] + property.getOwner().getName() + guiMessages[45] + 2);
+			break;
 			case 3: payMoneyToPlayer(player, rent[property.getFieldNumber()][2], property.getOwner());
-					gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
-					break;
+			gui.showMessage(guiMessages[46] + property.getOwner().getName() + guiMessages[47] + 3);
+			break;
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
-					gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
-					break;
+			gui.showMessage(guiMessages[48] + property.getOwner().getName() +guiMessages[49] + 4);
+			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}
 
@@ -789,23 +785,23 @@ public class GameController {
 	public void paySameTypeRealEstate(RealEstate realEstate, Player player) {
 		switch(realEstate.getHouses()){
 		case 0: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][0]*2, realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][5]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][5]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
+		break;
 		case 1: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][1], realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][1]+ " da " + realEstate.getOwner().getName() + " har et hus på denne ejendom");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][1]+ " da " + realEstate.getOwner().getName() + " har et hus på denne ejendom");
+		break;
 		case 2: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][2], realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][2]+ " da " + realEstate.getOwner().getName() + " har to huse på denne ejendom");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][2]+ " da " + realEstate.getOwner().getName() + " har to huse på denne ejendom");
+		break;
 		case 3: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][3], realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][3]+ " da " + realEstate.getOwner().getName() + " har tre huse på denne ejendom");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][3]+ " da " + realEstate.getOwner().getName() + " har tre huse på denne ejendom");
+		break;
 		case 4: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][4], realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][4]+ " da " + realEstate.getOwner().getName() + " har fire huse på denne ejendom");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][4]+ " da " + realEstate.getOwner().getName() + " har fire huse på denne ejendom");
+		break;
 		case 5: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][5], realEstate.getOwner());
-				gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][5]+ " da " + realEstate.getOwner().getName() + " har hotel på denne ejendom");
-				break;
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][5]+ " da " + realEstate.getOwner().getName() + " har hotel på denne ejendom");
+		break;
 		}
 	}
 	public void bankruptToBank(Player player) {
@@ -814,9 +810,9 @@ public class GameController {
 		ArrayList<Property> propertiesForAuction =player.getOwnedProperties();
 		for(int i = 0; i<propertiesForAuction.size(); i++) {
 			propertiesForAuction.get(i).setMortgage(false);
-		auction(player, propertiesForAuction.get(i));
-		
-		//Evt. game.getPlayersArrayList.remove(player).
+			auction(player, propertiesForAuction.get(i));
+
+			//Evt. game.getPlayersArrayList.remove(player).
 		}
 	}
 	public void bankruptToPlayer(Player bankruptPlayer, Player receivingPlayer) {
@@ -830,7 +826,7 @@ public class GameController {
 			receivingPlayer.addOwnedProperties(propsForTransfers.get(i));
 		}
 		payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
-		
+
 	}
 
 
@@ -992,7 +988,7 @@ public class GameController {
 				choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", hvordan vil du fortsætte?", optionStrings);
 			}
 
-			
+
 			switch(choice) {
 			case "Sælg hus/hotel": 
 				sellHousesAndHotels(player, ammount);
