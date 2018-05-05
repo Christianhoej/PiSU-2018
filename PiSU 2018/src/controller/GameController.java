@@ -548,7 +548,7 @@ public class GameController {
 				player.setInPrison(player.getInPrison()+1);
 				return;
 			}
-			int position = player.getPosition() + faceValue[0]+faceValue[1];
+			int position = player.getPosition() + game.getDice().getSum();
 			moveToField(player, position, false);
 
 			if(throwDouble) {
@@ -666,7 +666,7 @@ public class GameController {
 			return;
 		}
 		payingPlayer.getAccount().updateCash(-amount);
-		payingPlayer.getAccount().updateCash(amount);
+		receivingPlayer.getAccount().updateCash(amount);
 	}
 
 	/**
@@ -726,7 +726,7 @@ public class GameController {
 		//Betale leje 
 		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
 		//Sætte ejendommen på auktion. 
-		else if (!property.isForSale()) {
+		else {
 			if (property.getOwner().equals(player)) {
 				gui.showMessage(property.toString() + guiMessages[13]);
 			}
@@ -746,8 +746,8 @@ public class GameController {
 						paySameTypeRealEstate((RealEstate)property, player);
 
 					} else { 
-						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[game.getFields().indexOf(property)][0] + " i leje");
-						payMoneyToPlayer(player, property.getRent(), property.getOwner());
+						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[property.getFieldNumber()][0] + " i leje");
+						payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
 					}
 				}
 			}
