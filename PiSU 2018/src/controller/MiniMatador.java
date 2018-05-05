@@ -37,7 +37,7 @@ public class MiniMatador {
 		RealEstate r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -49,7 +49,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -62,14 +62,14 @@ public class MiniMatador {
 		Utility u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -80,7 +80,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -88,7 +88,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -100,7 +100,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -109,14 +109,14 @@ public class MiniMatador {
 		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -124,7 +124,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -132,14 +132,14 @@ public class MiniMatador {
 		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -150,7 +150,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -158,7 +158,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -170,7 +170,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -181,7 +181,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -189,30 +189,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
-		r.setFieldName(fieldName[i][0]);
-		r.setBuildingPrice(buildingPrices[i][0]);
-		game.addField(r);
-		
-		u = new Utility(++i);
-		u.setPrice(price[i][0]);
-		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
-		u.setFieldName(fieldName[i][1]);
-		game.addField(u);
-		
-		r = new RealEstate(++i);
-		r.setPrice(price[i][0]);
-		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
-		r.setFieldName(fieldName[i][0]);
-		r.setBuildingPrice(buildingPrices[i][0]);
-		game.addField(r);
-		
-		r = new RealEstate(++i);
-		r.setPrice(price[i][0]);
-		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -220,14 +197,37 @@ public class MiniMatador {
 		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		r.setBuildingPrice(buildingPrices[i][0]);
+		game.addField(r);
+		
+		r = new RealEstate(++i);
+		r.setPrice(price[i][0]);
+		r.setRent(rent[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
+		r.setFieldName(fieldName[i][0]);
+		r.setBuildingPrice(buildingPrices[i][0]);
+		game.addField(r);
+		
+		u = new Utility(++i);
+		u.setPrice(price[i][0]);
+		u.setRent(rent[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
+		u.setFieldName(fieldName[i][1]);
+		game.addField(u);
+		
+		r = new RealEstate(++i);
+		r.setPrice(price[i][0]);
+		r.setRent(rent[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -239,7 +239,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -247,7 +247,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -258,7 +258,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -266,7 +266,7 @@ public class MiniMatador {
 		u = new Utility(++i);
 		u.setPrice(price[i][0]);
 		u.setRent(rent[i][0]);
-		u.setMortagePrice(mortage[i][0]);
+		u.setMortgagePrice(mortage[i][0]);
 		u.setFieldName(fieldName[i][1]);
 		game.addField(u);
 		
@@ -276,7 +276,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
@@ -288,7 +288,7 @@ public class MiniMatador {
 		r = new RealEstate(++i);
 		r.setPrice(price[i][0]);
 		r.setRent(rent[i][0]);
-		r.setMortagePrice(mortage[i][0]);
+		r.setMortgagePrice(mortage[i][0]);
 		r.setFieldName(fieldName[i][0]);
 		r.setBuildingPrice(buildingPrices[i][0]);
 		game.addField(r);
