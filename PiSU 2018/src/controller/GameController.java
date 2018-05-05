@@ -515,7 +515,7 @@ public class GameController {
 			if(player.getInPrison()>0) {
 				playerInPrison(player);
 			}
-
+			game.getDice().setRolled(false);
 			if(player.getInPrison()==0) {
 				generateCash(game.getCurrentPlayer(), 0);
 			}
@@ -900,9 +900,12 @@ public class GameController {
 			boolean trade = false;
 			boolean throwDice = false;
 			boolean endTurn = false;
-			// If the player hasn't thrown the dice and has no properties
+			// If the player hasn't thrown the dice
+			System.out.println("Er der kastet: "+ game.getDice().isRolled());
 			if(!game.getDice().isRolled()) {
 				throwDice = true;
+				System.out.println("Skal der kastes: " + throwDice);
+				
 			}
 			else {
 				throwDice = false;
@@ -974,7 +977,8 @@ public class GameController {
 			}
 			if(throwDice) {
 				option.add("Kast med terningen");
-				game.getDice().setRolled(false);
+				game.getDice().setRolled(true);
+				System.out.println("is rolled er sat til 0: "+ game.getDice().isRolled());
 			}
 			if(endTurn) {
 				option.add("Afslut tur");
@@ -1015,7 +1019,7 @@ public class GameController {
 				done = true;
 				break;
 
-			case "Afslut":
+			case "Afslut tur":
 				done=true;
 				break;
 			}
