@@ -287,10 +287,6 @@ public class GameController {
 		}
 	}
 
-
-
-
-
 	private void loadGame() {
 		//Kald til databaser om at loade
 	}
@@ -315,10 +311,7 @@ public class GameController {
 
 			currentIndex = (currentIndex+1)%players.size();
 			game.setCurrentPlayer(players.get(currentIndex));
-
 		}
-
-
 	}
 
 	public void playerTurn(Player player) {
@@ -515,7 +508,6 @@ public class GameController {
 			createPlayers();
 			createGUI();
 		}
-
 	}
 
 	/**
@@ -538,7 +530,7 @@ public class GameController {
 	 * @author Gunn
 	 */
 	public void receiveMoney(Player player, int amount) {
-		player.getAccount().updateCash(-amount);
+		player.getAccount().updateCash(amount);
 	}
 
 
