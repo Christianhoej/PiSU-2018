@@ -11,8 +11,8 @@ public class Property extends Fields {
 	protected boolean forSale = true;
 	protected int price;
 	protected int rent;
-	protected boolean mortage;
-	protected int mortagePrice;
+	protected boolean morgtage;
+	protected int morgtagePrice;
 	protected Player owner;
 	
 	protected String colourSystem;
@@ -59,22 +59,22 @@ public class Property extends Fields {
 		return owner;
 	}
 
-	public void setMortage(boolean mortage) {
-		this.mortage = mortage;
+	public void setMortgage(boolean morgtage) {
+		this.morgtage = morgtage;
 		notifyChange();
 	}
 
-	public boolean getMortage() {
-		return mortage;
+	public boolean getMortgage() {
+		return morgtage;
 	}
 
-	public void setMortagePrice(int mortagePrice) {
-		this.mortagePrice = mortagePrice;
+	public void setMortgagePrice(int morgtagePrice) {
+		this.morgtagePrice = morgtagePrice;
 		notifyChange();
 	}
 
-	public int getMortagePrice () {
-		return mortagePrice;
+	public int getMortgagePrice () {
+		return morgtagePrice;
 	}
 
 	public void setOwner(Player player) {
