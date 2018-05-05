@@ -514,10 +514,12 @@ public class GameController {
 
 	public void playerTurn(Player player) {
 		boolean throwDouble=false;
+		int doubleCount=0;
 		do {
 			if(player.getInPrison()>0) {
 				playerInPrison(player);
 			}
+			
 			game.getDice().setRolled(false);
 			if(player.getInPrison()==0) {
 				generateCash(game.getCurrentPlayer(), 0);
@@ -528,27 +530,33 @@ public class GameController {
 			gui.setDice(faceValue[0], faceValue[1]);
 			gui.showMessage(player.getName() + ", du har slået " + game.getDice().getSum());
 			throwDouble = (game.getDice().isEqual(faceValue));
-			int doubleCount=0;
-			if(throwDouble && player.getInPrison()>0) {
+			
+			if(throwDouble) {
 				doubleCount++;
+			}
+			
+			if(throwDouble && player.getInPrison()>0) {
 				player.setInPrison(0);
 				gui.showMessage(player.getName() + ", du har kastet to ens, mens du var i fængsel, og kan "
-						+ "forstætte ved at rykke " +(faceValue[0]+faceValue[1]) + " felter frem");
-				if(doubleCount>2) {
-					gui.showMessage(player.getName() + ", du har kastet to ens tre gange i træk, og skal derfor "
-							+ "i fængsel");
-					player.setInPrison(1);
-					player.setPosition(10);
-
-					return;
-				}
+						+ "forstætte ved at rykke " +game.getDice().getSum() + " felter frem");
 			}
-			else if(player.getInPrison()>0) {
+			else if(doubleCount>2) {
+				gui.showMessage(player.getName() + ", du har kastet to ens tre gange i træk, og skal derfor "
+						+ "i fængsel");
+				player.setInPrison(1);
+				player.setPosition(10);
+				return;
+			}
+			else if(player.getInPrison()>0 && player.getInPrison()<3) {
 				gui.showMessage(player.getName() + ", du slog ikke to ens, og forbliver i fængsel en runde til");
 				player.setInPrison(player.getInPrison()+1);
 				return;
 			}
-			int position = player.getPosition() + faceValue[0]+faceValue[1];
+			else if(player.getInPrison()==3){
+				gui.showMessage(player.getName() + ", du slog ikke to ens, og har allerede prøvet at slå med terningerne 3 gange. Du må nu betale 1000 kr for at komme ud og rykke " + game.getDice().getSum());
+				player.setInPrison(0);
+			}
+			int position = player.getPosition() + game.getDice().getSum();
 			moveToField(player, position, false);
 
 			if(throwDouble) {
@@ -592,19 +600,15 @@ public class GameController {
 		ArrayList<String> options = new ArrayList<>();
 		// if the player is in prison and has a get out of jail free card. 		
 
-		if(player.getInPrison()==2) {
-			options.add("Kast terningerne");
+
+		if(player.getAccount().getPrisonCard()>0) {
+			options.add("Brug fængselskort");
 		}
-		else {
-			if(player.getAccount().getPrisonCard()>0) {
-				options.add("Brug fængselskort");
-			}
-			// if the player has over 1000 kr
-			if(player.getAccount().getCash()>=1000) {
-				options.add("Betal 1000 kr");
-			}
-			options.add("Kast terningerne");
+		// if the player has over 1000 kr
+		if(player.getAccount().getCash()>=1000) {
+			options.add("Betal 1000 kr");
 		}
+		options.add("Kast terningerne");
 		String[] option = new String[options.size()];
 		option = options.toArray(option);
 
@@ -612,7 +616,7 @@ public class GameController {
 
 
 		switch(choice) {
-		case "Betal 1000 kr": 	player.getAccount().updateCash(1000);
+		case "Betal 1000 kr": 	payMoneyToBank(player, 1000);
 		player.setInPrison(0);						
 		gui.showMessage(player.getName() + ", du har betalt 1000 kr og er kommet ud af fængslet. Fortsæt turen ved at kaste med terningerne");
 		break;
@@ -1324,7 +1328,7 @@ public class GameController {
 			}
 			else {
 				moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3, true);
-//				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
+				//				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
 			}
 			//			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
 			//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
