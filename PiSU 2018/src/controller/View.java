@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import board.Gameboard;
 import model.Player;
 import model.Property;
 import model.Account;
@@ -15,7 +14,6 @@ import gui_fields.GUI_Car;
 import gui_fields.GUI_Car.Pattern;
 import gui_fields.GUI_Car.Type;
 import gui_fields.GUI_Field;
-import gui_fields.GUI_Ownable;
 import gui_fields.GUI_Player;
 import gui_fields.GUI_Shipping;
 import gui_fields.GUI_Street;
@@ -23,7 +21,6 @@ import gui_main.GUI;
 import designpatterns.Observer;
 import designpatterns.Subject;
 import model.RealEstate;
-import model.Utility;
 
 public class View implements Observer {
 	private Game game;
@@ -98,7 +95,7 @@ public class View implements Observer {
 			if(property.getColourSystem().equals("darkgreen")) {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
-					if(!property.getMortage()) {
+					if(!property.getMortgage()) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
@@ -111,7 +108,7 @@ public class View implements Observer {
 				GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					if(!property.getMortage()) {
+					if(!property.getMortgage()) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
@@ -125,7 +122,7 @@ public class View implements Observer {
 				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					if(!property.getMortage()) {
+					if(!property.getMortgage()) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
