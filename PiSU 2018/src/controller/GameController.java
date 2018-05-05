@@ -174,22 +174,42 @@ public class GameController {
 		switch(currentChoice) {
 		case "Grunde": 
 			currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken grund vil du bytte ", currentPlayerOwnedProp);
-			tradeField(player, tradingPlayer, currentChoice1);
+			tradePlayerOption(player, tradingPlayer, currentChoice1);
+			for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+				if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+					player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+					tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+					player.removeOwnedProperties(player.getOwnedProperties().get(i));
+				}
+			}
 			break;
 		case "Pantsatte grunde":
 			currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken pantsat grund vil du bytte ", currentPlayerOwnedMort);
-			tradeMortgageField(player, tradingPlayer, currentChoice1);
+			tradePlayerOption(player, tradingPlayer, currentChoice1);
+			for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+				if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+					player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+					tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+					player.removeOwnedProperties(player.getOwnedProperties().get(i));
+
+				}
+			}
 			break;
 		case "Penge":
 			int money = gui.getUserInteger(player.getName() + ", hvor mange penge vil du bytte?", 0, player.getAccount().getCash());
-			tradeMoney(player, tradingPlayer, money);
+			tradePlayerOption(player, tradingPlayer, Integer.toString(money));
+			payMoney(player, money);
+			receiveMoney(tradingPlayer, money);
+			
 			break;
 		case "Ud af fængsel lykke kort":
-			tradePrisonCard(player, tradingPlayer, "Ud af fængsel lykke kort");
+			tradePlayerOption(player, tradingPlayer, "Ud af fængsel lykke kort");
+			player.getAccount().updatePrisonCard(-1);
+			tradingPlayer.getAccount().updatePrisonCard(1);
 		}
 	}
 
-	public void tradePrisonCard(Player currentPlayer, Player tradingPlayer, String prisonCard) {
+	public void tradePlayerOption(Player currentPlayer, Player tradingPlayer, String currentCoice) { 
 		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
 		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
 		ArrayList<String> tradeOptions = new ArrayList<String>();
@@ -230,8 +250,8 @@ public class GameController {
 		String tradeChoice1="";
 		switch(tradeChoice) {
 		case "Grunde": 
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + prisonCard+"?", tradePlayerOwnedProp);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + prisonCard + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
+			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + currentCoice+"?", tradePlayerOwnedProp);
+			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
 			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
 				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
 					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
@@ -241,8 +261,8 @@ public class GameController {
 			}
 			break;
 		case "Pantsatte grunde":
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ prisonCard+"?", tradePlayerOwnedMort);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + prisonCard + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
+			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ currentCoice+"?", tradePlayerOwnedMort);
+			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
 			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
 				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
 					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
@@ -252,283 +272,18 @@ public class GameController {
 			}
 			break;
 		case "Penge":
-			int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + prisonCard+"?", 0, tradingPlayer.getAccount().getCash());
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + prisonCard + " med " + tradeMoney + " fra " + tradingPlayer.getName());
+			int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + currentCoice+"?", 0, tradingPlayer.getAccount().getCash());
+			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeMoney + " fra " + tradingPlayer.getName());
 			payMoney(tradingPlayer, tradeMoney);
 			receiveMoney(currentPlayer, tradeMoney);
-			tradingPlayer.getAccount().updateCash(-tradeMoney);
-			currentPlayer.getAccount().updateCash(tradeMoney);
 			break;
 		case "Ud af fængsel lykke kort":
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + prisonCard + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
+			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
 			tradingPlayer.getAccount().updatePrisonCard(-1);
 			currentPlayer.getAccount().updatePrisonCard(1);
 			break;
 		}
-		
-		currentPlayer.getAccount().updatePrisonCard(-1);
-		tradingPlayer.getAccount().updatePrisonCard(1);
 	}
-	
-	
-	public void tradeMoney(Player currentPlayer, Player tradingPlayer, int money) {
-		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
-		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
-		ArrayList<String> tradeOptions = new ArrayList<String>();
-
-		if(tradingPlayer.getOwnedProperties().size()>0) {
-			for(int i=0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradingPlayer.getOwnedProperties().get(i).getMortage()) {
-					tradeOwnedMortgageProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-				else {
-					tradeOwnedProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-			}
-		}
-		if(tradeOwnedMortgageProp.size()>0) {
-			tradeOptions.add("Pantsatte grunde");
-		}
-		if(tradeOwnedProp.size()>0) {
-			tradeOptions.add("Grunde");
-		}
-		if(tradingPlayer.getAccount().getPrisonCard()>0) {
-			tradeOptions.add("Ud af fængsel lykke kort");
-		}
-		if(tradingPlayer.getAccount().getCash()>0) {
-			tradeOptions.add("Penge");
-		}
-
-		String[] tradePlayerOwnedProp = new String[tradeOwnedProp.size()];
-		tradePlayerOwnedProp = tradeOwnedProp.toArray(tradePlayerOwnedProp); 
-
-		String[] tradePlayerOwnedMort = new String[tradeOwnedMortgageProp.size()];
-		tradePlayerOwnedMort = tradeOwnedMortgageProp.toArray(tradePlayerOwnedMort);
-
-		String[] tradePlayerOptions = new String[tradeOptions.size()];
-		tradePlayerOptions = tradeOptions.toArray(tradePlayerOptions);
-
-		String tradeChoice = gui.getUserButtonPressed(tradingPlayer.getName() + ", hvad vil du bytte? ", tradePlayerOptions);
-		String tradeChoice1="";
-		switch(tradeChoice) {
-		case "Grunde": 
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + money+"?", tradePlayerOwnedProp);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + money + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Pantsatte grunde":
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ money+"?", tradePlayerOwnedMort);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + money + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Penge":
-			int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + money+"?", 0, tradingPlayer.getAccount().getCash());
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + money + " med " + tradeMoney + " fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updateCash(-tradeMoney);
-			currentPlayer.getAccount().updateCash(tradeMoney);
-			break;
-		case "Ud af fængsel lykke kort":
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + money + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updatePrisonCard(-1);
-			currentPlayer.getAccount().updatePrisonCard(1);
-			break;
-		}
-		
-		payMoney(currentPlayer, money);
-		receiveMoney(tradingPlayer, money);
-	}
-	
-	public void tradeMortgageField(Player currentPlayer, Player tradingPlayer, String currentField) {
-		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
-		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
-		ArrayList<String> tradeOptions = new ArrayList<String>();
-
-		if(tradingPlayer.getOwnedProperties().size()>0) {
-			for(int i=0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradingPlayer.getOwnedProperties().get(i).getMortage()) {
-					tradeOwnedMortgageProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-				else {
-					tradeOwnedProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-			}
-		}
-		if(tradeOwnedMortgageProp.size()>0) {
-			tradeOptions.add("Pantsatte grunde");
-		}
-		if(tradeOwnedProp.size()>0) {
-			tradeOptions.add("Grunde");
-		}
-		if(tradingPlayer.getAccount().getPrisonCard()>0) {
-			tradeOptions.add("Ud af fængsel lykke kort");
-		}
-		if(tradingPlayer.getAccount().getCash()>0) {
-			tradeOptions.add("Penge");
-		}
-
-		String[] tradePlayerOwnedProp = new String[tradeOwnedProp.size()];
-		tradePlayerOwnedProp = tradeOwnedProp.toArray(tradePlayerOwnedProp); 
-
-		String[] tradePlayerOwnedMort = new String[tradeOwnedMortgageProp.size()];
-		tradePlayerOwnedMort = tradeOwnedMortgageProp.toArray(tradePlayerOwnedMort);
-
-		String[] tradePlayerOptions = new String[tradeOptions.size()];
-		tradePlayerOptions = tradeOptions.toArray(tradePlayerOptions);
-
-		String tradeChoice = gui.getUserButtonPressed(tradingPlayer.getName() + ", hvad vil du bytte? ", tradePlayerOptions);
-		String tradeChoice1="";
-		switch(tradeChoice) {
-		case "Grunde": 
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + currentField+"?", tradePlayerOwnedProp);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Pantsatte grunde":
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ currentField+"?", tradePlayerOwnedMort);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Penge":
-			int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + currentField+"?", 0, tradingPlayer.getAccount().getCash());
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeMoney + " fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updateCash(-tradeMoney);
-			currentPlayer.getAccount().updateCash(tradeMoney);
-			break;
-		case "Ud af fængsel lykke kort":
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updatePrisonCard(-1);
-			currentPlayer.getAccount().updatePrisonCard(1);
-			break;
-		}
-
-		for(int i = 0; i<currentPlayer.getOwnedProperties().size(); i++) {
-			if(currentField.equals(currentPlayer.getOwnedProperties().get(i).getFieldName())) {
-				currentPlayer.getOwnedProperties().get(i).setOwner(tradingPlayer);
-				tradingPlayer.addOwnedProperties(currentPlayer.getOwnedProperties().get(i));
-				currentPlayer.removeOwnedProperties(currentPlayer.getOwnedProperties().get(i));
-
-			}
-		}
-
-
-
-	}
-
-
-	public void tradeField(Player currentPlayer, Player tradingPlayer, String currentField) {
-		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
-		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
-		ArrayList<String> tradeOptions = new ArrayList<String>();
-
-		if(tradingPlayer.getOwnedProperties().size()>0) {
-			for(int i=0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradingPlayer.getOwnedProperties().get(i).getMortage()) {
-					tradeOwnedMortgageProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-				else {
-					tradeOwnedProp.add(tradingPlayer.getOwnedProperties().get(i).getFieldName());
-				}
-			}
-		}
-		if(tradeOwnedMortgageProp.size()>0) {
-			tradeOptions.add("Pantsatte grunde");
-		}
-		if(tradeOwnedProp.size()>0) {
-			tradeOptions.add("Grunde");
-		}
-		if(tradingPlayer.getAccount().getPrisonCard()>0) {
-			tradeOptions.add("Ud af fængsel lykke kort");
-		}
-		if(tradingPlayer.getAccount().getCash()>0) {
-			tradeOptions.add("Penge");
-		}
-
-		String[] tradePlayerOwnedProp = new String[tradeOwnedProp.size()];
-		tradePlayerOwnedProp = tradeOwnedProp.toArray(tradePlayerOwnedProp); 
-
-		String[] tradePlayerOwnedMort = new String[tradeOwnedMortgageProp.size()];
-		tradePlayerOwnedMort = tradeOwnedMortgageProp.toArray(tradePlayerOwnedMort);
-
-		String[] tradePlayerOptions = new String[tradeOptions.size()];
-		tradePlayerOptions = tradeOptions.toArray(tradePlayerOptions);
-
-		String tradeChoice = gui.getUserButtonPressed(tradingPlayer.getName() + ", hvad vil du bytte? ", tradePlayerOptions);
-		String tradeChoice1="";
-		switch(tradeChoice) {
-		case "Grunde": 
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + currentField+"?", tradePlayerOwnedProp);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Pantsatte grunde":
-			tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ currentField+"?", tradePlayerOwnedMort);
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
-			for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
-				if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
-					tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
-					currentPlayer.addOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-					tradingPlayer.removeOwnedProperties(tradingPlayer.getOwnedProperties().get(i));
-				}
-			}
-			break;
-		case "Penge":
-			int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + currentField+"?", 0, tradingPlayer.getAccount().getCash());
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med " + tradeMoney + " fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updateCash(-tradeMoney);
-			currentPlayer.getAccount().updateCash(tradeMoney);
-			break;
-		case "Ud af fængsel lykke kort":
-			gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentField + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
-			tradingPlayer.getAccount().updatePrisonCard(-1);
-			currentPlayer.getAccount().updatePrisonCard(1);
-			break;
-		}
-
-		for(int i = 0; i<currentPlayer.getOwnedProperties().size(); i++) {
-			if(currentField.equals(currentPlayer.getOwnedProperties().get(i).getFieldName())) {
-				currentPlayer.getOwnedProperties().get(i).setOwner(tradingPlayer);
-				tradingPlayer.addOwnedProperties(currentPlayer.getOwnedProperties().get(i));
-				currentPlayer.removeOwnedProperties(currentPlayer.getOwnedProperties().get(i));
-
-			}
-		}
-
-	}
-
-
-
-
-
 
 
 	/**
@@ -609,8 +364,6 @@ public class GameController {
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
 
-
-
 			for( int i = 0; i<fields.size(); i++) {
 				//&& fields.
 
@@ -655,7 +408,7 @@ public class GameController {
 
 			if(!choice.equals("tilbage")) {
 
-				String choice2 = gui.getUserButtonPressed("Er du sikker på du vil pantsætte " + choice + " for " + mortgagePrice + "?" , "ja" , "nej");
+				String choice2 = gui.getUserButtonPressed("Er du sikker på du vil pantsætte " + choice + "?" , "ja" , "nej");
 
 				if(choice2.equals("ja")) {
 					for(int k = 0; k<propsWithoutHouses.size(); k++) {
@@ -786,7 +539,6 @@ public class GameController {
 
 			game.getDice().rollDice();
 			int[] faceValue = game.getDice().getFaceValue();
-			//			int[] faceValue = {2, 3};
 			gui.setDice(faceValue[0], faceValue[1]);
 			throwDouble = (game.getDice().isEqual(faceValue));
 			int doubleCount=0;
@@ -805,14 +557,15 @@ public class GameController {
 				}
 			}
 			else if(player.getInPrison()>0) {
-				gui.showMessage(player.getName() + ", du kastede ikke to ens, og forbliver i fængsel en runde til");
+				gui.showMessage(player.getName() + ", du slog ikke to ens, og forbliver i fængsel en runde til");
+				player.setInPrison(player.getInPrison()+1);
 				return;
 			}
 			int position = player.getPosition() + faceValue[0]+faceValue[1];
 			moveToField(player, position);
 
 			if(throwDouble) {
-				gui.showMessage(player.getName() + ", du har kastet to ens og får et ekstra kast");
+				gui.showMessage(player.getName() + ", du slog to ens og får et ekstra kast");
 			}
 
 		}while(throwDouble);
@@ -838,9 +591,6 @@ public class GameController {
 			gui.showMessage(player.getName() + ", du har passeret start, og modtager 4000 kr");
 			player.getAccount().updateCash(4000);
 		}
-		else if (player.getInPrison()>0) {
-			player.setPosition(position % game.getFields().size());
-		}
 		else {
 			player.setPosition(position % game.getFields().size());
 		}
@@ -851,51 +601,36 @@ public class GameController {
 	public void playerInPrison(Player player) {
 		String choice="";
 		// if the player is in prison and has a get out of jail free card. 
-		if(player.getAccount().getPrisonCard()>0) {
-			// if the player is in prison, has a get out of jail free card and 
-			// has over 1000kr
-			if(player.getAccount().getCash()>=1000) {
-				// the player can choose between using the get out of jail free
-				// card, paying 1000 kr to the bank and throw the dices.
-				choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende"
-						+ " muligheder for at komme ud af fængslet", "Betal 1000 kr",
-						"Brug fængselskort", "Kast terningerne");
-			}
-			else {
-				// the player can choose between using the get out of jail free
-				// card and throw the dices.
-				choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende"
-						+ " muligheder for at komme ud af fængslet", "Brug "
-								+ "fængselskort", "Kast terningerne");
-			}
-		}
-		// if the player has over 1000kr
-		else if(player.getAccount().getCash()>=1000) {
-			// the player can choose between paying 1000 kr to the bank and throw 
-			// the dices.
-			choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende "
-					+ "muligheder for at komme ud af fængslet", "Betal 1000 kr", 
-					"Kast terningerne");
+		ArrayList<String> options = new ArrayList<>();
+		// if the player is in prison and has a get out of jail free card. 		
+
+		if(player.getInPrison()==2) {
+			options.add("Kast terningerne");
 		}
 		else {
-			// the player has to throw the dices.
-			choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Da du hverken har et"
-					+ " fængselskort eller nok penge, må du kaste med terningerne", 
-					"Kast terningerne");
+			if(player.getAccount().getPrisonCard()>0) {
+				options.add("Brug fængselskort");
+			}
+			// if the player has over 1000 kr
+			if(player.getAccount().getCash()>=1000) {
+				options.add("Betal 1000 kr");
+			}
+			options.add("Kast terningerne");
 		}
+		String[] option = new String[options.size()];
+		option = options.toArray(option);
+
+		choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende muligheder for at komme ud af fængslet", option);
+
 
 		switch(choice) {
 		case "Betal 1000 kr": 	player.getAccount().updateCash(1000);
 		player.setInPrison(0);						
-		gui.showMessage(player.getName() + ", du har betalt 1000 kr og er kommet "
-				+ "ud af fængslet. Fortsæt turen ved at kaste"
-				+ " med terningerne");
+		gui.showMessage(player.getName() + ", du har betalt 1000 kr og er kommet ud af fængslet. Fortsæt turen ved at kaste med terningerne");
 		break;
 		case "Brug fængselskort": player.getAccount().updatePrisonCard(-1);
 		player.setInPrison(0);
-		gui.showMessage(player.getName() + ", du har brugt et fængsels kort og er "
-				+ "kommet ud af fængslet. Fortsæt turen ved at "
-				+ "kaste med terningerne");
+		gui.showMessage(player.getName() + ", du har brugt et fængsels kort og er kommet ud af fængslet. Fortsæt turen ved at kaste med terningerne");
 		break;
 		case "Kast terningerne": break;
 		}
