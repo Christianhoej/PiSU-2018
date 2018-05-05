@@ -1,11 +1,14 @@
 package model;
 
-
 import java.util.ArrayList;
-
 import designpatterns.Subject;
 
-public class Game extends Subject{
+/**
+ * 
+ * @author
+ *
+ */
+public class Game extends Subject {
 
 	private int gameID;
 	private ArrayList<Player> players = new ArrayList<Player>();
@@ -16,7 +19,7 @@ public class Game extends Subject{
 	private Dice dice = new Dice();
 
 	public void setGameID(int gameID) {
-		this.gameID=gameID;
+		this.gameID = gameID;
 	}
 
 	public int getGameID() {
@@ -32,17 +35,16 @@ public class Game extends Subject{
 	}
 
 	public void setCurrentPlayer(Player currentPlayer) {
-		if(currentPlayer != null && players.contains(currentPlayer)) {
+		if (currentPlayer != null && players.contains(currentPlayer)) {
 			this.currentPlayer = currentPlayer;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Spilleren er ikke i spillet");
 		}
 		notifyChange();
 	}
 
 	public Player getCurrentPlayer() {
-		if(currentPlayer == null) {
+		if (currentPlayer == null) {
 			currentPlayer = players.get(0);
 		}
 		return currentPlayer;
@@ -64,25 +66,45 @@ public class Game extends Subject{
 		return players;
 	}
 
+	/**
+	 * sets the list of players, in a ArrayList.
+	 * 
+	 * @param players
+	 */
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = new ArrayList<Player>(players);
 		notifyChange();
 	}
 
+	/**
+	 * Adds player to ArrayList<Player> The player is also added to the game.
+	 * 
+	 * @param player
+	 */
 	public void addPlayer(Player player) {
 		players.add(player);
 		notifyChange();
 	}
 
+	/**
+	 * Sets the fields in a ArrayList
+	 * 
+	 * @param fields
+	 */
 	public void setFields(ArrayList<Fields> fields) {
 		this.fields = fields;
 		notifyChange();
 	}
 
-	public ArrayList<Fields> getFields(){
+	public ArrayList<Fields> getFields() {
 		return fields;
 	}
 
+	/**
+	 * Adds a field to the game
+	 * 
+	 * @param field
+	 */
 	public void addField(Fields field) {
 		fields.add(field);
 		notifyChange();

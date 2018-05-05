@@ -1,10 +1,8 @@
 package model;
 /** @author Yoss & Gunn
- * Dele af denne kode er genbrugt fra CDIO3
- * Dette er en klasse Txt, som henter vores tekstfiler, eksempelvis fieldName.txt 
- * og gør det muligt at bruge den i koden. 
- * Dette gør koden mere overskue, og undgår at bogstaver som æ, ø og å bliver "knækket"
  * 
+ * Class for pulling information from the txt files, and makes it possible to use it in the rest of the software.
+ * Is usefull for making the software more manageable 
  */
 import java.io.BufferedReader;
 import java.io.FileReader;

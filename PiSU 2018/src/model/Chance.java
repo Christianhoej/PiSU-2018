@@ -5,8 +5,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import controller.GameController;
+
+/**
+ * Contains methods 
+ * 
+ * 
+ * @author 
+ *
+ */
 
 public class Chance extends Fields {
 
@@ -15,6 +22,11 @@ public class Chance extends Fields {
 	private List<ChanceCard> chanceCards = new ArrayList<ChanceCard>();
 	private Map<Integer,ChanceCard> integer2ChanceCard = new HashMap<Integer,ChanceCard>();
 
+	/**
+	 * Constructor
+	 * 
+	 * @param fieldNumber
+	 */
 	public Chance(int fieldNumber) {
 		super(fieldNumber);
 
@@ -62,6 +74,10 @@ public class Chance extends Fields {
 		this.fieldName = fieldName;
 	}
 
+	/**
+	 * Method for when a player land on a chance field.
+	 * 
+	 */
 	@Override
 	public void landOnField(GameController gameController) {
 		integer2ChanceCard.get(chanceCards.get(cardToDraw).getCardNumber()).performAction(gameController);
