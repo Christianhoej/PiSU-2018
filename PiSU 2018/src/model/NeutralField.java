@@ -10,8 +10,6 @@ import controller.GameController;
  */
 public class NeutralField extends Fields {
 
-	String[] guiMessages = Txt.fileString("GameMessages.txt");
-
 	/**
 	 * Constructor
 	 * 
@@ -34,11 +32,9 @@ public class NeutralField extends Fields {
 	@Override
 	public String toString() {
 		if (fieldNumber == 10) {
-			return (guiMessages[0]);
-		} else if (fieldNumber == 20) {
-			return (guiMessages[1]);
-		} else {
-			return (guiMessages[2]);
-		}
+			return (", du er på besøg i fængslet! ");
+		} else 
+			return (", du har fået gratis parkering! Du sidder en tur over!");
+		
 	}
 }

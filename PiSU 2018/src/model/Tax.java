@@ -15,7 +15,6 @@ import gui_main.GUI;
 
 public class Tax extends Fields {
 
-	String[] guiMessages = Txt.fileString("GameMessages.txt");
 	private GUI gui;
 	private int price;
 

@@ -10,7 +10,6 @@ import controller.GameController;
  */
 
 public class Utility extends Property {
-	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 	/**
 	 * Constructor
