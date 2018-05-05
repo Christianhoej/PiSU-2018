@@ -136,7 +136,7 @@ public class GameController {
 			}
 			currentOwnedMortgageProp.add("Annuller");
 			currentOwnedProp.add("Annuller");
-			
+
 			if(currentOwnedMortgageProp.size()>0) {
 				currentOptions.add("Pantsatte grunde");
 			}
@@ -167,15 +167,15 @@ public class GameController {
 			case "Grunde": 
 				currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken grund vil du bytte ", currentPlayerOwnedProp);
 				if(!currentChoice1.equals("Annuller")) {
-				tradePlayerOption(player, tradingPlayer, currentChoice1);
-				for(int i = 0; i<player.getOwnedProperties().size(); i++) {
-					if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
-						player.getOwnedProperties().get(i).setOwner(tradingPlayer);
-						tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
-						player.removeOwnedProperties(player.getOwnedProperties().get(i));
+					tradePlayerOption(player, tradingPlayer, currentChoice1);
+					for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+						if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+							player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+							tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+							player.removeOwnedProperties(player.getOwnedProperties().get(i));
+						}
 					}
-				}
-				break;
+					break;
 				}
 				else {
 					return;
@@ -183,16 +183,16 @@ public class GameController {
 			case "Pantsatte grunde":
 				currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken pantsat grund vil du bytte ", currentPlayerOwnedMort);
 				if(!currentChoice1.equals("Annuller")) {
-				tradePlayerOption(player, tradingPlayer, currentChoice1);
-				for(int i = 0; i<player.getOwnedProperties().size(); i++) {
-					if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
-						player.getOwnedProperties().get(i).setOwner(tradingPlayer);
-						tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
-						player.removeOwnedProperties(player.getOwnedProperties().get(i));
+					tradePlayerOption(player, tradingPlayer, currentChoice1);
+					for(int i = 0; i<player.getOwnedProperties().size(); i++) {
+						if(currentChoice1.equals(player.getOwnedProperties().get(i).getFieldName())) {
+							player.getOwnedProperties().get(i).setOwner(tradingPlayer);
+							tradingPlayer.addOwnedProperties(player.getOwnedProperties().get(i));
+							player.removeOwnedProperties(player.getOwnedProperties().get(i));
 
+						}
 					}
-				}
-				break;
+					break;
 				}
 				else {
 					return;
@@ -200,9 +200,9 @@ public class GameController {
 			case "Penge":
 				int money = gui.getUserInteger(player.getName() + ", hvor mange penge vil du bytte? Tryk 0 for at annullere", 0, player.getAccount().getCash());
 				if(money!=0) {
-				tradePlayerOption(player, tradingPlayer, Integer.toString(money));
-				payMoneyToPlayer(player, money, tradingPlayer);
-				break;
+					tradePlayerOption(player, tradingPlayer, Integer.toString(money));
+					payMoneyToPlayer(player, money, tradingPlayer);
+					break;
 				}
 				else {
 					return;
@@ -335,52 +335,65 @@ public class GameController {
 
 		boolean firstRound = true;
 		boolean auctionOver = false;
+
 		while(!auctionOver) {
 			//Hvis 
-			if(bidder >players.size()) {
+			if(bidder >= biddingPlayers.size()) {
 				bidder=0;
 			}
 			String choice ="";
 
-			if(firstRound) {
-				choice = gui.getUserButtonPressed("Vil du gerne byde på " + property.getFieldName() + "?", "ja", "nej");
-				if(choice.equals("ja"))
-					newBid = gui.getUserInteger(biddingPlayers.get(bidder) + " Hvor meget vil du byde?", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
-				//Sætter nyt bud til 0 så de fjernes fra biddingPlayers
-				else
-					newBid= 0;
-			}
-			else {
-				choice = gui.getUserButtonPressed("Vil du gerne byde på " + property.getFieldName() + "? - Højeste bud er nu " + highestBid + ",-", "Ja","Nej");
-				newBid = gui.getUserInteger("Højeste bud er nu: " + highestBid +",-. Hvor meget ønsker du at byde " +  biddingPlayers.get(bidder) + "? \n - Byder du det samme eller mindre end højeste bud trækker du dig fra auktionen.", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
+			//			if(firstRound) {
+			//				choice = gui.getUserButtonPressed(biddingPlayers.get(bidder).getName()+": Vil du gerne byde på " + property.getFieldName() + "?", "ja", "nej");
+			//				
+			//				if(choice.equals("ja"))
+			//										newBid = gui.getUserInteger(biddingPlayers.get(bidder).getName() + " Hvor meget vil du byde?", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
+			//				//Sætter nyt bud til 0 så de fjernes fra biddingPlayers
+			//				else {
+			//					
+			//					newBid= 0;
+			//				}
+			//			}
+			//			else {
+			choice = gui.getUserButtonPressed(biddingPlayers.get(bidder).getName()+": Vil du gerne byde på " + property.getFieldName() + "? - Højeste bud er nu " + highestBid + ",-", "ja","nej");
+			if(choice.equals("ja"))
+				newBid = gui.getUserInteger("Højeste bud er nu: " + highestBid +",-. Hvor meget ønsker du at byde " +  biddingPlayers.get(bidder).getName() + "? \n - Byder du det samme som højeste bud trækker du dig fra auktionen.", highestBid ,biddingPlayers.get(bidder).getAccount().getCash());
 
-			}
-			firstRound = false;
+
+
+
+
+			//			}
+			//			firstRound = false;
 
 			//Tjekker budene
-			if (newBid <= highestBid) 
+			if (newBid <= highestBid) {
+				gui.showMessage(biddingPlayers.get(bidder).getName() + " er ude af auktionen.");
 				biddingPlayers.remove(bidder);
-			else
+			}
+			else {
 				highestBid = newBid;
-
+				bidder++;
+			}
 
 			//Hvis en spiller vinder auktionen
-			if(biddingPlayers.size() == 1) {
-				gui.showMessage("Tillykke " + biddingPlayers.get(bidder).getName() + "! \n Du har købt " + property.getFieldName()+ " for " + highestBid + ",-.");
-				biddingPlayers.get(bidder).addOwnedProperties(property);
-				payMoneyToBank(biddingPlayers.get(bidder), highestBid);
+			if((biddingPlayers.size() == 1) && highestBid > 0) {
+				gui.showMessage("Tillykke " + biddingPlayers.get(0).getName() + "! \n Du har købt " + property.getFieldName()+ " for " + highestBid + ",-.");
+				biddingPlayers.get(0).addOwnedProperties(property);
+				payMoneyToBank(biddingPlayers.get(0), highestBid);
 				auctionOver = true;
+				return;
 			}
 
 			else if(biddingPlayers.size() == 0) {//null?
 				gui.showMessage("Der var ingen der ville købe " + property.getFieldName() + ". Ejendommen beholdes af Banken og spillet fortsætter.");
 				auctionOver = true;
 			}
-			else
-				bidder++;
+			
 
-			//Transfer funds
-			//Add property to players account
+
+				//Transfer funds
+				//Add property to players account
 
 		}
 
