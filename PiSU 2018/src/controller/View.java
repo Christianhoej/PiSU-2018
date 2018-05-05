@@ -99,6 +99,13 @@ public class View implements Observer {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					guiField.setOwnerName(property.getOwner().getName());
+					if(property.getMortage()) {
+						guiField.setOwnableLabel("Pantsat");
+						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
+//						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnerName("Pantsat");
+					}
 				}
 			}
 			else if (property.getColourSystem().equals("ship")) {
@@ -106,18 +113,36 @@ public class View implements Observer {
 
 				if(guiField != null) {
 					guiField.setBorder(property.getOwner().getColour());
+					guiField.setOwnerName(property.getOwner().getName());
+					if(property.getMortage()) {
+						guiField.setOwnableLabel("Pantsat");
+						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
+//						guiField.setOwnableLabel("Pantsat");
+//						guiField.setOwnerName("Pantsat");
+					}
 				}
+				
 			}
 			else {
 				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					guiField.setBorder(property.getOwner().getColour());
-					if(property.getHouses()==5) {
+					if(property.getOwner()==null) {
+						guiField.setBorder(null);
+					}
+					else {
+						guiField.setBorder(property.getOwner().getColour());
+						guiField.setOwnerName(property.getOwner().getName());
+					}
+					if(((RealEstate)property).getHouses()==5) {
 						guiField.setHotel(true);
 					}
-					else if(property.getHouses()>0 && property.getHouses()<5) {
-						guiField.setHouses(property.getHouses());
+					else if(((RealEstate)property).getHouses()>0 && ((RealEstate)property).getHouses()<5) {
+						guiField.setHouses(((RealEstate)property).getHouses());
+					}
+					if(property.getMortage()) {
+//						guiField.setOwnerName("Pantsat");
+						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
 					}
 				}
 			}
