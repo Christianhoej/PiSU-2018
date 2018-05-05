@@ -33,7 +33,7 @@ public abstract class Fields extends Subject {
 	}
 	
 	
-	
+
 	protected void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 		notifyChange();

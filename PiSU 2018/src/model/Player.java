@@ -12,7 +12,9 @@ public class Player extends Subject {
 	protected int position=0;
 	private boolean broke;
 	private int inPrison;
+
 	private ArrayList<Property> ownedProperties = new ArrayList<Property>();
+
 //	private int[] ownedProperties = new int[40];
 //	private int[] ownedHouses = new int[40];
 	private int playerID;
