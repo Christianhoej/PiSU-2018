@@ -1,37 +1,37 @@
 Modtag: 4000
 Modtag 4000kr., når de passerer start.
-Leje: 50
+50
 Tag et chancekort
-Leje: 50 
+50 
 Betal indkomstskat 10% eller 4000kr. 
-Leje: 500
-Leje: 100
-Leje: 150
+500
+100
+150
 På besøg i fængslet
-Leje: 200
+200
 200 x [Terningslag]
-Leje 200
-Leje 250
-Leje: 500
-Leje 300:
+200
+250
+500
+300:
 Tag et chancekort
-Leje: 300
-Leje: 350
+300
+350
 Gør noget ved dine drømme
-Leje: 350
+350
 Tag et chancekort
-Leje: 350
-Leje: 400
-Leje: 500
-Leje: 450
-Leje: 450
+350
+400
+500
+450
+450
 200 x [Terningslag]
-Leje: 550
-Leje: 550
+550
+550
 Tag et chancekort
-Leje: 600
-Leje: 500
+600
+500
 Tag et chancekort
-Leje: 700
+700
 Betal ekstraordinær statsskat: 2000kr
-Leje: 1000
+1000
