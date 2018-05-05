@@ -720,15 +720,27 @@ public class GameController {
 		}
 	}
 
-	/**
-	 * Method, where a specific player pay an amount of money.
-	 * @param player the player which is paying money
-	 * @param amount the amount the player is paying
-	 * 
-	 * @author Gunn
-	 */
-	public void payMoney(Player player, int amount) {
+	public void payMoneyToBank(Player player, int amount) {
+		if(player.getAccount().getCash()<amount) {
+			boolean bankrupt = generateCash(player, amount);
+			if(bankrupt) {
+				bankruptToBank(player);
+			}
+			return;
+		}
 		player.getAccount().updateCash(-amount);
+	}
+
+	public void payMoneyToPlayer(Player payingPlayer, int amount, Player receivingPlayer) {
+		if(payingPlayer.getAccount().getCash()<amount) {
+			boolean bankrupt = generateCash(payingPlayer, amount);
+			if(bankrupt) {
+				bankruptToPlayer(payingPlayer, receivingPlayer);
+			}
+			return;
+		}
+		payingPlayer.getAccount().updateCash(-amount);
+		receivingPlayer.getAccount().updateCash(amount);
 	}
 
 
