@@ -1175,7 +1175,6 @@ public class GameController {
 	}
 	public void buyHousesAndHotels(Player player) {
 		String choice = "";
-
 		boolean done = false;
 
 		while(!done) {
@@ -1237,45 +1236,63 @@ public class GameController {
 				guiChoice2 = guiPropertyNames.toArray(guiChoice2);
 				guiChoice2[guiChoice2.length-1] = "Annuller";
 
-				boolean ableToBuild = false;
-				while(!ableToBuild)
+				//Herunder begynder loopet som holder spilleren i "samme farve" hvis spilleren ønsker at købe mere end ét hus
+				boolean doMore = true;
+				while(doMore) {
+
 					//Vælger grund
 					choice = gui.getUserButtonPressed("", guiChoice2);
 
 
-				if(!choice.equals("Annuller")) {
-					int totalHousesInColor = 0;
-					int housesOnChoice = 0;
+					if(!choice.equals("Annuller")) {
+						int totalHousesInColor = 0;
+						int housesOnChoice = 0;
+						int buildPrice = 0;
+						//Loop gemmer samlet antal huse og huse på valgt grund i variable , samt prisen for at bygge +1 på grund
+						for(int i = 0; i<propertiesInColor.size(); i++) {
+							totalHousesInColor+=((RealEstate) propertiesInColor.get(i)).getHouses();
 
-					//Loop gemmer samlet antal huse og huse på valgt grund i variable
-					for(int i = 0; i<propertiesInColor.size(); i++) {
-						totalHousesInColor+=((RealEstate) propertiesInColor.get(i)).getHouses();
-
-						if (propertiesInColor.get(i).getFieldName().equals(choice)) {
-							housesOnChoice = ((RealEstate) propertiesInColor.get(i)).getHouses();
+							if (propertiesInColor.get(i).getFieldName().equals(choice)) {
+								housesOnChoice = ((RealEstate) propertiesInColor.get(i)).getHouses();
+								buildPrice = ((RealEstate) propertiesInColor.get(i)).getBuildingPrice();
+							}
 						}
-					}
-					double avgBuildings = totalHousesInColor/propertiesInColor.size();
-					//Hvis gennemsnittet af byggede huse er større end på den valgte grund, må der bygges.
-					boolean doMore = false;
-					while(!doMore) {
+						double avgBuildings = totalHousesInColor/propertiesInColor.size();
+						//Hvis gennemsnittet af byggede huse er større end på den valgte grund, må der bygges.
+						//						boolean ableToBuild = false;
+						//						while(!ableToBuild) {
 						//Hvis muligt at bygge:
 						if(avgBuildings>=housesOnChoice) {
 
 							//Hvis spilleren ikke har nok penge til at købe et hus
 							if(((RealEstate) propertiesInColor.get(0)).getBuildingPrice()> player.getAccount().getCash()) {
 								gui.showMessage("Du har ikke penge til at købe et hus på den valgte ejendom.");
+
 							}
+							//Ellers er der allerede hotel på grunden
+							else if(housesOnChoice==5) {
+								gui.showMessage("Du kan har allerede et hotel på grunden. Du kan ikke bygge mere på den valgte grund.");
+							}
+							//Ellers så har spilleren nok til at bygge hus/hotel og der ligger ikke hotel i forvejen
 							else {
+								String choice2 = "";
+								choice2 = gui.getUserButtonPressed("Er du sikker på du vil bygge på " + choice + " for " + buildPrice + "?" , "Ja" , "Nej");
 								//Byg
-								for(int i = 0; i<propertiesInColor.size(); i++) {
-									if (propertiesInColor.get(i).getFieldName().equals(choice)) {
-										//										 (RealEstate)propertiesInColor.get(i).hou;
+								if (choice2.equals("Ja")) {
+									//Bygger huset på valgt RealEstate
+									for(int i = 0; i<propertiesInColor.size(); i++) {
+
+										if (propertiesInColor.get(i).getFieldName().equals(choice)) {
+											((RealEstate)propertiesInColor.get(i)).buyHouse();
+											//Evt. lægge et nyt hus til i arrayet
+										}
+
+
 									}
+									//Træk beløb fra konto.
+									payMoney(player, buildPrice);
 
-									//Træk Penge fra spiller
 								}
-
 
 
 
@@ -1284,14 +1301,27 @@ public class GameController {
 
 
 						}else {
-							gui.getUserButtonPressed("Du kan ikke bygge på den valgte ejendom. Vil du bygge på en anden ejendom i den valgte farve?", "Ja", "Nej");
+							choice = gui.getUserButtonPressed("Du kan ikke bygge på den valgte ejendom. Vil du bygge på en anden ejendom i den valgte farve?", "Ja", "Nej");
+							if(choice.equals("Nej")) {
+								//									ableToBuild = false;
+								doMore = false;
+								//								}
+							}
 						}
+						//					}else {
+						//						doMore = true;
 					}
+					choice = gui.getUserButtonPressed("Hvad vil du gøre nu?", "Køb huse på andre felt-farver", "købe flere huse på samme felt-farve", "Afslut \"køb huse/hoteller\"");
+					if (choice.equals("Køb huse på andre felt-farver"))
+						doMore = false;
+					else if(choice.equals("købe flere huse på samme felt-farve"))
+						doMore = true;
+					else
+						doMore = false;
+					done = true;
 				}
-				//
 			}
 		}
-
 	}
 
 	public void sellHousesAndHotels(Player player, int ammount) {
