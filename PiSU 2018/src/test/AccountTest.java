@@ -13,7 +13,7 @@ public class AccountTest {
 	 * Test updateCash
 	 */
 	@Test
-	public void testUpdateCash(){
+	public void updateCashTest(){
 		p1 = new Player();
 		p1.getAccount().updateCash(1000);
 		int actual=p1.getAccount().getCash();
