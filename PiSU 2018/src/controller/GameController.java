@@ -588,6 +588,7 @@ public class GameController {
 
 	public void playerTurn(Player player) {
 		boolean throwDouble=false;
+		int doubleCount=0;
 		do {
 			if(player.getInPrison()>0) {
 				playerInPrison(player);
