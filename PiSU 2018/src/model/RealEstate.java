@@ -54,7 +54,7 @@ public class RealEstate extends Property {
 //			else if (owner.getInPrison()!= 0) { 
 //				gui.showMessage(toString() + guiMessages[14]);
 //			}
-//			else if (getMortage()) {
+//			else if (getMortgage()) {
 //				gui.showMessage(toString() + guiMessages[15]);
 //			}
 //			else {
