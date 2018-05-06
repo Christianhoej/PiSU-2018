@@ -22,6 +22,14 @@ import designpatterns.Observer;
 import designpatterns.Subject;
 import model.RealEstate;
 
+/**
+ * This clas takes information from model and shows it to the user. 
+ * 
+ * @author 
+ *
+ */
+
+
 public class View implements Observer {
 	private Game game;
 	private GUI gui;
@@ -33,11 +41,12 @@ public class View implements Observer {
 	private boolean disposed = false;
 
 	/**
+	 * Constructor 
+	 * initializes the view. 
 	 * 
 	 * @param game
 	 * @param gui
 	 */
-
 	public View(Game game, GUI gui) { 
 		this.game = game;
 		this.gui = gui;
@@ -63,6 +72,9 @@ public class View implements Observer {
 
 	}
 
+	/**
+	 * Updates the subject. 
+	 */
 	@Override
 	public void update(Subject subject) {
 		if (!disposed) {
@@ -82,6 +94,10 @@ public class View implements Observer {
 
 	}
 
+	/**
+	 * Updates the account 
+	 * @param account
+	 */
 	private void updateAccount(Account account) {
 		GUI_Player guiPlayer = this.player2GuiPlayer.get(account.getOwner());
 		if(account!=null) {

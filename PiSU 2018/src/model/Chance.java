@@ -11,7 +11,7 @@ import controller.GameController;
  * Contains methods and attributes for when a player must draw a chancecard. 
  * Creates the chancecard [] with all the chancecards. 
  * 
- * @author 
+ * @author Gunn
  *
  */
 

@@ -8,7 +8,7 @@ import designpatterns.Subject;
  * Methods and attributes for creating the gameboard. 
  * This is the class that makes it possible to make the gameboard
  * 
- * @author
+ * @author Christian
  *
  */
 

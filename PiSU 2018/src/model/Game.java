@@ -7,7 +7,7 @@ import designpatterns.Subject;
  * This class collects all the needed information from the model package. The
  * class collects information in arrayLists, used in the GameController.
  * 
- * @author
+ * @author Oliver
  *
  */
 public class Game extends Subject {
@@ -22,7 +22,6 @@ public class Game extends Subject {
 
 	public void setGameID(int gameID) {
 		this.gameID = gameID;
-		System.out.println(gameID);
 	}
 
 	public int getGameID() {

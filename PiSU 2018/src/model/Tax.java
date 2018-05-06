@@ -9,7 +9,7 @@ import gui_main.GUI;
 /**
  * Contains methods for the tax-field. This includes methods for the price. 
  * 
- * @author
+ * @author Gunn
  *
  */
 

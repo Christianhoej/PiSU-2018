@@ -4,7 +4,7 @@ package model;
  * Includes making the dice. Contains methods for rolling the dice, as well as
  * getters and setters for the faceValue of the dice.
  * 
- * @author
+ * @author Oliver
  *
  */
 public class Dice {

@@ -9,7 +9,7 @@ import designpatterns.Subject;
  * Contains methods and attributtes which is needed in the game, for controlling
  * a players properties, cash, and whether the player is in prison or is broke. 
  * 
- * @author
+ * @author Christian
  *
  */
 public class Player extends Subject {

@@ -5,7 +5,7 @@ import controller.GameController;
 /**
  * Contains methods for the utilities on the gameboard.
  * 
- * @author
+ * @author Josephine
  *
  */
 

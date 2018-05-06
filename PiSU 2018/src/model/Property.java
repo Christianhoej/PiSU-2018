@@ -10,7 +10,7 @@ import gui_main.GUI;
  * Contains methods and attributes of the games properties. 
  * Includes methods for price, rent, mortgage, owner and colourSystem.
  * 
- * @author
+ * @author Oliver
  *
  */
 

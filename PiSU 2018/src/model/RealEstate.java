@@ -5,7 +5,7 @@ import controller.GameController;
 /**
  * Contains methods for the real estates on the gameboard.
  * This includes methods for houses build on real estates.
- * @author 
+ * @author Janus
  *
  */
 public class RealEstate extends Property {

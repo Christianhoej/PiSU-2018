@@ -1,5 +1,5 @@
 package model;
-/** @author Yoss & Gunn
+/** @author Josephine & Gunn
  * 
  * The Txt class is partly copied from the CDIO3 group 15.
  * Class for pulling information from the txt files, and makes it possible to use it in the rest of the software.
