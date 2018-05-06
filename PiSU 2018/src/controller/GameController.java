@@ -787,8 +787,9 @@ public class GameController {
 				gui.showMessage(property.toString() + ", grunden er pantsat, du slipper denne gang!");
 			}
 			else {
-				if(property.getColourSystem().equals("ship") || property.getColourSystem().equals("darkgreen")) {
-					ownedUtilitiesSameType((Utility) property, player);
+				if(property instanceof Utility) {
+					int[] count = ownedUtilitiesSameType((Utility) property, player);
+					paySameTypeUtility(property, player, count);
 				}
 				else {
 					if(ownedRealEstateSameColour((RealEstate) property, player)) {
@@ -809,32 +810,30 @@ public class GameController {
 		if (count[0] == 2) {
 			switch(count[1]) {
 			case 1: payMoneyToPlayer(player, property.getRent()*game.getDice().getSum(), property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale" + 1);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale" + property.getRent()*game.getDice().getSum());
 			break;
 			case 2: payMoneyToPlayer(player, 2*property.getRent()*game.getDice().getSum(), property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 2);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 2*property.getRent()*game.getDice().getSum());
 			break;
 			}
-
 		}
 		// else it is a "rederi".
 		else {
 			switch(count[1]){
 			case 1: payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 1);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			case 2: payMoneyToPlayer(player, rent[property.getFieldNumber()][1], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 2);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			case 3: payMoneyToPlayer(player, rent[property.getFieldNumber()][2], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + 3);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + 4);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}
-
 	}
 
 
