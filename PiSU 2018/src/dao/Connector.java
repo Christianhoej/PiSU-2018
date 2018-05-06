@@ -13,7 +13,7 @@ import com.mysql.jdbc.CallableStatement;
 public class Connector {
 	private final String HOST     = "localhost";
 	private final int    PORT     = 3306;
-	private final String DATABASE = "mydb1";
+	private final String DATABASE = "matador_projekt";
 	private final String USERNAME = "root"; 
 	private final String PASSWORD = "";
 	private Connection connection;

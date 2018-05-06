@@ -26,15 +26,37 @@ public class GameDAO implements IGameDAO
 	private Connector connect = new Connector();
 
 	@Override
-	public void createGame(Game game) throws SQLException { 
+	public void createGame(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-		CallableStatement stmt =null;
-		stmt = (CallableStatement) con.prepareCall("{call create_game(?)}");
-		stmt.registerOutParameter(1, Types.INTEGER);
-		stmt.execute();
-		game.setGameID(stmt.getInt(1));
-		createPlayers(game);
-		createProperties(game);
+
+		//Ekkarts_____________________
+		try {
+			con.setAutoCommit(false);
+		//__________________
+
+			CallableStatement stmt =null;
+			stmt = (CallableStatement) con.prepareCall("{call create_game(?)}");
+			stmt.registerOutParameter(1, Types.INTEGER);
+			stmt.execute();
+			game.setGameID(stmt.getInt(1));
+			createPlayers(game);
+			createProperties(game);
+		//Ekkarts_________________________________
+		} catch (SQLException e) {
+			// TODO error handling
+			e.printStackTrace();
+			System.err.println("Some DB error");
+
+			try {
+				con.rollback();
+				con.setAutoCommit(true);
+			} catch (SQLException e1) {
+				// TODO error handling
+				e1.printStackTrace();
+			}
+
+		}
+		//_____________________________
 	}
 
 	@Override
@@ -239,7 +261,7 @@ public class GameDAO implements IGameDAO
 		stmt.execute();
 
 	}
-	
+
 	// Husk at tjekke for endGame, når vi har et spil at tjekke for.
 	@Override
 	public void endGame(Game game) throws SQLException {
