@@ -95,11 +95,11 @@ public class View implements Observer {
 			if(property.getColourSystem().equals("darkgreen")) {
 				GUI_Brewery guiField = (GUI_Brewery) this.field2GuiField.get(property);
 				if(guiField != null) {
-					if(!property.getMortgage()) {
+					if(!property.getMortgage()&& property.getOwner()!=null) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
-					else {
+					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
 					}
 				}
@@ -108,11 +108,11 @@ public class View implements Observer {
 				GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					if(!property.getMortgage()) {
+					if(!property.getMortgage()&& property.getOwner()!=null) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
-					else {
+					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
 					}
 				}
@@ -122,11 +122,11 @@ public class View implements Observer {
 				GUI_Street guiField = (GUI_Street) this.field2GuiField.get(property);
 
 				if(guiField != null) {
-					if(!property.getMortgage()) {
+					if(!property.getMortgage() && property.getOwner()!=null) {
 						guiField.setBorder(property.getOwner().getColour());
 						guiField.setOwnerName(property.getOwner().getName());
 					}
-					else{
+					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
 					}
 
@@ -134,10 +134,9 @@ public class View implements Observer {
 					if(((RealEstate)property).getHouses()==5) {
 						guiField.setHotel(true);
 					}
-					else if(((RealEstate)property).getHouses()>=0 && ((RealEstate)property).getHouses()<5) {
+					else if(((RealEstate)property).getHouses()>0 && ((RealEstate)property).getHouses()<5) {
 						guiField.setHouses(((RealEstate)property).getHouses());
 					}
-
 				}
 			}
 		}
