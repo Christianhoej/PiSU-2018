@@ -102,8 +102,13 @@ public class View implements Observer {
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
 					}
+					else if(property.getOwner() == null) {
+						guiField.setBorder(Color.black);
+						guiField.setOwnerName("");
+					}
 				}
 			}
+
 			else if (property.getColourSystem().equals("ship")) {
 				GUI_Shipping guiField = (GUI_Shipping) this.field2GuiField.get(property);
 
@@ -114,6 +119,10 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
+					}
+					else if(property.getOwner() == null) {
+						guiField.setBorder(Color.black);
+						guiField.setOwnerName("");
 					}
 				}
 
@@ -128,6 +137,11 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
+					}
+
+					else if(property.getOwner() == null) {
+						guiField.setBorder(Color.black);
+						guiField.setOwnerName("");
 					}
 
 
@@ -154,25 +168,32 @@ public class View implements Observer {
 		GUI_Player guiPlayer = this.player2GuiPlayer.get(player);
 		if (guiPlayer != null) {
 
-
 			GUI_Field[] guiFields = gui.getFields();
 			Integer oldPosition = player2position.get(player);
-			if (oldPosition != null && oldPosition < guiFields.length) {
-				guiFields[oldPosition].setCar(guiPlayer, false);
+			if(player.isBroke()) {
+				if (oldPosition != null && oldPosition < guiFields.length) {
+					guiFields[oldPosition].setCar(guiPlayer, false);
+				}
 			}
-			int pos = player.getPosition();
-			if (pos < guiFields.length) {
-				player2position.put(player, pos);
-				guiFields[pos].setCar(guiPlayer, true);
-			}
+			else {
+				if (oldPosition != null && oldPosition < guiFields.length) {
+					guiFields[oldPosition].setCar(guiPlayer, false);
+				}
 
-			if (player.isBroke()) {
-				guiPlayer.setName(player.getName() + " (broke)");
-			} else if (player.getInPrison()>0) {
-				guiPlayer.setName(player.getName() + " (in prison)");
-			} else {
-				guiPlayer.setName(player.getName());
-			}	
+				int pos = player.getPosition();
+				if (pos < guiFields.length) {
+					player2position.put(player, pos);
+					guiFields[pos].setCar(guiPlayer, true);
+				}
+
+				if (player.isBroke()) {
+					guiPlayer.setName(player.getName() + " (broke)");
+				} else if (player.getInPrison()>0) {
+					guiPlayer.setName(player.getName() + " (in prison)");
+				} else {
+					guiPlayer.setName(player.getName());
+				}	
+			}
 		}
 	}
 }
