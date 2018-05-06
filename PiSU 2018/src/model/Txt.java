@@ -1,6 +1,7 @@
 package model;
 /** @author Yoss & Gunn
  * 
+ * The Txt class is partly copied from the CDIO3 group 15.
  * Class for pulling information from the txt files, and makes it possible to use it in the rest of the software.
  * Is usefull for making the software more manageable 
  */
@@ -15,7 +16,7 @@ public class Txt {
 
 		ArrayList<String[]> currentLine = new ArrayList<>();
 
-		/*  ed tekstlæseren. Vil der være en fejl, crasher programmet ikke
+		/*  Vil der være en fejl, crasher programmet ikke
 		 * men udprinter i stedet "error". 
 		 */
 		try { 
@@ -70,7 +71,6 @@ public class Txt {
 		} catch (IOException e) { 
 			System.out.println("error"); 
 		} finally {  
-//			System.out.println(fileName + " read");
 		}
 		
 		
@@ -97,10 +97,11 @@ public class Txt {
 		} catch (IOException e) {
 			System.out.println("Not able to read file");
 		} finally {
-//			System.out.println(fileName + " read");
 		}
 
-		// Convert to a String[][]
+		/**
+		 * Convert to a String[][]
+		 */
 		String[][] line1 = new String[lines.size()][];
 		for(int i=0; i<lines.size(); i++) {
 
