@@ -119,6 +119,7 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
+						guiField.setBorder(property.getOwner().getColour());
 					}
 					else if(property.getOwner() == null) {
 						guiField.setBorder(Color.black);
@@ -137,6 +138,7 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
+						guiField.setBorder(property.getOwner().getColour());
 					}
 
 					else if(property.getOwner() == null) {
