@@ -1515,7 +1515,7 @@ public class GameController {
 		} 
 		else if(chanceCard.getCardNumber() == 10) { // Matador legatet: assetValue<15.000 Modtager 40.000
 			//Hensigten med assets/cash Det antages at cash/assets opdateres hver for sig og at assets også opdateres når der købes huse/hoteller.
-			int totValue = game.getCurrentPlayer().getTotalValue(); // Gets cash and assets
+			int totValue = getAssetValue(game.getCurrentPlayer()) + game.getCurrentPlayer().getAccount().getCash(); // Gets cash and assets
 			if (totValue < 15000) {
 				receiveMoney(game.getCurrentPlayer(), chanceCard.getAmount());
 			}
