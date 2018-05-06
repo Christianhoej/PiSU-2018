@@ -633,6 +633,12 @@ public class GameController {
 	public void runGame() {
 		setUpGame();
 		playGame();
+		try {
+			gameDAO.endGame(game);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -658,19 +664,15 @@ public class GameController {
 			noWinner = false;
 		}
 
-
 		while(noWinner) {
 			currentPlayer = game.getCurrentPlayer();
 			if(!currentPlayer.isBroke()) {
 				playerTurn(currentPlayer);
 			}
-
 			currentIndex = (currentIndex+1)%players.size();
 			game.setCurrentPlayer(players.get(currentIndex));
 		}
-
-		gui.showMessage(game.getCurrentPlayer() + "har vundet hele fucking spillet!!!!!");
-
+		gui.showMessage(game.getCurrentPlayer().getName() + "har vundet hele fucking spillet!!!!!");
 	}
 
 	public void playerTurn(Player player) {
@@ -1027,6 +1029,7 @@ public class GameController {
 			bankruptPlayer.removeAllOwnedProperties();
 //			payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
 			receiveMoney(receivingPlayer, cashForReceiver);
+			payMoneyToPlayer(bankruptPlayer, bankruptPlayer.getAccount().getCash(), receivingPlayer);
 		}
 	}
 
