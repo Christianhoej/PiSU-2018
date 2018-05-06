@@ -1,12 +1,14 @@
 package controller;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import board.Gameboard;
+import dao.GameDAO;
 import gui_main.GUI;
 import model.ChanceCard;
 import model.Fields;
@@ -24,13 +26,14 @@ public class GameController {
 	private Game game;
 	private GUI gui;
 	private int[][] rent = Txt.fileInt2D("RentPrices.txt");
-	private int[][] housePrice = Txt.fileInt2D("BuildingPrices.txt");
 	private View view;
+	private GameDAO gameDAO;
 
 	public GameController(Game game) {
 		this.game = game;
 		Gameboard gameboard = new Gameboard();
 		gui = new GUI(gameboard.makeBoard());
+		gameDAO = new GameDAO();
 	}
 
 
@@ -78,6 +81,7 @@ public class GameController {
 			}
 			color.remove(carColor);
 			player.setPosition(0);
+			player.setAccount(30000);
 			player.getAccount().setOwner(player);
 		}
 	}
@@ -391,7 +395,7 @@ public class GameController {
 
 		}
 
-		
+
 	}
 
 
@@ -420,9 +424,9 @@ public class GameController {
 					}
 
 					if(fields.get(i) instanceof Utility) {
-						
+
 						propsWithoutHouses.add((Property)fields.get(i));
-						
+
 					}
 
 					if(fields.get(i) instanceof RealEstate) {
@@ -547,8 +551,40 @@ public class GameController {
 	}
 
 
-	private void loadGame() {
-		
+	private boolean loadGame() {
+
+		ArrayList<Game> allGames = new ArrayList<Game>();
+		try {
+			allGames = gameDAO.readAllGames();
+			String[] gameInfo = new String[allGames.size() + 1];
+			System.out.println(gameInfo.length);
+			for(int i=0; i<gameInfo.length-1; i++) {
+				gameInfo[i] = "GameID: " + allGames.get(i).getGameID() + ", spil dato: " + allGames.get(i).getGameDate() + ", antal spillere: " + allGames.get(i).getPlayerAmount(); 
+			}
+			gameInfo[gameInfo.length-1] = "Tilbage";
+
+			String gameChoice = gui.getUserSelection("Hvilket spil vil du gerne loade?", gameInfo);
+
+			if(!gameChoice.equals("Tilbage")) {
+				for(int i = 0; i<gameInfo.length; i++) {
+					if(gameChoice.equals(gameInfo[i])) {
+						this.game =  allGames.get(i);
+						MiniMatador.setFields(game);
+						MiniMatador.addColor(game);
+						game.setPlayers(gameDAO.readPlayers(game));
+						game.setFields(gameDAO.readProperty(game));
+						return true;
+					}
+				}
+			}
+			else {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}				
+		return false;
 	}
 
 	public void runGame() {
@@ -625,7 +661,7 @@ public class GameController {
 				gui.showMessage(player.getName() + ", du slog to ens og får et ekstra kast");
 			}
 
-			if(player.getInPrison()==0) {
+			if(player.getInPrison()==0 && !throwDouble) {
 				generateCash(player, 0);
 			}
 		}while(throwDouble);
@@ -695,13 +731,28 @@ public class GameController {
 
 
 		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
+		boolean gameCreated = false;
+		while(!gameCreated) {
+			
+			if(selection.equals("Indlæs spil")) {
+				if(loadGame()) {
+					gameCreated = true;
+					
+					createGUI();
+				}
+			}
+			else {
+				createPlayers();
+				createGUI();
+				try {
+					gameDAO.createGame(game);
+					gameCreated = true;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-		if(selection.equals("Indlæs spil")) {
-			loadGame();
-		}
-		else {
-			createPlayers();
-			createGUI();
+			}
 		}
 	}
 
@@ -1300,13 +1351,13 @@ public class GameController {
 					}
 				}
 
-				
+
 				for(int i = 0; i<fieldsWithHouses.size(); i++) {
 					System.out.println("Navn : " + fieldsWithHouses.get(i).getFieldName() + ", antal huse: " + ((RealEstate) fieldsWithHouses.get(i)).getHouses());
-					
+
 				}
-				
-				
+
+
 				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) fieldsWithHouses.get(chosen)).getHouses() >0)) {
 
 					//remove house on Fields that player owns
@@ -1317,7 +1368,7 @@ public class GameController {
 					//remove house on players houseArray()
 					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
-//					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
+					//					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
 
 					System.out.println("Kom her til"); //ReceiveMoney
