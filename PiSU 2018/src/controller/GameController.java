@@ -38,7 +38,6 @@ public class GameController {
 
 	public void createPlayers() {
 
-		//		GUI gui = new GUI(); // SKAL SLETTES --> bruger den bare til at teste metoden
 		int playerAmount = Integer.parseInt(gui.getUserSelection("Hvor mange spillere skal i være?", "3", "4", "5", "6"));
 		ArrayList<String> color = new ArrayList<String>();
 		color.add("Blå");
@@ -55,7 +54,7 @@ public class GameController {
 				player.setName("Spiller " + (i+1));
 			}
 			for(int k=i-1; k>=0; k--) { //Loop der checker om 2 spillere hedder det samme
-				while(game.getPlayers().get(k).getName().equals(player.getName())) {// tjekker om spillerne har samme navn
+				while(game.getPlayers().get(k).getName().equals(player.getName())) {// checker om spillerne har samme navn
 
 					player.setName(gui.getUserString("You cant have the same name as another player. Please try again"));   //skulle have været med i oversætter klassen
 					k=i-1; // tjekker forfra om der er ens navne
@@ -358,28 +357,11 @@ public class GameController {
 			}
 			String choice ="";
 
-			//			if(firstRound) {
-			//				choice = gui.getUserButtonPressed(biddingPlayers.get(bidder).getName()+": Vil du gerne byde på " + property.getFieldName() + "?", "ja", "nej");
-			//				
-			//				if(choice.equals("ja"))
-			//										newBid = gui.getUserInteger(biddingPlayers.get(bidder).getName() + " Hvor meget vil du byde?", highestBid+1 ,biddingPlayers.get(bidder).getAccount().getCash());
-			//				//Sætter nyt bud til 0 så de fjernes fra biddingPlayers
-			//				else {
-			//					
-			//					newBid= 0;
-			//				}
-			//			}
-			//			else {
+			//giver spiller mulighed for at være med i auktion
 			choice = gui.getUserButtonPressed(biddingPlayers.get(bidder).getName()+": Vil du gerne byde på " + property.getFieldName() + "? - Højeste bud er nu " + highestBid + ",-", "ja","nej");
 			if(choice.equals("ja"))
 				newBid = gui.getUserInteger("Højeste bud er nu: " + highestBid +",-. Hvor meget ønsker du at byde " +  biddingPlayers.get(bidder).getName() + "? \n - Byder du det samme som højeste bud trækker du dig fra auktionen.", highestBid ,biddingPlayers.get(bidder).getAccount().getCash());
 
-
-
-
-
-			//			}
-			//			firstRound = false;
 
 			//Tjekker budene
 			if (newBid <= highestBid) {
@@ -407,69 +389,9 @@ public class GameController {
 			}
 
 
-
-			//Transfer funds
-			//Add property to players account
-
 		}
 
-		//		int currentPlayer = -1;
-		//		gui.showMessage(property.getFieldName() + " er sat på auktion!");
-		//
-		//		currentPlayer = game.getPlayers().indexOf(player);
-		//		int currentBid=0;
-		//		//New array with the player originally landing on the field, as the last. 
-		//
-		//		Player[] auctionArray = new Player[game.getPlayers().size()];
-		//		int j = 0;
-		//		//auctionArray Fyldes med spillere
-		//		for(int i = currentPlayer+1; i<game.getPlayers().size();i++) {
-		//			auctionArray[0+j++]= game.getPlayers().get(i);
-		//		}
-		//		for(int i=0; i<=currentPlayer; i++) {
-		//			auctionArray[0+j++] = game.getPlayers().get(i);
-		//		}
-		//
-		//
-		//		//The amount of player withdrawn from the auction. 
-		//		int playersOut=0;
-		//		//index at the highest bidder at the current time. 
-		//		int auctionWinner=-1;
-		//		//Running as long as there are at least 2 players left
-		//		while (playersOut<auctionArray.length-1) {
-		//			for (int i=0; i<auctionArray.length; i++) {
-		//				if (auctionArray[i]==null) {
-		//					continue;
-		//				}
-		//				//Get user input, of the amount of which the player will bid over the current bid
-		//				int bidOver = gui.getUserInteger(auctionArray[i].getName()+ " hvor meget vil du bydde over " + currentBid, 0, auctionArray[i].getAccount().getCash()-currentBid);
-		//				//If the player bids 0, he is removed from the auction.
-		//				if (bidOver==0) {
-		//					auctionArray[i]=null;
-		//					playersOut++;
-		//					if(playersOut>=auctionArray.length-1) {
-		//						break;
-		//					}
-		//				}
-		//				//The player with the current highest bid, is set as winner, until the next bid.
-		//				else {
-		//					auctionWinner=i;
-		//					currentBid += bidOver;
-		//				}
-		//			}
-		//		}
-		//		//Updates cash, assets and owned properties of the winner.
-		//		//Updates the owner of the field. 
-		//		if(auctionWinner != -1) {
-		//			auctionArray[auctionWinner].getAccount().updateCash(-currentBid);
-		//			auctionArray[auctionWinner].getAccount().updateAssetValue(property.getPrice());
-		//			property.setOwner(auctionArray[auctionWinner]);
-		//			auctionArray[auctionWinner].addOwnedProperties(property);
-		//			gui.showMessage(auctionArray[auctionWinner].getName() + " har købt grunden for " + currentBid);
-		//		}
-		//		else {
-		//			gui.showMessage("Ingen har valgt at bydde på grunden, spillet fortsættes.");
-		//		}
+		
 	}
 
 
@@ -491,20 +413,20 @@ public class GameController {
 
 				if(!fields.get(i).getMortgage()) {
 					if(fields.get(i) instanceof RealEstate) {
-						if(/*fields.get(i).getOwner().equals(player) && */(((RealEstate)fields.get(i)).getHouses()==0)) {
+						if((((RealEstate)fields.get(i)).getHouses()==0)) {
 							propsWithoutHouses.add((Property)fields.get(i));
 						}
 
 					}
 
 					if(fields.get(i) instanceof Utility) {
-						//						if(fields.get(i).getOwner().equals(player)) {
+						
 						propsWithoutHouses.add((Property)fields.get(i));
-						//						}
+						
 					}
 
 					if(fields.get(i) instanceof RealEstate) {
-						if(/*fields.get(i).getOwner().equals(player) && */(((RealEstate)fields.get(i)).getHouses()>0)) {
+						if((((RealEstate)fields.get(i)).getHouses()>0)) {
 							propsWithHouses.add((Property)fields.get(i));
 						}
 					}
@@ -539,9 +461,9 @@ public class GameController {
 				if(choice2.equals("ja")) {
 					for(int k = 0; k<propsWithoutHouses.size(); k++) {
 						if(propsWithoutHouses.get(k).getFieldName().equals(choice)) {
-							//game.getFields().get(propsWithoutHouses.get(k).getFieldNumber()).setMortgage(true);
+
 							gui.showMessage(player.getName() + ", du har valgt at pansætte " + propsWithoutHouses.get(k).getFieldName() + " for " + propsWithoutHouses.get(k).getMortgagePrice());
-							propsWithoutHouses.get(k).setMortgage(true);//Tjek om objekterne opdateres efter hensigten
+							propsWithoutHouses.get(k).setMortgage(true);
 							receiveMoney(player, propsWithoutHouses.get(k).getMortgagePrice());
 							propsWithoutHouses.remove(k);
 						}
@@ -592,7 +514,7 @@ public class GameController {
 				double unMortgagePrice=0;
 				for(int i = 0 ; i < mortgageedProps.size(); i++) {
 					if(mortgageedProps.get(i).getFieldName().equals(choice)) {
-						unMortgagePrice =(int)((mortgageedProps.get(i).getPrice())*1.1);
+						unMortgagePrice =(int)((mortgageedProps.get(i).getMortgagePrice())*1.1);
 					}
 				}
 				String choice2 = gui.getUserButtonPressed("Vil du gerne betale banken " + unMortgagePrice + " for at købe " + choice + " fri af banken?", "ja", "nej");
@@ -601,15 +523,11 @@ public class GameController {
 					for(int i = 0 ; i < mortgageedProps.size(); i++) {
 						if(mortgageedProps.get(i).getFieldName().equals(choice)) {
 							mortgageedProps.get(i).setMortgage(false);
-							player.getAccount().updateCash(-(int)unMortgagePrice);
+							payMoneyToBank(player, (int)unMortgagePrice);
 							mortgageedProps.remove(i);
 						}
 					}
 				}
-
-				//				choice = gui.getUserButtonPressed("Vil du fortsætte med at købe grunde fri af banken?", "ja", "nej");
-				//				if(choice.equals("ja"))
-				//					done = true;
 			}
 
 
@@ -729,7 +647,7 @@ public class GameController {
 		else if(position<player.getPosition() && player.getInPrison()==0) {
 			player.setPosition(position % game.getFields().size());
 			gui.showMessage(player.getName() + ", du har passeret start, og modtager 4000 kr");
-			player.getAccount().updateCash(4000);
+			receiveMoney(player, 4000);
 		}
 		else {
 			player.setPosition(position % game.getFields().size());
@@ -1163,16 +1081,7 @@ public class GameController {
 			}
 		}
 		return bankrupt;
-		//		if(player.getAccount().getCash()>= ammount)
-		//			return ammount;
-		//		else
-		//		{
-		//			int allPlayerHas = player.getAccount().getCash() + mortgage(player, mortgageAll);
-		//			//player goes bankrupt()
-		//			return allPlayerHas;
-		//		}
-		//		int allPlayerHas = player.getAccount().getCash() + mortgage(player);
-		//player goes bankrupt()
+
 
 	}
 	public void buyHousesAndHotels(Player player) {
@@ -1265,8 +1174,7 @@ public class GameController {
 						}
 						double avgBuildings = totalHousesInColor/propertiesInColor.size();
 						//Hvis gennemsnittet af byggede huse er større end på den valgte grund, må der bygges.
-						//						boolean ableToBuild = false;
-						//						while(!ableToBuild) {
+
 						//Hvis muligt at bygge:
 						if(avgBuildings>=housesOnChoice) {
 
@@ -1331,7 +1239,6 @@ public class GameController {
 
 			ArrayList<Property> propsWithHouses = player.getOwnedProperties();
 
-			//initial array with a players owned houses
 			//Saves the color system (buddyfields reference)
 			Set<String> colorSystem = new HashSet<String>();
 
@@ -1392,7 +1299,7 @@ public class GameController {
 						h1 = ((RealEstate) sameTypePropertiesFields.get(h)).getHouses();
 					}
 				}
-				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) /*propsWithHouses*/fieldsWithHouses.get(h1)).getHouses() >0)) {
+				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) fieldsWithHouses.get(h1)).getHouses() >0)) {
 					//remove house on Fields that player owns
 					((RealEstate) player.getOwnedProperties().get((sameTypePropertiesFields.get(h1).getFieldNumber()))).sellHouse();;
 					//remove houses from the array the used to sell houses from:
@@ -1402,7 +1309,7 @@ public class GameController {
 					// remove getHouseBuildingPrice from players account (assets)
 					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
-					player.getAccount().updateCash((((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice())/2);
+					receiveMoney(player, (((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice())/2);
 
 					ableToSell = true;
 
@@ -1462,50 +1369,31 @@ public class GameController {
 			}
 			else {
 				moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3, true);
-				//				game.getCurrentPlayer().setPosition((Math.abs(game.getCurrentPlayer().getPosition()-3))%game.getFields().size());
 			}
-			//			moveToField(game.getCurrentPlayer(), game.getCurrentPlayer().getPosition()-3);
-			//			getGame().getCurrentPlayer().setPosition(getGame().getCurrentPlayer().getPosition()-3);
-			//			//land on field
-			//			getGame().getFields().get(getGame().getCurrentPlayer().getPosition()).landOnField(this);;
+
 		}
 		else if(chanceCard.getCardNumber()==24) {
 			//Start
-			//			getGame().getCurrentPlayer().setPosition(0);//1 alt efter hvordan position kalkuleres
 			moveToField(game.getCurrentPlayer(), 0, false);
-			//landOnField
-			//			getGame().getFields().get(0).landOnField(this);
 		}
 		else if(chanceCard.getCardNumber() == 25) {
 			//rådhuspladsen
-			//			getGame().getCurrentPlayer().setPosition(39);//40 alt efter hvordan position kalkuleres
 			moveToField(game.getCurrentPlayer(), 39, false);
-			// landOnField
-			//			getGame().getFields().get(39).landOnField(this);
 
 		}
 		else if(chanceCard.getCardNumber()==26) {
 			//molslinje
-			//			getGame().getCurrentPlayer().setPosition(25);//26 alt efter hvordan position kalkuleres
 			moveToField(game.getCurrentPlayer(), 15, false);
-			// landOnField
-			//			getGame().getFields().get(25).landOnField(this);
 
 		}
 		else if (chanceCard.getCardNumber() == 27) {
 			//Move to Grønningen
-			//			getGame().getCurrentPlayer().setPosition(24);//25 alt efter hvordan position kalkuleres
 			moveToField(game.getCurrentPlayer(), 24, false);
-			//landOnField
-			//			getGame().getFields().get(24).landOnField(this);
 
 		}
 		else {
 			//Move to Frederiksberg Allé
-			//			getGame().getCurrentPlayer().setPosition(11);//12 alt efter hvordan position kalkuleres
 			moveToField(game.getCurrentPlayer(), 11, false);
-			//landOnField
-			//			getGame().getFields().get(11).landOnField(this);
 		}
 
 	}
@@ -1516,33 +1404,21 @@ public class GameController {
 		int arrayPositionOfFerry = 0;
 
 		if ((position)<6 || (position)>=36) {
-			//			int oldPosition = position;
-			//			moveToField(game.getCurrentPlayer(), 5);
-			//			game.getCurrentPlayer().setPosition(5); // Obs skal lige høre hvordan position skal gemmes/ dvs. enten skal den være 5 eller 6 når der flyttes.
 			arrayPositionOfFerry = 5;
-			//If player passes start
-			//			if ((oldPosition)>(position))
-			//				game.getCurrentPlayer().getAccount().updateCash(4000);
 		}
 		else if (position < 16) {
-			//			moveToField(game.getCurrentPlayer(), 15);
-			//			game.getCurrentPlayer().setPosition(15);
 			arrayPositionOfFerry = 15;
 		}
 		else if (position < 26) { 
-			//			moveToField(game.getCurrentPlayer(), 25);
-			//			game.getCurrentPlayer().setPosition(25);
 			arrayPositionOfFerry = 25;
 		}
 		else if ((position) < 36) {
 
-			//			moveToField(game.getCurrentPlayer(), 35);
 			arrayPositionOfFerry = 35;
 		}
 
-		if(((Property) game.getFields().get(arrayPositionOfFerry)).getOwner() !=null ) {//.equals or == null test
+		if(((Property) game.getFields().get(arrayPositionOfFerry)).getOwner() !=null ) {
 			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry, false);
-			//			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 			ownedUtilitiesSameType((Utility) game.getFields().get(arrayPositionOfFerry), game.getCurrentPlayer());
 		}
 
@@ -1571,18 +1447,18 @@ public class GameController {
 			int housePrice = 800;
 			int hotelPrice = 2300;
 
-			game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
+			payMoneyToBank(game.getCurrentPlayer(), payPerHouseAndHotel(housePrice,hotelPrice));
 
 		}
 		else if(chanceCard.getCardNumber()==19) { //kortet betaler per hus og hotel
 			int housePrice = 500;
 			int hotelPrice = 2000;
 
-			game.getCurrentPlayer().getAccount().updateCash(payPerHouseAndHotel(housePrice,hotelPrice));
+			payMoneyToBank(game.getCurrentPlayer(), payPerHouseAndHotel(housePrice,hotelPrice));;
 		}
 
 		else
-			game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
+			payMoneyToBank(game.getCurrentPlayer(),chanceCard.getAmount());
 
 	}
 
@@ -1606,26 +1482,7 @@ public class GameController {
 			else
 				houses+= array[i];
 		}
-		return -(houses*housePrice + hotels*hotelPrice);
-	}
-
-
-	/**
-	 * This method implements activity of a player receiving the
-	 * birthday chance card, where the player receives 200 kr from
-	 * all the other players.
-	 * 
-	 * @param player the player receiving birthday money.
-	 */
-	public void playerBirthday(Player player) { // Overflødig metode - Bliver håndteret i model
-		for(int i = 0; i<game.getPlayers().size(); i++) {
-			if(player.equals(game.getPlayers().get(i))) {
-				continue;
-			}
-			else {
-				payMoneyToPlayer(game.getPlayers().get(i), 200, player);
-			}
-		}
+		return (houses*housePrice + hotels*hotelPrice);
 	}
 
 
@@ -1646,11 +1503,11 @@ public class GameController {
 			//Hensigten med assets/cash Det antages at cash/assets opdateres hver for sig og at assets også opdateres når der købes huse/hoteller.
 			int totValue = game.getCurrentPlayer().getTotalValue(); // Gets cash and assets
 			if (totValue < 15000) {
-				game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
+				receiveMoney(game.getCurrentPlayer(), chanceCard.getAmount());
 			}
 		}
 		else {
-			game.getCurrentPlayer().getAccount().updateCash(chanceCard.getAmount());
+			payMoneyToBank(game.getCurrentPlayer(), chanceCard.getAmount());
 		}
 	}
 
@@ -1664,7 +1521,6 @@ public class GameController {
 				asset += player.getOwnedProperties().get(i).getPrice();
 				if(player.getOwnedProperties().get(i) instanceof RealEstate) {
 					if(((RealEstate)player.getOwnedProperties().get(i)).getHouses()>0) {
-//						asset += ((RealEstate)player.getOwnedProperties().get(i)).getHouses()*housePrice[player.getOwnedProperties().get(i).getFieldNumber()][0];
 						asset += ((RealEstate)player.getOwnedProperties().get(i)).getHouses()*((RealEstate) player.getOwnedProperties().get(i)).getBuildingPrice();
 
 					}
@@ -1674,10 +1530,4 @@ public class GameController {
 		return asset;
 	}
 }
-
-
-
-
-
-
 
