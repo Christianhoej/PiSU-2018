@@ -630,7 +630,7 @@ public class GameController {
 
 
 	private void loadGame() {
-		//Kald til databaser om at loade
+		
 	}
 
 	public void runGame() {
@@ -1354,7 +1354,7 @@ public class GameController {
 
 			//Array med Fields
 			Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
-			fieldsWithHouses.toArray(fieldArray);
+			fieldArray = fieldsWithHouses.toArray(fieldArray);
 
 
 			//Evt start loop her der holder spilleren i ejendomsfarven
@@ -1384,25 +1384,35 @@ public class GameController {
 				choice = gui.getUserButtonPressed("Hvilken grund vil du sælge hus på?", availableBuildings);
 				int h1=0;
 				double h2=0;
-
+				int chosen = 0;
 
 				for(int h = 0; h< availableBuildings.length; h++) {
 					h2+=((RealEstate) sameTypePropertiesFields.get(h)).getHouses();//lægger det totale antal huse i en bestemt farve sammen. Disse kan divideres med antallet af huse som er valgt af brugeren.
 					if(choice.equals(availableBuildings[h])) {
 						h1 = ((RealEstate) sameTypePropertiesFields.get(h)).getHouses();
+						chosen = h;
 					}
 				}
-				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) /*propsWithHouses*/fieldsWithHouses.get(h1)).getHouses() >0)) {
+				
+				for(int i = 0; i<fieldsWithHouses.size(); i++) {
+					System.out.println("Navn : " + fieldsWithHouses.get(i).getFieldName() + ", antal huse: " + ((RealEstate) fieldsWithHouses.get(i)).getHouses());
+					
+				}
+				
+				
+				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) fieldsWithHouses.get(chosen)).getHouses() >0)) {
 					//remove house on Fields that player owns
-					((RealEstate) player.getOwnedProperties().get((sameTypePropertiesFields.get(h1).getFieldNumber()))).sellHouse();;
+					System.out.println(h1); 
+					((RealEstate)sameTypePropertiesFields.get(chosen)).sellHouse();
 					//remove houses from the array the used to sell houses from:
-					((RealEstate) sameTypePropertiesFields.get(h1)).sellHouse();
+					//((RealEstate) sameTypePropertiesFields.get(h1)).sellHouse();
 					//remove house on players houseArray()
 					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
 					// remove getHouseBuildingPrice from players account (assets)
-					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
+//					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
 					//return half of HouseBuildingPrice to Players cash in account.
-					player.getAccount().updateCash((((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice())/2);
+					System.out.println("Kom her til");
+					player.getAccount().updateCash((((RealEstate) game.getFields().get(sameTypePropertiesFields.get(chosen).getFieldNumber())).getBuildingPrice())/2);
 
 					ableToSell = true;
 

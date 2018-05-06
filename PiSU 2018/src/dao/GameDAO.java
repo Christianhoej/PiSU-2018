@@ -1,5 +1,6 @@
 package dao;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -41,9 +42,30 @@ public class GameDAO implements IGameDAO
 		Connection con = connect.getConnection();
 		CallableStatement stmt = (CallableStatement) con.prepareCall("{call create_player(?,?,?,?)}");
 		for (Player player: game.getPlayers()) {
+			String color;
+			if(player.getColour().equals(Color.black)) {
+				color = "black";
+			}
+			else if(player.getColour().equals(Color.BLUE)) {
+				color = "blue";
+			}
+			else if(player.getColour().equals(Color.red)) {
+				color = "red";
+			}
+			else if(player.getColour().equals(Color.WHITE)) {
+				color = "white";
+			}
+			else if(player.getColour().equals(Color.yellow)) {
+				color = "yellow";
+			}
+			else {
+				color = "green";
+			}
+			
+			
 			stmt.setInt(1, game.getGameID());
 			stmt.setString(2, player.getName());
-			stmt.setString(3, player.getColour());
+			stmt.setString(3, color);
 			stmt.registerOutParameter(4, Types.INTEGER);
 			stmt.execute();
 			player.setPlayerID(stmt.getInt(4));
@@ -71,7 +93,7 @@ public class GameDAO implements IGameDAO
 			stmt.setInt(5, player.get(i).getAccount().getPrisonCard());
 			stmt.setInt(6, player.get(i).getAccount().getCash());
 			stmt.setBoolean(7, player.get(i).isBroke());
-			stmt.setBoolean(8, player.get(i).getCurrent());
+			stmt.setBoolean(8, game.getCurrentPlayer().equals(player));
 			stmt.execute();
 		}
 	}
@@ -122,13 +144,34 @@ public class GameDAO implements IGameDAO
 			Player player = new Player();
 			player.setName(res.getString("name"));
 			player.setPlayerID(res.getInt("playerID"));
-			player.setColour(res.getString("carColour"));
+			String color = res.getString("carColour");
+			if(color.equals("blue")) {
+				player.setColour(Color.blue);
+			}
+			else if(color.equals("red")) {
+				player.setColour(Color.red);
+			}
+			else if(color.equals("white")) {
+				player.setColour(Color.white);
+			}
+			else if(color.equals("black")) {
+				player.setColour(Color.BLACK);
+			}
+			else if(color.equals("yellow")) {
+				player.setColour(Color.YELLOW);
+			}
+			else {
+				player.setColour(Color.GREEN);
+			}
 			player.setPosition(res.getInt("position"));
 			player.setInPrison(res.getInt("prison"));
 			player.getAccount().updatePrisonCard(res.getInt("getOutPrison")); 
 			player.getAccount().updateCash(res.getInt("balance"));
 			player.setBroke(res.getBoolean("broke"));
-			player.setCurrent(res.getBoolean("current")); 
+			boolean current = res.getBoolean("current");
+			if(current) {
+				game.setCurrentPlayer(player);
+			}
 			array.add(player);
 		}
 		return array;
@@ -149,14 +192,17 @@ public class GameDAO implements IGameDAO
 			ResultSet res = stmt.getResultSet();
 
 			while(res.next()) {
-
-				field.get(res.getInt("fieldNumber")).setHouses(res.getInt("houses")); 
-				field.get(res.getInt("fieldNumber")).setOwner(player.get(i));
-				if(res.getInt("houses")==-1) {
-					field.get(res.getInt("fieldNumber")).setMortage(true);
+				if(field.get(res.getInt("fieldNumber")) instanceof RealEstate) {
+					((RealEstate) field.get(res.getInt("fieldNumber"))).setHouses(res.getInt("houses"));
 				}
-				else field.get(res.getInt("fieldNumber")).setMortage(false);
-				player.get(i).addOwnedProperties(res.getInt("fieldNumber"));
+				((Property) field.get(res.getInt("fieldNumber"))).setOwner(player.get(i));
+				if(res.getInt("houses")==-1) {
+					((Property) field.get(res.getInt("fieldNumber"))).setMortgage(true);
+				}
+				else {
+					((Property) field.get(res.getInt("fieldNumber"))).setMortgage(false);
+				}
+				player.get(i).addOwnedProperties(((Property) field.get(res.getInt("fieldNumber"))));
 			}
 		}
 		return field;
@@ -169,9 +215,10 @@ public class GameDAO implements IGameDAO
 		ArrayList<Player> player = game.getPlayers();
 
 		for(int i = 0; i<player.size(); i++) {
-			for(int j = 0; j<player.get(i).getOwnedProperties().length; j++) {
+			for(int j = 0; j<player.get(i).getOwnedProperties().size(); j++) {
 				CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_property(?,?,?,?)}");
-				if(player.get(i).getOwnedProperties()[j] == 1) {
+				
+				if(player.get(i).getOwnedProperties().get(j) == 1) {
 
 					System.out.println("Der er en EJER!!!!!");
 					stmt.setInt(1, game.getGameID());
