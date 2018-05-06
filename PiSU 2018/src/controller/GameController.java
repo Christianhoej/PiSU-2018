@@ -1308,7 +1308,9 @@ public class GameController {
 			//Array der skal anvendes til userSelection
 			String[] displayColorSystem = new String[colorSystem.size()];
 			displayColorSystem = colorSystem.toArray(displayColorSystem);
-
+			//int til at teste om man kan sælge i andre farver
+			int availableColors = displayColorSystem.length;
+			
 			//Array med Fields
 			Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
 			fieldArray = fieldsWithHouses.toArray(fieldArray);
@@ -1381,21 +1383,33 @@ public class GameController {
 				else {
 					gui.showMessage("Du kan enten ikke sælge flere huse i denne farve eller ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt.");
 				}
-				//Buttons to either continue or finish selling
-				choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
+				//Hvis du kan fortsætte i samme farve:
+				if(h2/sameTypePropertiesFields.size() == 0)
+					choice = gui.getUserButtonPressed("Vil du afslutte eller forsætte med at sælge huse/hoteller?", "Fortsæt med at sælge i farven","Fortsæt med anden farve" ,"afslut");
 
-				switch(choice) {
-				case "Fortsæt med at sælge i farven" :
-
-					break;
-				case "Fortsæt med anden farve" :
-					ableToSell = true;
-					break;
-				case "afslut":
-					ableToSell = true;
-					done = true;
-					break;
+				//Hvis ikke du kan fortsætte i samme farve, så find ud af om personen kan fortsætte i anden farve
+				else {
+					availableColors--;
+					if(availableColors>=1)
+						choice = gui.getUserButtonPressed("Vil du afslutte eller sælge huse/hoteller i en anden farve?", "Fortsæt med anden farve", "afslut");
+					else {
+						gui.showMessage("Du ejer ikke flere grunde med huse/hoteller du kan sælge på.");
+						choice = "afslut";
+						
+					}
 				}
+						switch(choice) {
+						case "Fortsæt med at sælge i farven" :
+
+							break;
+						case "Fortsæt med anden farve" :
+							ableToSell = true;
+							break;
+						case "afslut":
+							ableToSell = true;
+							done = true;
+							break;
+						}
 			}
 		}
 	}
@@ -1407,7 +1421,7 @@ public class GameController {
 				payMoneyToBank(game.getCurrentPlayer(), tax.getPrice());
 
 			} else {
-				payMoneyToBank(game.getCurrentPlayer(), getAssetValue(game.getCurrentPlayer()));
+				payMoneyToBank(game.getCurrentPlayer(), (int)(getAssetValue(game.getCurrentPlayer())*0.1));
 			}
 		} else {
 			payMoneyToBank(game.getCurrentPlayer(), tax.getPrice());
