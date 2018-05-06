@@ -97,6 +97,12 @@ public class Property extends Fields {
 		notifyChange();
 	}
 
+	public void removeOwner() {
+		owner = null;
+		setForSale(true);
+		notifyChange();
+	}
+	
 	public String getFieldName() {
 		return fieldName;
 	}
