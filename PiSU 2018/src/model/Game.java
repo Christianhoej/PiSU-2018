@@ -20,6 +20,7 @@ public class Game extends Subject {
 
 	public void setGameID(int gameID) {
 		this.gameID = gameID;
+		System.out.println(gameID);
 	}
 
 	public int getGameID() {
@@ -35,7 +36,7 @@ public class Game extends Subject {
 	}
 
 	public void setCurrentPlayer(Player currentPlayer) {
-		if (currentPlayer != null && players.contains(currentPlayer)) {
+		if (currentPlayer != null /*&& players.contains(currentPlayer)*/) {
 			this.currentPlayer = currentPlayer;
 		} else {
 			throw new IllegalArgumentException("Spilleren er ikke i spillet");

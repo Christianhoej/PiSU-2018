@@ -49,7 +49,7 @@ public class GameDAO implements IGameDAO
 			createProperties(game, con);
 			con.commit();
 			con.setAutoCommit(true);
-			
+
 			//Ekkarts_________________________________
 		} catch (SQLException e) {
 			// TODO error handling
@@ -105,28 +105,10 @@ public class GameDAO implements IGameDAO
 
 	@Override
 	public void createProperties(Game game, Connection con) throws SQLException {
-//		Connection con = connect.getConnection();		
+		//		Connection con = connect.getConnection();		
 		CallableStatement stmt = (CallableStatement) con.prepareCall("{call create_property(?)}");
 		stmt.setInt(1, game.getGameID());
 		stmt.execute();
-	}
-
-	@Override
-	public void updatePlayer(Game game) throws SQLException {
-		Connection con = connect.getConnection();	
-		ArrayList<Player> player = game.getPlayers();
-		for(int i = 0; i<player.size(); i++) {
-			CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_player(?,?,?,?,?,?,?,?)}");
-			stmt.setInt(1, player.get(i).getPlayerID());
-			stmt.setInt(2, game.getGameID());
-			stmt.setInt(3, player.get(i).getPosition());
-			stmt.setInt(4, player.get(i).getInPrison());
-			stmt.setInt(5, player.get(i).getAccount().getPrisonCard());
-			stmt.setInt(6, player.get(i).getAccount().getCash());
-			stmt.setBoolean(7, player.get(i).isBroke());
-			stmt.setBoolean(8, game.getCurrentPlayer().equals(player.get(i)));
-			stmt.execute();
-		}
 	}
 
 	// Nok overflødig
@@ -178,7 +160,7 @@ public class GameDAO implements IGameDAO
 			String color = res.getString("carColour");
 			switch(color) {
 			case BLUE: player.setColour(Color.blue);
-				break;
+			break;
 			case RED: player.setColour(Color.red);
 			break;
 			case BLACK: player.setColour(Color.black);
@@ -190,8 +172,8 @@ public class GameDAO implements IGameDAO
 			case YELLOW: player.setColour(Color.yellow);
 			break;
 			}
-			
-			
+
+
 			if(color.equals("blue")) {
 				player.setColour(Color.blue);
 			}
@@ -243,7 +225,10 @@ public class GameDAO implements IGameDAO
 				if(field.get(res.getInt("fieldNumber")) instanceof RealEstate) {
 					((RealEstate) field.get(res.getInt("fieldNumber"))).setHouses(res.getInt("houses"));
 				}
+
 				((Property) field.get(res.getInt("fieldNumber"))).setOwner(player.get(i));
+				//				System.out.println(((Property) field.get(res.getInt("fieldNumber"))).setOwner(player.get(i)));
+
 				if(res.getInt("houses")==-1) {
 					((Property) field.get(res.getInt("fieldNumber"))).setMortgage(true);
 				}
@@ -257,6 +242,25 @@ public class GameDAO implements IGameDAO
 	}
 
 	@Override
+	public void updatePlayer(Game game) throws SQLException {
+		Connection con = connect.getConnection();	
+		ArrayList<Player> player = game.getPlayers();
+		for(int i = 0; i<player.size(); i++) {
+			CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_player(?,?,?,?,?,?,?,?)}");
+			stmt.setInt(1, player.get(i).getPlayerID());
+			stmt.setInt(2, game.getGameID());
+			stmt.setInt(3, player.get(i).getPosition());
+			stmt.setInt(4, player.get(i).getInPrison());
+			stmt.setInt(5, player.get(i).getAccount().getPrisonCard());
+			stmt.setInt(6, player.get(i).getAccount().getCash());
+			stmt.setBoolean(7, player.get(i).isBroke());
+			stmt.setBoolean(8, game.getCurrentPlayer().equals(player.get(i)));
+			stmt.execute();
+		}
+	}
+
+
+	@Override
 	public void updateProperties(Game game) throws SQLException {
 		Connection con = connect.getConnection();
 		ArrayList<Fields> field = game.getFields();
@@ -266,17 +270,26 @@ public class GameDAO implements IGameDAO
 			for(int j = 0; j<player.get(i).getOwnedProperties().size(); j++) {
 				CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_property(?,?,?,?)}");
 
-				System.out.println("Der er en EJER!!!!!");
-				stmt.setInt(1, game.getGameID());
-				stmt.setInt(2, field.get(j).getFieldNumber());
-				stmt.setInt(3, player.get(i).getPlayerID());
-				if(field.get(j) instanceof RealEstate) {
-					stmt.setInt(4, ((RealEstate)field.get(j)).getHouses());
+				if(player.get(i).getOwnedProperties().size()>0) {
+					System.out.println("Der er en EJER!!!!!");
+
+					System.out.println(game.getGameID());
+					stmt.setInt(1, game.getGameID());
+					stmt.setInt(2, player.get(i).getOwnedProperties().get(j).getFieldNumber());
+					stmt.setInt(3, player.get(i).getPlayerID());
+					if(player.get(i).getOwnedProperties().get(j) instanceof RealEstate) {
+						stmt.setInt(4, ((RealEstate)player.get(i).getOwnedProperties().get(j)).getHouses());
+					}
+					else {
+						stmt.setInt(4, 0);
+					}
+					stmt.execute();
 				}
-				stmt.execute();
+
 			}
 		}
 	}
+
 
 
 	@Override
