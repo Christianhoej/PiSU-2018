@@ -18,7 +18,12 @@ import model.Txt;
 import model.Utility;
 import model.Tax;
 
-
+/**
+ * 
+ * @author Unknown
+ *
+ *This class is used to connect the gui and models. It will lead and distribute the work dependent on received input from the players in the user interface.
+ */
 public class GameController {
 
 	private Game game;
@@ -34,7 +39,12 @@ public class GameController {
 	}
 
 
-
+/**
+ * @author unknown
+ * 
+ * This method gives the players the opportunity to add themselves to the game and also gives them the opportunity to add colors to their piece on the board.
+ * 
+ */
 
 	public void createPlayers() {
 
@@ -89,14 +99,17 @@ public class GameController {
 
 	/**
 	 * 
-	 * @param player
-	 * @param playerArray
-	 * @param antalSpillere
+	 * @author unknown
+	 * @param player - The player who wants to initiate a trade with another player
+	 * 
+	 *  This method is invoked whenever a player wants to trade with an other player.
+	 *  It is possible to trade a "GetOutOfJail" card, a property and money albeit only one of the chosen categories at one time.
 	 *  
 	 */
 	private void trade(Player player) {
 		ArrayList<String> tradePlayers = new ArrayList<String>();
 
+		//Lægger mulige spillere at bytte med i arrayList
 		for(int i=0; i<game.getPlayers().size(); i++) {
 			if(!player.equals(game.getPlayers().get(i))) {
 				tradePlayers.add(game.getPlayers().get(i).getName());
@@ -106,9 +119,11 @@ public class GameController {
 		String[] tradingPlayers = new String[tradePlayers.size()];
 		tradingPlayers = tradePlayers.toArray(tradingPlayers); 
 
-
+		//Spiller tilkendegiver hvilken anden spiller han vil bytte med.
 		String tradeName = gui.getUserButtonPressed(player.getName() + ", hvilken spiller vil du bytte med?", tradingPlayers);
 
+		
+		//Gå tilbage hvis "annuller" vælges
 		if(!tradeName.equals("Tilbage")) {
 			Player tradingPlayer = null;
 			for(int i=0; i<game.getPlayers().size(); i++) {
@@ -124,6 +139,7 @@ public class GameController {
 			ArrayList<String> currentOwnedMortgageProp = new ArrayList<String>();
 			ArrayList<String> currentOptions = new ArrayList<String>();
 
+			//Lægger nuværende spillers ejede grunde i hhv. en mortgaged og ikke mortgaged ArrayList
 			if(player.getOwnedProperties().size()>0) {
 				for(int i=0; i<player.getOwnedProperties().size(); i++) {
 					if(player.getOwnedProperties().get(i).getMortgage()) {
@@ -135,6 +151,7 @@ public class GameController {
 				}
 			}
 
+			//Tilføjer muligheder for hvad en spiller vil bytte
 			if(currentOwnedMortgageProp.size()>0) {
 				currentOptions.add("Pantsatte grunde");
 				currentOwnedMortgageProp.add("Annuller");
@@ -150,7 +167,8 @@ public class GameController {
 				currentOptions.add("Penge");
 			}
 			currentOptions.add("Annuller");
-
+			
+			//Arrays oprettes med arraylisternes indhold så de kan bruges i guien
 			String[] currentPlayerOwnedProp = new String[currentOwnedProp.size()];
 			currentPlayerOwnedProp = currentOwnedProp.toArray(currentPlayerOwnedProp); 
 
@@ -160,9 +178,12 @@ public class GameController {
 			String[] currentPlayerOptions = new String[currentOptions.size()];
 			currentPlayerOptions = currentOptions.toArray(currentPlayerOptions);
 
+			//Spiller vælger hvad spilleren vil bytte.
 			String currentChoice = gui.getUserButtonPressed(player.getName() + ", hvad vil du bytte? ", currentPlayerOptions);
 
 			String currentChoice1="";
+			
+			//Alt efter hvad spilleren har valgt at bytte med, vælg et mere konkret beløb/ ejendom etc:
 			switch(currentChoice) {
 			case "Grunde": 
 				currentChoice1 = gui.getUserSelection(player.getName() + ", hvilken grund vil du bytte ", currentPlayerOwnedProp);
@@ -227,12 +248,23 @@ public class GameController {
 			}
 		}
 	}
-
+/**
+ * @author unknown
+ * 
+ * Method that is invoked to let a chosen player trade something owned by that player
+ * @param currentPlayer - Player who wanted to trade
+ * @param tradingPlayer - Player who trades with the player who initiated the trade
+ * @param currentCoice - Shows the choice wanted to trade with the currentPlayer
+ * @return boolean: true if the tradingplayer has accepted to trade and picked something to trade
+ * 
+ * 
+ */
 	public boolean tradePlayerOption(Player currentPlayer, Player tradingPlayer, String currentCoice) { 
 		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
 		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
 		ArrayList<String> tradeOptions = new ArrayList<String>();
 
+		//adds properties in mortgaged and unmortgaged arraylists
 		if(tradingPlayer.getOwnedProperties().size()>0) {
 			for(int i=0; i<tradingPlayer.getOwnedProperties().size(); i++) {
 				if(tradingPlayer.getOwnedProperties().get(i).getMortgage()) {
@@ -244,7 +276,7 @@ public class GameController {
 			}
 		}
 
-
+// Tilføjer muligheder spilleren har for at bytte
 		if(tradeOwnedMortgageProp.size()>0) {
 			tradeOptions.add("Pantsatte grunde");
 			tradeOwnedMortgageProp.add("Annuller");
@@ -272,6 +304,8 @@ public class GameController {
 
 		String tradeChoice = gui.getUserButtonPressed(tradingPlayer.getName() + ", hvad vil du bytte? ", tradePlayerOptions);
 		String tradeChoice1="";
+		
+		//Den konkrete ejendom/ mængde penge / andet vælges til at bytte med
 		if(!tradeChoice.equals("Annuller")) {
 			switch(tradeChoice) {
 			case "Grunde": 
@@ -325,9 +359,10 @@ public class GameController {
 
 
 	/**
+	 * @author unknown
 	 * Method for when a property is up for auction.
-	 * @param player
-	 * @param property
+	 * @param player - is the current player
+	 * @param property - is the property up for sale 
 	 */
 	public void auction(Player player, Property property) {
 		ArrayList<Player> players = game.getPlayers();
@@ -383,7 +418,7 @@ public class GameController {
 				return;
 			}
 
-			else if(biddingPlayers.size() == 0) {//null?
+			else if(biddingPlayers.size() == 0) {
 				gui.showMessage("Der var ingen der ville købe " + property.getFieldName() + ". Ejendommen beholdes af Banken og spillet fortsætter.");
 				auctionOver = true;
 			}
@@ -395,7 +430,12 @@ public class GameController {
 	}
 
 
-
+	/**
+	 * @author unknown
+	 * 
+	 * Method is invoked when a player wants to mortgage a property.
+	 * @param player - Player who wants to mortgage an owned property
+	 */
 	public void mortgage(Player player) {
 		//		En spiller skal kunne pantsætte sin ejendom, for at modtage lån af banken. 
 		//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
@@ -407,10 +447,10 @@ public class GameController {
 			ArrayList<Property> fields = player.getOwnedProperties();
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
-
+			
+// I dette loop sorteres en spillers ejendomme i hhv. utilities og properties
 			for( int i = 0; i<fields.size(); i++) {
-				//&& fields.
-
+				
 				if(!fields.get(i).getMortgage()) {
 					if(fields.get(i) instanceof RealEstate) {
 						if((((RealEstate)fields.get(i)).getHouses()==0)) {
