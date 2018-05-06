@@ -81,9 +81,9 @@ public class Player extends Subject {
 		notifyChange();
 	}
 
-	public int getTotalValue() {
-		return account.getCash() + account.getAssetValue();
-	}
+//	public int getTotalValue() {
+//		return account.getCash() + account.getAssetValue();
+//	}
 
 	public int getInPrison() {
 		return inPrison;

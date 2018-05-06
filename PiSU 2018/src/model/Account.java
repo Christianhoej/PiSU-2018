@@ -16,7 +16,7 @@ import designpatterns.Subject;
 
 public class Account extends Subject {
 	private int cash;
-	private int assetValue = 0;
+//	private int assetValue = 0;
 	private int prisonCard = 0;
 	private Player player;
 
@@ -45,13 +45,13 @@ public class Account extends Subject {
 	 * @param assets
 	 */
 
-	public void updateAssetValue(int assets) {
-		this.assetValue += assets;
-	}
-
-	public int getAssetValue() {
-		return assetValue;
-	}
+//	public void updateAssetValue(int assets) {
+//		this.assetValue += assets;
+//	}
+//
+//	public int getAssetValue() {
+//		return assetValue;
+//	}
 
 	/**
 	 * Updates the number of the players get out of prison cards
