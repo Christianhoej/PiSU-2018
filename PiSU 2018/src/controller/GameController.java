@@ -875,13 +875,13 @@ public class GameController {
 			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			case 2: payMoneyToPlayer(player, rent[property.getFieldNumber()][1], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][1]);
 			break;
 			case 3: payMoneyToPlayer(player, rent[property.getFieldNumber()][2], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][2]);
 			break;
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][3]);
 			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}
@@ -891,7 +891,7 @@ public class GameController {
 	public void paySameTypeRealEstate(RealEstate realEstate, Player player) {
 		switch(realEstate.getHouses()){
 		case 0: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][0]*2, realEstate.getOwner());
-		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][5]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][0]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
 		break;
 		case 1: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][1], realEstate.getOwner());
 		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][1]+ " da " + realEstate.getOwner().getName() + " har et hus på denne ejendom");
