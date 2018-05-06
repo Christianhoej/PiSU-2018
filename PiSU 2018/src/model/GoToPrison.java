@@ -35,8 +35,7 @@ public class GoToPrison extends Fields {
 	 */
 	@Override
 	public void landOnField(GameController gameController) {
-		gameController.getGame().getCurrentPlayer().setPosition(10);
-		gameController.getGame().getCurrentPlayer().setInPrison(1);
+		gameController.goToJail(this);
 	}
 
 }
