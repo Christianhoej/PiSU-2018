@@ -616,6 +616,7 @@ public class GameController {
 	public void playerTurn(Player player) {
 		boolean throwDouble=false;
 		int doubleCount=0;
+		if(!player.isBroke()) {
 		do {
 			if(player.getInPrison()>0) {
 				playerInPrison(player);
@@ -668,6 +669,7 @@ public class GameController {
 				generateCash(player, 0);
 			}
 		}while(throwDouble);
+
 		try {
 			gameDAO.updatePlayer(game);
 			gameDAO.updateProperties(game);
@@ -677,6 +679,7 @@ public class GameController {
 			e.printStackTrace();
 		}
 		
+
 	}
 
 
@@ -718,6 +721,7 @@ public class GameController {
 		if(player.getAccount().getCash()>=1000) {
 			options.add("Betal 1000 kr");
 		}
+		if( player.getInPrison()>=4) //NY
 		options.add("Kast terningerne");
 		String[] option = new String[options.size()];
 		option = options.toArray(option);
@@ -735,6 +739,9 @@ public class GameController {
 		gui.showMessage(player.getName() + ", du har brugt et fængsels kort og er kommet ud af fængslet. Fortsæt turen ved at kaste med terningerne");
 		break;
 		case "Kast terningerne": break;
+		
+		default: // NY Hvis Spiller ikke kan betale sig ud af fængsel 3. gang
+			payMoneyToBank(player, 1000);
 		}
 
 	}
@@ -791,8 +798,8 @@ public class GameController {
 			boolean bankrupt = generateCash(payingPlayer, amount);
 			if(bankrupt) {
 				bankruptToPlayer(payingPlayer, receivingPlayer);
+				return;
 			}
-			return;
 		}
 		payingPlayer.getAccount().updateCash(-amount);
 		receivingPlayer.getAccount().updateCash(amount);
@@ -942,6 +949,7 @@ public class GameController {
 				cashForReceiver += propsForTransfers.get(i).getMortgagePrice();
 				propsForTransfers.get(i).setMortgage(true);
 			}
+			propsForTransfers.get(i).setOwner(receivingPlayer);
 			receivingPlayer.addOwnedProperties(propsForTransfers.get(i));
 		}
 		payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
@@ -1009,14 +1017,15 @@ public class GameController {
 	public boolean generateCash(Player player, int ammount) {
 		String choice = "";
 		boolean done = false;
+
 		boolean bankrupt = false;
 		while (!done) {
-
-			boolean byHouses = false;
+			//booleans tilkendegiver hvad spilleren kan gøre
+			boolean buyHouses = false;
 			boolean sellHouses = false;
 			boolean morgtageProperty = false;
 			boolean unMortgageProperty = false;
-			boolean trade = false;
+			boolean trade = true;
 			boolean throwDice = false;
 			boolean endTurn = false;
 			// If the player hasn't thrown the dice
@@ -1028,18 +1037,22 @@ public class GameController {
 			}
 			else {
 				throwDice = false;
-				endTurn = true;
+				if(!player.isBroke())
+					endTurn = true;
+				else
+					endTurn = false;
 			}
 
 			// If the player has properties
 			if(player.getOwnedProperties().size()>0) {  
+
 				// Player can mortgage property and trade with other players
-				for(int i = 0; i<game.getPlayers().size(); i++) {
-					if(game.getPlayers().get(i).getOwnedProperties().size()>0 && !game.getPlayers().get(i).equals(player)) {
-						trade = true;
-						break;
-					}
-				}
+				//				for(int i = 0; i<game.getPlayers().size(); i++) {
+				//					if(game.getPlayers().get(i).getOwnedProperties().size()>0 && !game.getPlayers().get(i).equals(player)) {
+				//						trade = true;
+				//						break;
+				//					}
+				//				}
 
 
 
@@ -1061,7 +1074,7 @@ public class GameController {
 							// if the player doesn't have hotel on property
 							if(((RealEstate) player.getOwnedProperties().get(i)).getHouses() <= 4 && !player.getOwnedProperties().get(i).getMortgage()) {
 								// Player can by houses
-								byHouses = true;
+								buyHouses = true;
 							}
 							// if the player has houses on the property
 							if(((RealEstate) player.getOwnedProperties().get(i)).getHouses()>0) {
@@ -1077,9 +1090,10 @@ public class GameController {
 
 			ArrayList<String> option = new ArrayList<>();
 			if(player.getAccount().getCash()<ammount) {
-				option.add("Erklær dig konkurs");
+				option.add("Afslut og erklær dig konkurs");
+//				option.remove("Afslut tur");
 			}
-			if(byHouses) {
+			if(buyHouses) {
 				option.add("Køb hus");
 			}
 			if(sellHouses) {
@@ -1098,7 +1112,7 @@ public class GameController {
 				option.add("Kast med terningen");
 				game.getDice().setRolled(true);
 			}
-			if(endTurn) {
+			if(endTurn && player.getAccount().getCash()>=ammount) {
 				option.add("Afslut tur");
 			}
 
@@ -1129,10 +1143,15 @@ public class GameController {
 			case "Byt med medspiller":
 				trade(player);
 				break;
-			case "Erklær dig konkurs":
-				bankrupt = true;
-				done = true;
-				break;
+			case "Afslut og erklær dig konkurs":
+				player.setBroke(true);
+
+				//				if(bankruptToBank)
+				//				bankruptToBank(player);
+				//				else
+				return true;
+
+//				break;
 			case "Kast med terningen":
 				done = true;
 				break;
@@ -1322,7 +1341,7 @@ public class GameController {
 			displayColorSystem = colorSystem.toArray(displayColorSystem);
 			//int til at teste om man kan sælge i andre farver
 			int availableColors = displayColorSystem.length;
-			
+
 			//Array med Fields
 			Fields[] fieldArray = new Fields[fieldsWithHouses.size()];
 			fieldArray = fieldsWithHouses.toArray(fieldArray);
@@ -1407,21 +1426,21 @@ public class GameController {
 					else {
 						gui.showMessage("Du ejer ikke flere grunde med huse/hoteller du kan sælge på.");
 						choice = "afslut";
-						
+
 					}
 				}
-						switch(choice) {
-						case "Fortsæt med at sælge i farven" :
+				switch(choice) {
+				case "Fortsæt med at sælge i farven" :
 
-							break;
-						case "Fortsæt med anden farve" :
-							ableToSell = true;
-							break;
-						case "afslut":
-							ableToSell = true;
-							done = true;
-							break;
-						}
+					break;
+				case "Fortsæt med anden farve" :
+					ableToSell = true;
+					break;
+				case "afslut":
+					ableToSell = true;
+					done = true;
+					break;
+				}
 			}
 		}
 	}
