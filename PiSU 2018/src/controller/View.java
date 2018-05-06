@@ -119,6 +119,7 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(property.getOwner().getName()+ ", pantsat");
+						guiField.setBorder(property.getOwner().getColour());
 					}
 					else if(property.getOwner() == null) {
 						guiField.setBorder(Color.black);
@@ -137,6 +138,7 @@ public class View implements Observer {
 					}
 					else if(property.getOwner()!=null) {
 						guiField.setOwnerName(((RealEstate)property).getOwner().getName() + ", pantsat");
+						guiField.setBorder(property.getOwner().getColour());
 					}
 
 					else if(property.getOwner() == null) {
@@ -171,6 +173,7 @@ public class View implements Observer {
 			GUI_Field[] guiFields = gui.getFields();
 			Integer oldPosition = player2position.get(player);
 			if(player.isBroke()) {
+				guiPlayer.setName(player.getName() + " (broke)");
 				if (oldPosition != null && oldPosition < guiFields.length) {
 					guiFields[oldPosition].setCar(guiPlayer, false);
 				}
@@ -184,13 +187,11 @@ public class View implements Observer {
 				if (pos < guiFields.length) {
 					player2position.put(player, pos);
 					guiFields[pos].setCar(guiPlayer, true);
-				}
-
-				if (player.isBroke()) {
-					guiPlayer.setName(player.getName() + " (broke)");
-				} else if (player.getInPrison()>0) {
+				} 
+				else if (player.getInPrison()>0) {
 					guiPlayer.setName(player.getName() + " (in prison)");
-				} else {
+				} 
+				else {
 					guiPlayer.setName(player.getName());
 				}	
 			}

@@ -42,12 +42,12 @@ public class GameController {
 	}
 
 
-/**
- * @author unknown
- * 
- * This method gives the players the opportunity to add themselves to the game and also gives them the opportunity to add colors to their piece on the board.
- * 
- */
+	/**
+	 * @author unknown
+	 * 
+	 * This method gives the players the opportunity to add themselves to the game and also gives them the opportunity to add colors to their piece on the board.
+	 * 
+	 */
 
 	public void createPlayers() {
 
@@ -126,7 +126,7 @@ public class GameController {
 		//Spiller tilkendegiver hvilken anden spiller han vil bytte med.
 		String tradeName = gui.getUserButtonPressed(player.getName() + ", hvilken spiller vil du bytte med?", tradingPlayers);
 
-		
+
 		//Gå tilbage hvis "annuller" vælges
 		if(!tradeName.equals("Tilbage")) {
 			Player tradingPlayer = null;
@@ -171,7 +171,7 @@ public class GameController {
 				currentOptions.add("Penge");
 			}
 			currentOptions.add("Annuller");
-			
+
 			//Arrays oprettes med arraylisternes indhold så de kan bruges i guien
 			String[] currentPlayerOwnedProp = new String[currentOwnedProp.size()];
 			currentPlayerOwnedProp = currentOwnedProp.toArray(currentPlayerOwnedProp); 
@@ -186,7 +186,7 @@ public class GameController {
 			String currentChoice = gui.getUserButtonPressed(player.getName() + ", hvad vil du bytte? ", currentPlayerOptions);
 
 			String currentChoice1="";
-			
+
 			//Alt efter hvad spilleren har valgt at bytte med, vælg et mere konkret beløb/ ejendom etc:
 			switch(currentChoice) {
 			case "Grunde": 
@@ -252,6 +252,7 @@ public class GameController {
 			}
 		}
 	}
+
 /**
  * @author unknown
  * 
@@ -264,6 +265,7 @@ public class GameController {
  * 
  */
 	public boolean tradePlayerOption(Player currentPlayer, Player tradingPlayer, String currentChoice) { 
+
 		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
 		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
 		ArrayList<String> tradeOptions = new ArrayList<String>();
@@ -280,7 +282,7 @@ public class GameController {
 			}
 		}
 
-// Tilføjer muligheder spilleren har for at bytte
+		// Tilføjer muligheder spilleren har for at bytte
 		if(tradeOwnedMortgageProp.size()>0) {
 			tradeOptions.add("Pantsatte grunde");
 			tradeOwnedMortgageProp.add("Annuller");
@@ -308,7 +310,7 @@ public class GameController {
 
 		String tradeChoice = gui.getUserButtonPressed(tradingPlayer.getName() + ", hvad vil du bytte? ", tradePlayerOptions);
 		String tradeChoice1="";
-		
+
 		//Den konkrete ejendom/ mængde penge / andet vælges til at bytte med
 		if(!tradeChoice.equals("Annuller")) {
 			switch(tradeChoice) {
@@ -451,10 +453,12 @@ public class GameController {
 			ArrayList<Property> fields = player.getOwnedProperties();
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
+
 			
 // I dette loop sorteres en spillers ejendomme i hhv. utilities og properties uden huse , samt  properties med huse.
+
 			for( int i = 0; i<fields.size(); i++) {
-				
+
 				if(!fields.get(i).getMortgage()) {
 					if(fields.get(i) instanceof RealEstate) {
 						if((((RealEstate)fields.get(i)).getHouses()==0)) {
@@ -652,6 +656,12 @@ public class GameController {
 	public void runGame() {
 		setUpGame();
 		playGame();
+		try {
+			gameDAO.endGame(game);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 /**
@@ -663,34 +673,39 @@ public class GameController {
 		ArrayList<Player> players = game.getPlayers();
 		Player currentPlayer = game.getCurrentPlayer();
 
-		// Getting the index for the currentPlayer - useful when loading a game.
+		// Getting the index for the currentPlayer - u seful when loading a game.
 
-
+		System.out.println("Index af currentPlayer: "+ game.getPlayers().indexOf(currentPlayer));
 		int currentIndex= game.getPlayers().indexOf(currentPlayer);
+		System.out.println("2. index af currentPlayer: " + currentIndex);
+		if(currentPlayer.isBroke()) {			
+			removePlayerFromGame(currentPlayer);
+			players = game.getPlayers();
+			currentIndex = (currentIndex)%players.size();
+			game.setCurrentPlayer(players.get(currentIndex));
+		}
+
 
 		boolean noWinner=true;
-		//Dette loop fastholder at spillet kører indtil der er fundet en vinder
+		if(game.getPlayers().size()==1) {
+			noWinner = false;
+		}
+
 		while(noWinner) {
-			//Loop fjerner spillere fra spillet hvis de er bankerot
-			for(int i = 0; i<players.size(); i++) {
-				if(players.get(i).isBroke()) {
-					removePlayerFromGame(players.get(i));
-				}
-			}
-
-
 			currentPlayer = game.getCurrentPlayer();
 			
 			//Hvis nuværende spiller ikke er bankerot er det hans tur
 			if(!currentPlayer.isBroke()) {
 				playerTurn(currentPlayer);
-				System.out.println(getAssetValue(currentPlayer));
 			}
 
+
 			//Sikrer at turen kan gå rundt selvom antallet af spillere tilbage i spillet kan blive mindre.
+
 			currentIndex = (currentIndex+1)%players.size();
 			game.setCurrentPlayer(players.get(currentIndex));
 		}
+		gui.showMessage(game.getCurrentPlayer().getName() + "har vundet hele fucking spillet!!!!!");
 	}
 /**
  * @author unknown
@@ -898,7 +913,6 @@ public class GameController {
 			boolean bankrupt = generateCash(player, amount);
 			if(bankrupt) {
 				bankruptToBank(player);
-				
 				playGame();
 
 			}
@@ -918,7 +932,7 @@ public class GameController {
 			boolean bankrupt = generateCash(payingPlayer, amount);
 			if(bankrupt) {
 				bankruptToPlayer(payingPlayer, receivingPlayer);
-				return;
+				playGame();
 			}
 		}
 		payingPlayer.getAccount().updateCash(-amount);
@@ -1089,10 +1103,15 @@ public class GameController {
 		//Invoke Auction on properties owned by bankrupt Player.
 		player.setBroke(true);
 		ArrayList<Property> propertiesForAuction =player.getOwnedProperties();
-		for(int i = 0; i<propertiesForAuction.size(); i++) {
-			propertiesForAuction.get(i).setMortgage(false);
-			propertiesForAuction.get(i).setOwner(null);
-			auction(player, propertiesForAuction.get(i));
+		if(game.getPlayers().size()>1) {
+
+			for(int i = 0; i<propertiesForAuction.size(); i++) {
+				propertiesForAuction.get(i).setMortgage(false);
+				propertiesForAuction.get(i).setOwner(null);
+				auction(player, propertiesForAuction.get(i));
+
+
+			}
 
 		}
 		player.removeAllOwnedProperties();
@@ -1110,19 +1129,22 @@ public class GameController {
 		ArrayList<Property> propsForTransfers = bankruptPlayer.getOwnedProperties();
 		int cashForReceiver = bankruptPlayer.getAccount().getCash();
 		bankruptPlayer.setBroke(true);
-		for(int i = 0; i<propsForTransfers.size(); i++) {
-			if(propsForTransfers.get(i).getMortgage()==false) {
-				cashForReceiver += propsForTransfers.get(i).getMortgagePrice();
-				propsForTransfers.get(i).setMortgage(true);
+		if(game.getPlayers().size()>1) {
+			for(int i = 0; i<propsForTransfers.size(); i++) {
+				if(propsForTransfers.get(i).getMortgage()==false) {
+					cashForReceiver += propsForTransfers.get(i).getMortgagePrice();
+					propsForTransfers.get(i).setMortgage(true);
+				}
+				gui.showMessage(receivingPlayer.getName() + " får " + propsForTransfers.get(i).getFieldName() + " af " + bankruptPlayer.getName() + " da " + bankruptPlayer.getName() + " er gået konkurs");
+				propsForTransfers.get(i).setOwner(receivingPlayer);
+				receivingPlayer.addOwnedProperties(propsForTransfers.get(i));
+
 			}
-			gui.showMessage(receivingPlayer.getName() + " får " + propsForTransfers.get(i).getFieldName() + " af " + bankruptPlayer.getName() + " da " + bankruptPlayer.getName() + " er gået konkurs");
-			propsForTransfers.get(i).setOwner(receivingPlayer);
-			receivingPlayer.addOwnedProperties(propsForTransfers.get(i));
-
+			bankruptPlayer.removeAllOwnedProperties();
+//			payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
+			receiveMoney(receivingPlayer, cashForReceiver);
+			payMoneyToPlayer(bankruptPlayer, bankruptPlayer.getAccount().getCash(), receivingPlayer);
 		}
-		bankruptPlayer.removeAllOwnedProperties();
-		payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
-
 	}
 /** 
  * @author unknwon
@@ -1609,7 +1631,7 @@ public class GameController {
 		}
 	}
 
-	
+
 	public void goToJail(Fields field) {
 		game.getCurrentPlayer().setPosition(10);
 		game.getCurrentPlayer().setInPrison(1);

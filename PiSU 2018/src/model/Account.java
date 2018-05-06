@@ -1,6 +1,7 @@
 package model;
 /**
  * @author Christian ++
+
  * Contains methods and attributes for the players account.
  * This includes the players amount of cash and assets.
  *
@@ -13,13 +14,12 @@ import designpatterns.Subject;
 
 public class Account extends Subject {
 	private int cash;
-//	private int assetValue = 0;
 	private int prisonCard = 0;
 	private Player player;
 
 	/**
 	 * Constructor for Account. 
-	 * @param cash
+	 * @param cash - players amount of cash
 	 */
 	public Account (int cash) {
 		this.cash = cash;
@@ -38,21 +38,8 @@ public class Account extends Subject {
 	}
 
 	/**
-	 * Add assets to the players account.
-	 * @param assets
-	 */
-
-//	public void updateAssetValue(int assets) {
-//		this.assetValue += assets;
-//	}
-//
-//	public int getAssetValue() {
-//		return assetValue;
-//	}
-
-	/**
 	 * Updates the number of the players get out of prison cards
-	 * @param prisonCard
+	 * @param prisonCard - Get out of prison cards
 	 */
 	public void updatePrisonCard(int prisonCard) {
 		this.prisonCard += prisonCard;

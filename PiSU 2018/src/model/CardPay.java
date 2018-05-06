@@ -16,9 +16,9 @@ public class CardPay extends ChanceCard {
 	/**
 	 * Constructor
 	 * 
-	 * @param cardNumber
-	 * @param text
-	 * @param amount
+	 * @param cardNumber - number of the card
+	 * @param text - text of the card
+	 * @param amount - the amount a player must pay
 	 */
 	public CardPay(int cardNumber, String text, int amount) {
 		this.cardNumber = cardNumber;
