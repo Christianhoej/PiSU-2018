@@ -134,7 +134,7 @@ public class View implements Observer {
 					if(((RealEstate)property).getHouses()==5) {
 						guiField.setHotel(true);
 					}
-					else if(((RealEstate)property).getHouses()>0 && ((RealEstate)property).getHouses()<5) {
+					else if(((RealEstate)property).getHouses()>=0 && ((RealEstate)property).getHouses()<5) {
 						guiField.setHouses(((RealEstate)property).getHouses());
 					}
 				}
