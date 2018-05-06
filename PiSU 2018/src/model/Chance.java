@@ -80,7 +80,7 @@ public class Chance extends Fields {
 	 */
 	@Override
 	public void landOnField(GameController gameController) {
-		integer2ChanceCard.get(chanceCards.get(cardToDraw).getCardNumber()).performAction(gameController);
+		integer2ChanceCard.get(chanceCards.get(cardToDraw).getCardNumber()-1).performAction(gameController);
 		cardToDraw++;
 		if(cardToDraw>=31) {
 			Collections.shuffle(chanceCards);

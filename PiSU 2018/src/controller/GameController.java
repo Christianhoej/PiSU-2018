@@ -571,8 +571,11 @@ public class GameController {
 						this.game =  allGames.get(i);
 						MiniMatador.setFields(game);
 						MiniMatador.addColor(game);
+						
 						game.setPlayers(gameDAO.readPlayers(game));
+						createGUI();
 						game.setFields(gameDAO.readProperty(game));
+						
 						return true;
 					}
 				}
@@ -665,6 +668,15 @@ public class GameController {
 				generateCash(player, 0);
 			}
 		}while(throwDouble);
+		try {
+			gameDAO.updatePlayer(game);
+			gameDAO.updateProperties(game);
+			gameDAO.updateSaveDate(game);;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
@@ -738,7 +750,7 @@ public class GameController {
 				if(loadGame()) {
 					gameCreated = true;
 					
-					createGUI();
+					
 				}
 			}
 			else {
