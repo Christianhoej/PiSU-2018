@@ -1,5 +1,8 @@
 package board;
 import java.awt.Color;  
+/**
+ * @author Gunn & Josephine
+ */
 
 
 import model.Txt;

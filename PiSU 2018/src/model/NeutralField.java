@@ -5,7 +5,7 @@ import controller.GameController;
 /**
  * Includes methods and attributtes of the neutral fields on the board.
  * 
- * @author Yoss
+ * @author Josephine
  *
  */
 public class NeutralField extends Fields {

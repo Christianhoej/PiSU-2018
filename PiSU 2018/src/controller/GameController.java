@@ -22,7 +22,7 @@ import model.Tax;
 
 /**
  * 
- * @author Unknown
+ * @author All
  *
  *This class is used to connect the gui and models. It will lead and distribute the work dependent on received input from the players in the user interface.
  */
@@ -43,7 +43,7 @@ public class GameController {
 
 
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * 
 	 * This method gives the players the opportunity to add themselves to the game and also gives them the opportunity to add colors to their piece on the board.
 	 * 
@@ -96,6 +96,9 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * @author Josephine
+	 */
 	public void createGUI() {
 		this.view = new View(game, gui);
 	}
@@ -103,7 +106,7 @@ public class GameController {
 
 	/**
 	 * 
-	 * @author unknown
+	 * @author Gunn
 	 * @param player - The player who wants to initiate a trade with another player
 	 * 
 	 *  This method is invoked whenever a player wants to trade with an other player.
@@ -254,7 +257,7 @@ public class GameController {
 	}
 
 /**
- * @author unknown
+ * @author Gunn
  * 
  * Method that is invoked to let a chosen player trade something owned by that player
  * @param currentPlayer - Player who wanted to trade
@@ -365,7 +368,7 @@ public class GameController {
 
 
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * Method for when a property is up for auction.
 	 * @param player - is the current player
 	 * @param property - is the property up for sale 
@@ -436,7 +439,7 @@ public class GameController {
 
 
 	/**
-	 * @author unknown
+	 * @author Janus & Gunn
 	 * 
 	 * Method is invoked when a player wants to mortgage a property.
 	 * @param player - Player who wants to mortgage an owned property
@@ -537,7 +540,7 @@ public class GameController {
 		}
 	}
 /**
- * @author unknown
+ * @author Janus 
  * 
  * Method is invoked if a player wants to pay back a loan + interest in a property. If the player has paid the ammount to the bank, then the player will once again be able to demand rent for the property.
  * @param player - player who wants to buy a property "back" from the bank.
@@ -606,7 +609,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author unknown
+	 * @author Gunn
 	 * Method is invoked if a previously saved game is to be loaded
 	 * @return returns true if a previously loaded game is to be loaded.
 	 */
@@ -616,7 +619,6 @@ public class GameController {
 		try {
 			allGames = gameDAO.readAllGames();
 			String[] gameInfo = new String[allGames.size() + 1];
-			System.out.println(gameInfo.length);
 			//Tilføjer gemte spil til array der anvendes til at displaye det til brugeren.
 			for(int i=0; i<gameInfo.length-1; i++) {
 				gameInfo[i] = "GameID: " + allGames.get(i).getGameID() + ", spil dato: " + allGames.get(i).getGameDate() + ", antal spillere: " + allGames.get(i).getPlayerAmount(); 
@@ -650,7 +652,7 @@ public class GameController {
 		return false;
 	}
 /**
- * @author unknown
+ * @author Christian
  * Method used to setup and play game
  */
 	public void runGame() {
@@ -665,7 +667,7 @@ public class GameController {
 	}
 
 /**
- * @author Unknown
+ * @author Gunn & Christian
  * 
  * Method is used to pass on the turn to the next player and keep the players who are not broke and keep the flow going
  */
@@ -675,9 +677,7 @@ public class GameController {
 
 		// Getting the index for the currentPlayer - u seful when loading a game.
 
-		System.out.println("Index af currentPlayer: "+ game.getPlayers().indexOf(currentPlayer));
 		int currentIndex= game.getPlayers().indexOf(currentPlayer);
-		System.out.println("2. index af currentPlayer: " + currentIndex);
 		if(currentPlayer.isBroke()) {			
 			removePlayerFromGame(currentPlayer);
 			players = game.getPlayers();
@@ -708,7 +708,7 @@ public class GameController {
 		gui.showMessage(game.getCurrentPlayer().getName() + "har vundet hele fucking spillet!!!!!");
 	}
 /**
- * @author unknown
+ * @author Janus & Christian 
  * 
  * Method is invoked when it is a players turn.
  * @param player - The player who is about to use its turn
@@ -798,7 +798,7 @@ public class GameController {
 	/**
 	 * This method moves the player to another field.
 	 * The method is used in the "cardMoveToField" and the "moveToFerryDouble" methods. 
-	 * @author unknown
+	 * @author Christian
 	 * @param player - the player whose turn it is
 	 * @param position - new position of player
 	 * @param moveBack - is true if a player is to move in the opposite direction of the normal flow
@@ -824,7 +824,7 @@ public class GameController {
 	}
 	
 	/**
-	 * @author unknown
+	 * @author Oliver og Josephine
 	 * 
 	 * method is invoked when the player is in prison and it is that players turn
 	 * @param player - Player who is in prison
@@ -868,7 +868,7 @@ public class GameController {
 
 	}
 /**
- * @author unknown
+ * @author Gunn 
  * 
  *method is invoked when the program is started. It gives the players the options to load a game or start a new one.
  */
@@ -920,7 +920,7 @@ public class GameController {
 		player.getAccount().updateCash(-amount);
 	}
 /**
- * @author unknown
+ * @author Janus
  * 
  * Method is invoked when one player owes another player money.
  * @param payingPlayer - player who owes another player money
@@ -951,7 +951,7 @@ public class GameController {
 	}
 
 /**
- * @author unknown
+ * @author Janus
  * 
  * Method to add properties to a players "account".
  * 
@@ -963,7 +963,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * Method is invoked if a player wants to buy a field that player lands on.
 	 * @param property - property that can be bought
 	 */
@@ -1025,7 +1025,7 @@ public class GameController {
 		}
 	}
 /**
- * @author unknown
+ * @author Gunn
  * 
  * method is invoked when a player lands on a utility owned by another player
  * 
@@ -1065,7 +1065,7 @@ public class GameController {
 	}
 
 /**
- * @author unknown
+ * @author Janus
  * 
  * Method is invoked when a player lands on field of type RealEstate owned by another player
  * @param realEstate the realEstate a player has landed on
@@ -1094,7 +1094,7 @@ public class GameController {
 		}
 	}
 	/**
-	 * @author unknown
+	 * @author Christian
 	 * 
 	 * Method is invoked when a player goes bankrupt and does not owe another player money
 	 * @param player
@@ -1119,7 +1119,7 @@ public class GameController {
 	
 	
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * 
 	 * Method is invoked when a player goes bankrupt by not being able to pay another player the full ammount they owe.
 	 * @param bankruptPlayer - player that has gone bankrupt
@@ -1147,7 +1147,7 @@ public class GameController {
 		}
 	}
 /** 
- * @author unknwon
+ * @author Gunn
  * 
  * method is used to remove player from game
  * @param player - the player that is to be removed
@@ -1158,7 +1158,7 @@ public class GameController {
 
 
 	/**
-	 * @author unknown
+	 * @author Josephine & Gunn
 	 * 
 	 * Method, to find out, if an owner of a real estate, also owns
 	 * the other real estates in the same color.
@@ -1183,6 +1183,7 @@ public class GameController {
 	}
 
 	/**
+	 * @author Christian
 	 * Method, to find out, if an owner of an utility, also owns
 	 * one or many other real estates in the same color.
 	 * 
@@ -1209,7 +1210,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author
+	 * @author Janus & Gunn
 	 * Method which is invoked if a player do not have the funds to pay what set person owes.
 	 * It enables you to trade with , mortgage properties and sell houses/hotels
 	 * @param payingPlayer: the player who needs to generate cash to pay
@@ -1356,7 +1357,7 @@ public class GameController {
 
 	}
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * 
 	 *Method is used when a player owns all the real estates of a given color and wants to build on one or more of the properties.
 	 * @param player - player who owns all the RealEstates in a given color
@@ -1508,7 +1509,7 @@ public class GameController {
 		}
 	}
 /**
- * @author unknown
+ * @author Janus & Christian
  * 
  * Method is invoked when a player wants to sell houses and hotels on a property
  * @param player - player who wants to sell a house/hotel
@@ -1631,14 +1632,17 @@ public class GameController {
 		}
 	}
 
-
+/**
+ * @author Oliver
+ * @param field
+ */
 	public void goToJail(Fields field) {
 		game.getCurrentPlayer().setPosition(10);
 		game.getCurrentPlayer().setInPrison(1);
 	}
 	
 	/**
-	 * @author unknown
+	 * @author Josephine & Oliver
 	 * Method is invoked when a player lands on a Tax field.
 	 * Gives the player the opportunity to pay 10% of all owned or 4000.
 	 * 
@@ -1659,7 +1663,7 @@ public class GameController {
 	}
 
 	/**
-	 *@author
+	 *@author Oliver & Josephine
 	 *
 	 *Method is invoked when a player lands on a neutral field
 	 * @param field a neutral field (no action)
@@ -1669,7 +1673,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * 
 	 * method is invoked when a player lands on a chance field and receives a chanceCard of a type that moves a player.
 	 * @param chanceCard - chanceCard that is picked from a deck.
@@ -1718,7 +1722,7 @@ public class GameController {
 
 	}
 /**
- * @author unknown
+ * @author Janus
  * 
  * method is invoked when a chancecard dictates that a player has to move to closest ferry
  */
@@ -1751,7 +1755,7 @@ public class GameController {
 		}
 	}
 	/**
-	 * @author unknown
+	 * @author Oliver
 	 * 
 	 * method is invoked when a player picks a chancecard which gives set player a getOutOfJail card
 	 * @param chanceCard - chancecard picked from deck
@@ -1763,7 +1767,7 @@ public class GameController {
 		game.getCurrentPlayer().getAccount().updatePrisonCard(1);
 	}
 	/**
-	 * @author unknown
+	 * @author Josephine
 	 * Method is invoked when the chancecard picked dictates that the current player has to go to jail
 	 * @param chanceCard - chancecard picked from deck
 	 */
@@ -1776,7 +1780,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author unknown
+	 * @author Christian
 	 * method is invoked when a chancecard that makes the player pay an ammount to the bank/game
 	 * @param chanceCard - chancecard picked from deck
 	 */
@@ -1802,7 +1806,7 @@ public class GameController {
 
 	}
 	/**
-	 * @author unknown
+	 * @author Janus
 	 * 
 	 * method is invoked when a chancecard dictates that the player has to pay per house and hotel.
 	 * @param housePrice - price a player has to pay per house owned
@@ -1834,7 +1838,7 @@ public class GameController {
 	}
 	
 	/**
-	 * @author unknown
+	 * @author Gunn
 	 * method is invoked when a player picks a chancecard that dictates the player is to receive money either from bank or other players.
 	 * 
 	 * @param chanceCard - chancecard picked from deck
@@ -1865,7 +1869,7 @@ public class GameController {
 	}
 
 	/**
-	 * @author unknown
+	 * @author Gunn
 	 * 
 	 * Method is invoked everytime it is necessary  to know the total ammount of assets and cash a player has.
 	 * @param player - the player whose assets and cash it is needed to know

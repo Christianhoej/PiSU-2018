@@ -4,9 +4,10 @@ import controller.GameController;
 
 /**
  Inheriting methods & a
+
 ttributes from the ChanceCard class
  * Includes methods & attributes for chancecards that directs a player to move to a specific field.
- * @author 
+ * @author Josephine
  */
 import model.Game;
 public class CardMove extends ChanceCard {

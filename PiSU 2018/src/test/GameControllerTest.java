@@ -14,7 +14,11 @@ import model.Property;
 import model.RealEstate;
 import model.Tax;
 import model.Utility;
-
+/**
+ * 
+ * @author Christian & Oliver
+ *
+ */
 public class GameControllerTest {
 	GameController gameController;
 	GameController payMoneyTest;

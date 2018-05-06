@@ -6,7 +6,7 @@ import controller.GameController;
  * Inheriting methods & attributes from the ChanceCard class. Includes methods
  * for chancecards of when a player must pay money.
  * 
- * @author Christian, Yoss +
+ * @author Josephine
  *
  */
 public class CardPay extends ChanceCard {

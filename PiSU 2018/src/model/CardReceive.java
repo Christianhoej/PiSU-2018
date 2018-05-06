@@ -5,7 +5,7 @@ import controller.GameController;
 /**
  * Inheriting methods & attributes from the ChanceCard class
  * Includes methods for when a player i receiving money following a draw chancecard. 
- * @author Christian ++
+ * @author Christian
  *
  */
 

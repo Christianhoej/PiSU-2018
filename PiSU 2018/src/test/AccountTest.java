@@ -5,7 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import model.Player;
-
+/**
+ * 
+ * @author Christian
+ *
+ */
 public class AccountTest {
 	Player p1;
 

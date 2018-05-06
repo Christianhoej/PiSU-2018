@@ -6,7 +6,7 @@ import controller.GameController;
  * Inheriting methods & attributes from the ChanceCard class. Contains the
  * method for adding a get out of prison card, to a player.
  * 
- * @author
+ * @author Oliver
  */
 public class CardGetOutOfPrison extends ChanceCard {
 	/**

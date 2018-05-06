@@ -10,7 +10,7 @@ import controller.GameController;
  * CardPrison. The class includes the method for shuffling the deck of
  * chancecards.
  * 
- * @author Christian ++
+ * @author Janus
  *
  */
 

@@ -1,6 +1,7 @@
 package model;
 /**
- * @author Christian ++
+ * @author Christian
+
 
  * Contains methods and attributes for the players account.
  * This includes the players amount of cash and assets.
