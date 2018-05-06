@@ -21,7 +21,7 @@ public class Tax extends Fields {
 	/**
 	 * Constructor
 	 * 
-	 * @param fieldNumber
+	 * @param fieldNumber - fieldnumber of the tax field. 
 	 */
 	public Tax(int fieldNumber) {
 		super(fieldNumber);
@@ -53,6 +53,9 @@ public class Tax extends Fields {
 		this.fieldName = fieldName;
 	}
 
+	/**
+	 * Method for when a player lands on a tax field. 
+	 */
 	@Override
 	public void landOnField(GameController gameController) {
 		gameController.payTax(this);

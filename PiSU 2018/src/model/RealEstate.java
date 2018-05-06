@@ -12,7 +12,6 @@ public class RealEstate extends Property {
 	protected int houses;
 	protected Player player;
 	protected int buildingPrice;
-	String[] guiMessages = Txt.fileString("GameMessages.txt");
 
 	/**
 	 * Constructor

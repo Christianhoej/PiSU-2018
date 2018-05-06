@@ -5,6 +5,8 @@ import controller.GameController;
 import designpatterns.Subject;
 
 /**
+ * Methods and attributes for creating the gameboard. 
+ * This is the class that makes it possible to make the gameboard
  * 
  * @author
  *
@@ -46,6 +48,10 @@ public abstract class Fields extends Subject {
 
 	public abstract String toString();
 
+	/**
+	 * Is laterovevridden. 
+	 * @param gameController
+	 */
 	public void landOnField(GameController gameController) {
 
 	}

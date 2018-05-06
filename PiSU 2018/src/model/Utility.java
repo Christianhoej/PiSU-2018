@@ -14,7 +14,7 @@ public class Utility extends Property {
 	/**
 	 * Constructor
 	 * 
-	 * @param fieldNumber
+	 * @param fieldNumber - fieldsnumber of the utility. 
 	 */
 	public Utility(int fieldNumber) {
 		super(fieldNumber);
