@@ -1520,7 +1520,7 @@ public class GameController {
 			}
 		}
 		else {
-			payMoneyToBank(game.getCurrentPlayer(), chanceCard.getAmount());
+			receiveMoney(game.getCurrentPlayer(), chanceCard.getAmount());
 		}
 	}
 
