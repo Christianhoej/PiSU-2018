@@ -25,6 +25,10 @@ public class Player extends Subject {
 	private int playerID;
 	private Color colour;
 
+	/**
+	 * Sets the players accont 
+	 * @param amount - the amount which the account is set with. 
+	 */
 	public void setAccount(int amount) {
 		this.account = new Account(amount);
 		notifyChange();
@@ -60,6 +64,10 @@ public class Player extends Subject {
 		return account;
 	}
 
+	/**
+	 * Sets the players position
+	 * @param position - the new position
+	 */
 	public void setPosition(int position) {
 		this.position = position;
 		notifyChange();
@@ -77,10 +85,6 @@ public class Player extends Subject {
 		this.broke = broke;
 		notifyChange();
 	}
-
-//	public int getTotalValue() {
-//		return account.getCash() + account.getAssetValue();
-//	}
 
 	public int getInPrison() {
 		return inPrison;
@@ -114,13 +118,16 @@ public class Player extends Subject {
 	/**
 	 * Removes a property from the list of properties, owned by a player.
 	 * 
-	 * @param property
+	 * @param property - the property which is removed 
 	 */
 	public void removeOwnedProperties(Property property) {
 		ownedProperties.remove(property);
 		notifyChange();
 	}
 	
+	/**
+	 * Removes all properties from the player. 
+	 */
 	public void removeAllOwnedProperties() {
 		ownedProperties.removeAll(ownedProperties);
 	}

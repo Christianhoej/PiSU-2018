@@ -13,7 +13,7 @@ public class GoToPrison extends Fields {
 	/**
 	 * Constructor
 	 * 
-	 * @param fieldNumber
+	 * @param fieldNumber - the fieldnumber of the prison.
 	 */
 	public GoToPrison(int fieldNumber) {
 		super(fieldNumber);

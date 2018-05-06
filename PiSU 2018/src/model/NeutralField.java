@@ -13,7 +13,7 @@ public class NeutralField extends Fields {
 	/**
 	 * Constructor
 	 * 
-	 * @param fieldNumber
+	 * @param fieldNumber 
 	 */
 	public NeutralField(int fieldNumber) {
 		super(fieldNumber);
@@ -24,6 +24,9 @@ public class NeutralField extends Fields {
 		this.fieldName = fieldName;
 	}
 
+	/**
+	 * Is called when a player lands on a neutral field
+	 */
 	@Override
 	public void landOnField(GameController gameController) {
 		gameController.neutralField(this);

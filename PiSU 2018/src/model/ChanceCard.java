@@ -23,22 +23,18 @@ public class ChanceCard {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param cardNumber
-	 * @param text
 	 */
 	public ChanceCard() {
 		// this.cardNumber = cardNumber;
 		// this.text = text;
 		this.amount = 0;
-
 	}
 
 	/**
 	 * Method for shuffling the deck of chancecards. 
 	 * This makes the chancecards lay in a random order.
 	 * 
-	 * @param chanceDeck
+	 * @param chanceDeck - the array of all the chancecards
 	 */
 	public void shuffleDeck(ChanceCard[] chanceDeck) {
 		Random rand = new Random();

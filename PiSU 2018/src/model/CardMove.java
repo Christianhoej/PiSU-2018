@@ -14,9 +14,9 @@ public class CardMove extends ChanceCard {
 	private String text;
 	/**
 	 * Constructor 
-	 * @param cardNumber
-	 * @param text
-	 * @param test
+	 * @param cardNumber - number of the card
+	 * @param text - Text of the card
+	 * @param fieldNumber - the fieldnumber of which a player moves to. 
 	 */
 	public CardMove(int cardNumber, String text, int fieldNumber) {
 		this.cardNumber = cardNumber;
@@ -41,5 +41,3 @@ public class CardMove extends ChanceCard {
 		gameController.cardMoveToField(this);
 	}
 }
-
-

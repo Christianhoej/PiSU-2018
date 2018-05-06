@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import designpatterns.Subject;
 
 /**
+ * This class collects all the needed information from the model package. The
+ * class collects information in arrayLists, used in the GameController.
  * 
  * @author
  *
@@ -35,8 +37,13 @@ public class Game extends Subject {
 		return playerAmount;
 	}
 
+	/**
+	 * sets the current player
+	 * If the set player is not in the game, an exception os thrown. 
+	 * @param currentPlayer
+	 */
 	public void setCurrentPlayer(Player currentPlayer) {
-		if (currentPlayer != null /*&& players.contains(currentPlayer)*/) {
+		if (currentPlayer != null /* && players.contains(currentPlayer) */) {
 			this.currentPlayer = currentPlayer;
 		} else {
 			throw new IllegalArgumentException("Spilleren er ikke i spillet");
@@ -70,7 +77,7 @@ public class Game extends Subject {
 	/**
 	 * sets the list of players, in a ArrayList.
 	 * 
-	 * @param players
+	 * @param players - the players added to the arraylist.
 	 */
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = new ArrayList<Player>(players);
@@ -80,7 +87,8 @@ public class Game extends Subject {
 	/**
 	 * Adds player to ArrayList<Player> The player is also added to the game.
 	 * 
-	 * @param player
+	 * @param player - the player being added
+	 *            
 	 */
 	public void addPlayer(Player player) {
 		players.add(player);
@@ -90,7 +98,7 @@ public class Game extends Subject {
 	/**
 	 * Sets the fields in a ArrayList
 	 * 
-	 * @param fields
+	 * @param fields - the ArrayList containing the fields. 
 	 */
 	public void setFields(ArrayList<Fields> fields) {
 		this.fields = fields;
@@ -104,7 +112,7 @@ public class Game extends Subject {
 	/**
 	 * Adds a field to the game
 	 * 
-	 * @param field
+	 * @param field - the field added to the game. 
 	 */
 	public void addField(Fields field) {
 		fields.add(field);

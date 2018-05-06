@@ -8,8 +8,8 @@ import java.util.Map;
 import controller.GameController;
 
 /**
- * Contains methods 
- * 
+ * Contains methods and attributes for when a player must draw a chancecard. 
+ * Creates the chancecard [] with all the chancecards. 
  * 
  * @author 
  *
@@ -24,6 +24,7 @@ public class Chance extends Fields {
 
 	/**
 	 * Constructor
+	 * Adds all the chancecards to the chancecard[]
 	 * 
 	 * @param fieldNumber
 	 */
@@ -35,7 +36,7 @@ public class Chance extends Fields {
 		String[] prices = Txt.fileString("CardAmmounts.txt");
 
 
-		//Adds the different chanceCards to the chanceCard[]
+		//Adds the different types of chanceCards to the chanceCard[]
 		for(Integer i = 0; i<32; i++){
 			if(i<10) {
 				chanceCards.add(new CardReceive(i+1,texts[i],Integer.parseInt(prices[i])));
@@ -75,13 +76,14 @@ public class Chance extends Fields {
 	}
 
 	/**
-	 * Method for when a player land on a chance field.
+	 * Method for when a player lands on a chance field.
 	 * 
 	 */
 	@Override
 	public void landOnField(GameController gameController) {
 		integer2ChanceCard.get(chanceCards.get(cardToDraw).getCardNumber()-1).performAction(gameController);
 		cardToDraw++;
+		//If all the cards are drawn, shuffle the deck. 
 		if(cardToDraw>=31) {
 			Collections.shuffle(chanceCards);
 			cardToDraw = 0;

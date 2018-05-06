@@ -97,6 +97,9 @@ public class Property extends Fields {
 		notifyChange();
 	}
 
+	/**
+	 * Removes the owner from the property. 
+	 */
 	public void removeOwner() {
 		owner = null;
 		setForSale(true);
