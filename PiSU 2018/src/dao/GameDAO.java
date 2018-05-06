@@ -2,21 +2,16 @@ package dao;
 
 import java.awt.Color;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.CallableStatement;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 
 import model.Property;
 import model.RealEstate;
-import model.Utility;
 import model.Player;
 import model.Fields;
 import model.Game;
@@ -34,9 +29,9 @@ public class GameDAO implements IGameDAO
 	@Override
 	public void createGame(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
+			
 
 			CallableStatement stmt =null;
 			stmt = (CallableStatement) con.prepareCall("{call create_game(?)}");
@@ -47,7 +42,7 @@ public class GameDAO implements IGameDAO
 			createProperties(game, con);
 
 			con.commit();
-			con.setAutoCommit(true);
+			
 
 		} catch (SQLException e) {
 			// TODO error handling
@@ -56,7 +51,6 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
@@ -67,11 +61,8 @@ public class GameDAO implements IGameDAO
 
 	@Override
 	public void createPlayers(Game game, Connection con) throws SQLException {	
-		//Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
-
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call create_player(?,?,?,?)}");
 			for (Player player: game.getPlayers()) {
 				String color;
@@ -94,7 +85,6 @@ public class GameDAO implements IGameDAO
 					color = GREEN;
 				}
 
-
 				stmt.setInt(1, game.getGameID());
 				stmt.setString(2, player.getName());
 				stmt.setString(3, color);
@@ -103,7 +93,7 @@ public class GameDAO implements IGameDAO
 				player.setPlayerID(stmt.getInt(4));
 			}		
 			con.commit();
-			con.setAutoCommit(true);
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,7 +101,6 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
@@ -122,16 +111,13 @@ public class GameDAO implements IGameDAO
 
 	@Override
 	public void createProperties(Game game, Connection con) throws SQLException {
-		//		Connection con = connect.getConnection();		
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
 
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call create_property(?)}");
 			stmt.setInt(1, game.getGameID());
 			stmt.execute();
 			con.commit();
-			con.setAutoCommit(true);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -139,34 +125,18 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
 			}
-
 		}
-	}
-
-	// Nok overflødig
-	@Override
-	public int readGame(Game game) throws SQLException {
-		//		Connection con = connect.getConnection();
-		//		CallableStatement stmt = (CallableStatement) con.prepareCall("{call read_game(?,?)}");
-		//		stmt.setTimestamp(1, gameDate);
-		//		stmt.registerOutParameter(2, Types.INTEGER);
-		//		stmt.execute();
-		//		int gameID = stmt.getInt(2);
-		//		return gameID;
-		return 0;
 	}
 
 	@Override
 	public ArrayList<Game> readAllGames() throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
 
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call get_allGames()}");
 			stmt.execute();
@@ -185,31 +155,30 @@ public class GameDAO implements IGameDAO
 
 
 			con.commit();
-			con.setAutoCommit(true);
-
+			return array;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Some DB error");
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
 			}
 
 		}
-		return array;
+		finally {
+		}
+		return null;
 	}
 
 
 	@Override
 	public ArrayList<Player> readPlayers(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
 
 
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call read_player(?)}");
@@ -269,15 +238,13 @@ public class GameDAO implements IGameDAO
 				array.add(player);
 			}
 			con.commit();
-			con.setAutoCommit(true);
-
+			return array;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Some DB error");
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
@@ -285,7 +252,7 @@ public class GameDAO implements IGameDAO
 
 		}
 
-		return array ;
+		return null ;
 	}
 
 
@@ -293,10 +260,9 @@ public class GameDAO implements IGameDAO
 	public ArrayList<Fields> readProperty(Game game) throws SQLException {
 		Connection con = connect.getConnection();
 
-
+		con.setAutoCommit(false);
 		//Skal den være her eller lige før Callable statement
 		try {
-			con.setAutoCommit(false);
 
 			ArrayList<Player> player = game.getPlayers();
 			ArrayList<Fields> field = game.getFields();
@@ -314,7 +280,6 @@ public class GameDAO implements IGameDAO
 					}
 
 					((Property) field.get(res.getInt("fieldNumber"))).setOwner(player.get(i));
-					//				System.out.println(((Property) field.get(res.getInt("fieldNumber"))).setOwner(player.get(i)));
 
 					if(res.getInt("houses")==-1) {
 						((Property) field.get(res.getInt("fieldNumber"))).setMortgage(true);
@@ -327,31 +292,28 @@ public class GameDAO implements IGameDAO
 			}
 
 			con.commit();
-			con.setAutoCommit(true);
-
+			return field;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.err.println("Some DB error");
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
 			}
 		}
 
-		return field;
+		return null;
 	}
 
 	@Override
 	public void updatePlayer(Game game) throws SQLException {
 		Connection con = connect.getConnection();	
-
+		con.setAutoCommit(false);
 		//Skal den være her eller lige før callable statement
 		try {
-			con.setAutoCommit(false);
 
 			ArrayList<Player> player = game.getPlayers();
 			for(int i = 0; i<player.size(); i++) {
@@ -367,7 +329,6 @@ public class GameDAO implements IGameDAO
 				stmt.execute();
 			}
 			con.commit();
-			con.setAutoCommit(true);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -375,7 +336,6 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
@@ -387,10 +347,9 @@ public class GameDAO implements IGameDAO
 	@Override
 	public void updateProperties(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		//Skal den være her eller lige før callable statement 
 		try {
-			con.setAutoCommit(false);
 
 			ArrayList<Fields> field = game.getFields();
 			ArrayList<Player> player = game.getPlayers();
@@ -400,9 +359,6 @@ public class GameDAO implements IGameDAO
 					CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_property(?,?,?,?)}");
 
 					if(player.get(i).getOwnedProperties().size()>0) {
-						System.out.println("Der er en EJER!!!!!");
-
-						System.out.println(game.getGameID());
 						stmt.setInt(1, game.getGameID());
 						stmt.setInt(2, player.get(i).getOwnedProperties().get(j).getFieldNumber());
 						stmt.setInt(3, player.get(i).getPlayerID());
@@ -419,7 +375,6 @@ public class GameDAO implements IGameDAO
 			}
 
 			con.commit();
-			con.setAutoCommit(true);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -427,7 +382,6 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
@@ -441,16 +395,14 @@ public class GameDAO implements IGameDAO
 	@Override
 	public void updateSaveDate(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
 
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call update_saveDate(?)}");
 			stmt.setInt(1, game.getGameID());
 			stmt.execute();
 
 			con.commit();
-			con.setAutoCommit(true);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -458,29 +410,24 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
 			}
 		}	
-
 	}
 
 	// Husk at tjekke for endGame, når vi har et spil at tjekke for.
 	@Override
 	public void endGame(Game game) throws SQLException {
 		Connection con = connect.getConnection();
-
+		con.setAutoCommit(false);
 		try {
-			con.setAutoCommit(false);
-
 			CallableStatement stmt = (CallableStatement) con.prepareCall("{call end_game(?)}");
 			stmt.setInt(1, game.getGameID());
 			stmt.execute();
 
 			con.commit();
-			con.setAutoCommit(true);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -488,15 +435,12 @@ public class GameDAO implements IGameDAO
 
 			try {
 				con.rollback();
-				con.setAutoCommit(true);
+				
 			} catch (SQLException e1) {
 				// TODO error handling
 				e1.printStackTrace();
 			}
 		}
-
-
 	}
-
 }
 
