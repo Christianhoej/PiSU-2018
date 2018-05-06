@@ -1357,7 +1357,7 @@ public class GameController {
 				payMoneyToBank(game.getCurrentPlayer(), tax.getPrice());
 
 			} else {
-				payMoneyToBank(game.getCurrentPlayer(), (int) (game.getCurrentPlayer().getTotalValue()*0.1));
+				payMoneyToBank(game.getCurrentPlayer(), getAssetValue(game.getCurrentPlayer()));
 			}
 		} else {
 			payMoneyToBank(game.getCurrentPlayer(), tax.getPrice());
