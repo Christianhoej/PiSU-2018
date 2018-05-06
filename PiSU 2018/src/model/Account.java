@@ -8,9 +8,6 @@ package model;
  *
  */
 
-import java.util.Set;
-
-
 import designpatterns.Subject;
 
 
@@ -58,6 +55,11 @@ public class Account extends Subject {
 	 * @param prisonCard
 	 */
 	public void updatePrisonCard(int prisonCard) {
+		this.prisonCard += prisonCard;
+		notifyChange();
+	}
+	
+	public void setPrisonCard(int prisonCard) {
 		this.prisonCard += prisonCard;
 		notifyChange();
 	}
