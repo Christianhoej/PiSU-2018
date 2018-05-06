@@ -1029,9 +1029,9 @@ public class GameController {
 		int[] count = {colourCount, ownerCount}; 
 		return count;
 	}
-	public Game getGame() {
-		return game;
-	}
+//	public Game getGame() {
+//		return game;
+//	}
 	/**
 	 * Method which is invoked if a player do not have the funds to pay what set person owes.
 	 * It enables you to trade with , mortgage properties and sell houses/hotels
@@ -1473,6 +1473,11 @@ public class GameController {
 		}
 	}
 
+	
+	public void goToJail(Fields field) {
+		game.getCurrentPlayer().setPosition(10);
+		game.getCurrentPlayer().setInPrison(1);
+	}
 	public void payTax(Tax tax) {
 		if(tax.getPrice() == 4000) {
 			String playerChoice = gui.getUserButtonPressed(game.getCurrentPlayer().getName()+ tax.toString() +tax.getPrice() + "?", "4000", "10%");
