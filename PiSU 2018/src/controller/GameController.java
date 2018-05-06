@@ -1541,7 +1541,7 @@ public class GameController {
 				}
 			}
 		}
-		return asset;
+		return asset + player.getAccount().getCash();
 	}
 }
 
