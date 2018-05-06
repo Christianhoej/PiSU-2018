@@ -9,20 +9,20 @@ public class Test {
 	static GameDAO g = new GameDAO();
 
 	public static void main(String[] args) throws SQLException {
-		//		Game game = new Game();
-		//		Player p1 = new Player("Gunn");
-		//		Player p2 = new Player("Gunn");
-		//		Player p3 = new Player("Gunn");
-		//		
-		//		p1.setColour("Black");
-		//		p2.setColour("Blue");
-		//		p3.setColour("Brown");
-		//	
-		//		game.addPlayer(p1);
-		//		game.addPlayer(p2);
-		//		game.addPlayer(p3);
-		//		
-		//		g.createGame(game);
+				Game game = new Game();
+				Player p1 = new Player("Gunn");
+				Player p2 = new Player("Gunn");
+				Player p3 = new Player("Gunn");
+				
+				p1.setColour("Black");
+				p2.setColour("Blue");
+				p3.setColour("Brown");
+			
+				game.addPlayer(p1);
+				game.addPlayer(p2);
+				game.addPlayer(p3);
+				
+				g.createGame(game);
 
 		ArrayList<Game> allGames = g.readAllGames();
 		//		for(int i = 0; i<allGames.size(); i++) {
