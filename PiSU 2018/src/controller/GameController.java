@@ -631,8 +631,8 @@ public class GameController {
 				for(int i = 0; i<gameInfo.length; i++) {
 					if(gameChoice.equals(gameInfo[i])) {
 						this.game =  allGames.get(i);
-						MiniMatador.setFields(game);
-						MiniMatador.addColor(game);
+						Matador.setFields(game);
+						Matador.addColor(game);
 
 						game.setPlayers(gameDAO.readPlayers(game));
 						createGUI();

@@ -10,7 +10,7 @@ import model.Txt;
 import model.Utility;
 import model.Property;
 
-public class MiniMatador {
+public class Matador {
 	
 	static int[][] rent = Txt.fileInt2D("RentPrices.txt");
 	static int[][] price = Txt.fileInt2D("Prices.txt");
