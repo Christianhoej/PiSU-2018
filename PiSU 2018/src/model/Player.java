@@ -120,6 +120,10 @@ public class Player extends Subject {
 		ownedProperties.remove(property);
 		notifyChange();
 	}
+	
+	public void removeAllOwnedProperties() {
+		ownedProperties.removeAll(ownedProperties);
+	}
 
 	public ArrayList<Property> getOwnedProperties() {
 		return ownedProperties;
