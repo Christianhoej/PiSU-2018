@@ -25,11 +25,8 @@ public class Player extends Subject {
 	private int playerID;
 	private Color colour;
 
-	/**
-	 * Constructor
-	 */
-	public Player() {
-		this.account = new Account(30000);
+	public void setAccount(int amount) {
+		this.account = new Account(amount);
 		notifyChange();
 	}
 

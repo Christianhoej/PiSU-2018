@@ -1,12 +1,14 @@
 package controller;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import board.Gameboard;
+import dao.GameDAO;
 import gui_main.GUI;
 import model.ChanceCard;
 import model.Fields;
@@ -24,13 +26,14 @@ public class GameController {
 	private Game game;
 	private GUI gui;
 	private int[][] rent = Txt.fileInt2D("RentPrices.txt");
-	private int[][] housePrice = Txt.fileInt2D("BuildingPrices.txt");
 	private View view;
+	private GameDAO gameDAO;
 
 	public GameController(Game game) {
 		this.game = game;
 		Gameboard gameboard = new Gameboard();
 		gui = new GUI(gameboard.makeBoard());
+		gameDAO = new GameDAO();
 	}
 
 
@@ -78,6 +81,7 @@ public class GameController {
 			}
 			color.remove(carColor);
 			player.setPosition(0);
+			player.setAccount(30000);
 			player.getAccount().setOwner(player);
 		}
 	}
@@ -547,8 +551,43 @@ public class GameController {
 	}
 
 
-	private void loadGame() {
+	private boolean loadGame() {
 
+		ArrayList<Game> allGames = new ArrayList<Game>();
+		try {
+			allGames = gameDAO.readAllGames();
+			String[] gameInfo = new String[allGames.size() + 1];
+			System.out.println(gameInfo.length);
+			for(int i=0; i<gameInfo.length-1; i++) {
+				gameInfo[i] = "GameID: " + allGames.get(i).getGameID() + ", spil dato: " + allGames.get(i).getGameDate() + ", antal spillere: " + allGames.get(i).getPlayerAmount(); 
+			}
+			gameInfo[gameInfo.length-1] = "Tilbage";
+
+			String gameChoice = gui.getUserSelection("Hvilket spil vil du gerne loade?", gameInfo);
+
+			if(!gameChoice.equals("Tilbage")) {
+				for(int i = 0; i<gameInfo.length; i++) {
+					if(gameChoice.equals(gameInfo[i])) {
+						this.game =  allGames.get(i);
+						MiniMatador.setFields(game);
+						MiniMatador.addColor(game);
+						
+						game.setPlayers(gameDAO.readPlayers(game));
+						createGUI();
+						game.setFields(gameDAO.readProperty(game));
+						
+						return true;
+					}
+				}
+			}
+			else {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}				
+		return false;
 	}
 
 	public void runGame() {
@@ -626,11 +665,21 @@ public class GameController {
 				gui.showMessage(player.getName() + ", du slog to ens og får et ekstra kast");
 			}
 
-			if(player.getInPrison()==0) {
+			if(player.getInPrison()==0 && !throwDouble) {
 				generateCash(player, 0);
 			}
 		}while(throwDouble);
+
+		try {
+			gameDAO.updatePlayer(game);
+			gameDAO.updateProperties(game);
+			gameDAO.updateSaveDate(game);;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+
 	}
 
 
@@ -701,13 +750,28 @@ public class GameController {
 
 
 		String selection = gui.getUserButtonPressed("Vil du indlæse et gemt spil eller starte et nyt?", "Indlæs spil", "Start nyt spil");
+		boolean gameCreated = false;
+		while(!gameCreated) {
+			
+			if(selection.equals("Indlæs spil")) {
+				if(loadGame()) {
+					gameCreated = true;
+					
+					
+				}
+			}
+			else {
+				createPlayers();
+				createGUI();
+				try {
+					gameDAO.createGame(game);
+					gameCreated = true;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-		if(selection.equals("Indlæs spil")) {
-			loadGame();
-		}
-		else {
-			createPlayers();
-			createGUI();
+			}
 		}
 	}
 
@@ -830,13 +894,13 @@ public class GameController {
 			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
 			break;
 			case 2: payMoneyToPlayer(player, rent[property.getFieldNumber()][1], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][1]);
 			break;
 			case 3: payMoneyToPlayer(player, rent[property.getFieldNumber()][2], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() + "s ejendom og skal betale " + rent[property.getFieldNumber()][2]);
 			break;
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
-			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][0]);
+			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][3]);
 			break;
 			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
 		}
@@ -846,7 +910,7 @@ public class GameController {
 	public void paySameTypeRealEstate(RealEstate realEstate, Player player) {
 		switch(realEstate.getHouses()){
 		case 0: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][0]*2, realEstate.getOwner());
-		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][5]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
+		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + (rent[realEstate.getFieldNumber()][0]*2) + " da " + realEstate.getOwner().getName() + " ejer alle ejendommene af denne type");
 		break;
 		case 1: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][1], realEstate.getOwner());
 		gui.showMessage(player.getName() + ", du er landet på " + realEstate.getOwner().getName() +"'s ejendom og skal betale " + rent[realEstate.getFieldNumber()][1]+ " da " + realEstate.getOwner().getName() + " har et hus på denne ejendom");
