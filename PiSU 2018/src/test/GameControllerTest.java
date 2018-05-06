@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import controller.GameController;
-import controller.MiniMatador;
+import controller.Matador;
 import model.Account;
 import model.Fields;
 import model.Game;
@@ -83,7 +83,7 @@ public class GameControllerTest {
 	 */
 	@Test
 	public void moveToFieldTest(){
-		game = MiniMatador.createGame();
+		game = Matador.createGame();
 		moveToFieldTest = new GameController(game);
 		p1 = new Player();
 		game.addPlayer(p1);
@@ -101,7 +101,7 @@ public class GameControllerTest {
 	 */
 	@Test
 	public void payMoneytest() {
-		game = MiniMatador.createGame();
+		game = Matador.createGame();
 		payMoneyTest = new GameController(game);
 		p1 = new Player();
 		p1.setAccount(30000);
