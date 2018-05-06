@@ -258,12 +258,12 @@ public class GameController {
  * Method that is invoked to let a chosen player trade something owned by that player
  * @param currentPlayer - Player who wanted to trade
  * @param tradingPlayer - Player who trades with the player who initiated the trade
- * @param currentCoice - Shows the choice wanted to trade with the currentPlayer
+ * @param currentChoice - Shows the choice wanted to trade with the currentPlayer
  * @return boolean: true if the tradingplayer has accepted to trade and picked something to trade
  * 
  * 
  */
-	public boolean tradePlayerOption(Player currentPlayer, Player tradingPlayer, String currentCoice) { 
+	public boolean tradePlayerOption(Player currentPlayer, Player tradingPlayer, String currentChoice) { 
 		ArrayList<String> tradeOwnedProp = new ArrayList<String>();
 		ArrayList<String> tradeOwnedMortgageProp = new ArrayList<String>();
 		ArrayList<String> tradeOptions = new ArrayList<String>();
@@ -313,9 +313,9 @@ public class GameController {
 		if(!tradeChoice.equals("Annuller")) {
 			switch(tradeChoice) {
 			case "Grunde": 
-				tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + currentCoice+"?", tradePlayerOwnedProp);
+				tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken grund vil du bytte for " + currentChoice+"?", tradePlayerOwnedProp);
 				if(!tradeChoice.equals("Annuller")) {
-					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
+					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentChoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
 					for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
 						if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
 							tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
@@ -327,9 +327,9 @@ public class GameController {
 				}
 				else return false;
 			case "Pantsatte grunde":
-				tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ currentCoice+"?", tradePlayerOwnedMort);
+				tradeChoice1 = gui.getUserSelection(tradingPlayer.getName() + ", hvilken pantsat grund vil du bytte for "+ currentChoice+"?", tradePlayerOwnedMort);
 				if(!tradeChoice.equals("Annuller")) {
-					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
+					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentChoice + " med " + tradeChoice1 + " fra " + tradingPlayer.getName());
 					for(int i = 0; i<tradingPlayer.getOwnedProperties().size(); i++) {
 						if(tradeChoice1.equals(tradingPlayer.getOwnedProperties().get(i).getFieldName())) {
 							tradingPlayer.getOwnedProperties().get(i).setOwner(currentPlayer);
@@ -341,17 +341,17 @@ public class GameController {
 				}
 				else return false;
 			case "Penge":
-				int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + currentCoice+"? Tryk 0 for Annuller", 0, tradingPlayer.getAccount().getCash());
+				int tradeMoney = gui.getUserInteger(tradingPlayer.getName() + ", hvor mange penge vil du bytte for " + currentChoice+"? Tryk 0 for Annuller", 0, tradingPlayer.getAccount().getCash());
 				if(tradeMoney!=0) {
 
 
-					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med " + tradeMoney + " fra " + tradingPlayer.getName());
+					gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentChoice + " med " + tradeMoney + " fra " + tradingPlayer.getName());
 					payMoneyToPlayer(tradingPlayer, tradeMoney, currentPlayer);
 					break;
 				}
 				else return false;
 			case "Ud af fængsel lykke kort":
-				gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentCoice + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
+				gui.showMessage(currentPlayer.getName() + " har valgt at bytte " + currentChoice + " med et et \"Ud af fængsel lykke kort\" fra " + tradingPlayer.getName());
 				tradingPlayer.getAccount().updatePrisonCard(-1);
 				currentPlayer.getAccount().updatePrisonCard(1);
 				break;
@@ -384,7 +384,6 @@ public class GameController {
 		int highestBid= 0;
 		int newBid=0;
 
-		boolean firstRound = true;
 		boolean auctionOver = false;
 
 		gui.showMessage(property.getFieldName() + " er sat på auktion.");
@@ -445,6 +444,7 @@ public class GameController {
 		//		Renten er 10 % og betales samtidigt med tilbagebetalingen af lånet. 
 		//		Pantsætningen ophæves efterfølgende.
 		boolean done = false;
+		//Lykke der holder spilleren i pantsætningsmetoden indtil spilleren er færdig
 		while(!done) {
 			String choice = "";
 
@@ -452,7 +452,7 @@ public class GameController {
 			ArrayList<Property> propsWithoutHouses = new ArrayList<Property>();
 			ArrayList<Property> propsWithHouses = new ArrayList<Property>();
 			
-// I dette loop sorteres en spillers ejendomme i hhv. utilities og properties
+// I dette loop sorteres en spillers ejendomme i hhv. utilities og properties uden huse , samt  properties med huse.
 			for( int i = 0; i<fields.size(); i++) {
 				
 				if(!fields.get(i).getMortgage()) {
@@ -477,7 +477,7 @@ public class GameController {
 				}
 
 			}
-
+// Fjerner ejendomme hvor andre ejendomme i samme farve har hus på.
 			for (int j = 0; j<propsWithoutHouses.size();j++) {
 
 				for(int j1 = 0; j1<propsWithHouses.size();j1++) {
@@ -489,19 +489,19 @@ public class GameController {
 			}
 
 			String[] propUserSelection = new String[propsWithoutHouses.size()+1];
-			int mortgagePrice = 0;
+			
 			for (int i = 0; i<propsWithoutHouses.size(); i++) {
 				propUserSelection[i] = propsWithoutHouses.get(i).getFieldName();
-				mortgagePrice = propsWithoutHouses.get(i).getMortgagePrice();
 			}
 			propUserSelection[propUserSelection.length-1] = "tilbage";
 
+			//Spiller vælger grund der skal pantsættes
 			choice = gui.getUserSelection("Vælg grund du gerne vil pantsætte:", propUserSelection);
-
 			if(!choice.equals("tilbage")) {
 
 				String choice2 = gui.getUserButtonPressed("Er du sikker på du vil pantsætte " + choice + "?" , "ja" , "nej");
 
+				//Heri pantsættes grunden
 				if(choice2.equals("ja")) {
 					for(int k = 0; k<propsWithoutHouses.size(); k++) {
 						if(propsWithoutHouses.get(k).getFieldName().equals(choice)) {
@@ -513,7 +513,7 @@ public class GameController {
 						}
 					}
 				}
-
+				//Spørger om spiller vil fortsætte hvis der er flere ejendomme der kan pantsættes
 				if(propsWithoutHouses.size()>0) {
 					choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at pantsætte?","ja","nej");
 
@@ -532,50 +532,61 @@ public class GameController {
 			}
 		}
 	}
-
+/**
+ * @author unknown
+ * 
+ * Method is invoked if a player wants to pay back a loan + interest in a property. If the player has paid the ammount to the bank, then the player will once again be able to demand rent for the property.
+ * @param player - player who wants to buy a property "back" from the bank.
+ */
 	public void unMortgage(Player player) {
 		boolean done = false;
 		while(!done){
 			String choice = "";
 			ArrayList<Property> ownedProps = player.getOwnedProperties();
-			ArrayList<Property> mortgageedProps = new ArrayList<Property>();
-			ArrayList<String> mortgageedPropsNames = new ArrayList<String>();
+			ArrayList<Property> mortgagedProps = new ArrayList<Property>();
+			ArrayList<String> mortgagedPropsNames = new ArrayList<String>();
+			
+			//Sorterer spillerens ejendomme i mortgaged og unMortgaged
 			for(int i = 0; i< ownedProps.size();i++) {
 				if(ownedProps.get(i).getMortgage()) {
-					mortgageedProps.add((Property)ownedProps.get(i));
-					mortgageedPropsNames.add(ownedProps.get(i).getFieldName());
+					mortgagedProps.add((Property)ownedProps.get(i));
+					mortgagedPropsNames.add(ownedProps.get(i).getFieldName());
 				}
 			}
-			String[] usNames = new String[mortgageedPropsNames.size()+1];
-			usNames = mortgageedPropsNames.toArray(usNames);
+			String[] usNames = new String[mortgagedPropsNames.size()+1];
+			usNames = mortgagedPropsNames.toArray(usNames);
 			usNames[usNames.length-1] = "Annuller";
-
+			
+			//Spiller får mulighed for at vælge ejendom der skal pantsættes
 			choice = gui.getUserSelection("Vælg ejendom du ønsker at købe fri af banken. Vælg ejendom og se pris: ", usNames);
 			if(choice.equals("Annuller")) {
 				done = true;
 			}
 			else {
 				double unMortgagePrice=0;
-				for(int i = 0 ; i < mortgageedProps.size(); i++) {
-					if(mortgageedProps.get(i).getFieldName().equals(choice)) {
-						unMortgagePrice =(int)((mortgageedProps.get(i).getMortgagePrice())*1.1);
+				//Henter prisen banken skal modtage for at købe ejendommen fri
+				for(int i = 0 ; i < mortgagedProps.size(); i++) {
+					if(mortgagedProps.get(i).getFieldName().equals(choice)) {
+						unMortgagePrice =(int)((mortgagedProps.get(i).getMortgagePrice())*1.1);
 					}
 				}
+				//Spørger om spilleren er sikker på at ville købe ejendommen fri.
 				String choice2 = gui.getUserButtonPressed("Vil du gerne betale banken " + unMortgagePrice + " for at købe " + choice + " fri af banken?", "ja", "nej");
 
+				//Hvis ja, så købes ejendommen fri
 				if(choice2.equals("ja")) { //Unmortgage Property
-					for(int i = 0 ; i < mortgageedProps.size(); i++) {
-						if(mortgageedProps.get(i).getFieldName().equals(choice)) {
-							mortgageedProps.get(i).setMortgage(false);
+					for(int i = 0 ; i < mortgagedProps.size(); i++) {
+						if(mortgagedProps.get(i).getFieldName().equals(choice)) {
+							mortgagedProps.get(i).setMortgage(false);
 							payMoneyToBank(player, (int)unMortgagePrice);
-							mortgageedProps.remove(i);
+							mortgagedProps.remove(i);
 						}
 					}
 				}
 			}
 
-
-			if(mortgageedProps.size()>0) {
+			//Kan fortsætte med at købe ejendomme fri hvis der er flere der kan købes fri
+			if(mortgagedProps.size()>0) {
 				choice = gui.getUserButtonPressed(player.getName() + ", vil du fortsætte med at købe grunde fri af banken?","ja","nej");
 
 
@@ -590,7 +601,11 @@ public class GameController {
 		}
 	}
 
-
+	/**
+	 * @author unknown
+	 * Method is invoked if a previously saved game is to be loaded
+	 * @return returns true if a previously loaded game is to be loaded.
+	 */
 	private boolean loadGame() {
 
 		ArrayList<Game> allGames = new ArrayList<Game>();
@@ -598,13 +613,14 @@ public class GameController {
 			allGames = gameDAO.readAllGames();
 			String[] gameInfo = new String[allGames.size() + 1];
 			System.out.println(gameInfo.length);
+			//Tilføjer gemte spil til array der anvendes til at displaye det til brugeren.
 			for(int i=0; i<gameInfo.length-1; i++) {
 				gameInfo[i] = "GameID: " + allGames.get(i).getGameID() + ", spil dato: " + allGames.get(i).getGameDate() + ", antal spillere: " + allGames.get(i).getPlayerAmount(); 
 			}
 			gameInfo[gameInfo.length-1] = "Tilbage";
 
 			String gameChoice = gui.getUserSelection("Hvilket spil vil du gerne loade?", gameInfo);
-
+			// går ind i denne if blok hvis et tidligere spil skal loades
 			if(!gameChoice.equals("Tilbage")) {
 				for(int i = 0; i<gameInfo.length; i++) {
 					if(gameChoice.equals(gameInfo[i])) {
@@ -629,13 +645,20 @@ public class GameController {
 		}				
 		return false;
 	}
-
+/**
+ * @author unknown
+ * Method used to setup and play game
+ */
 	public void runGame() {
 		setUpGame();
 		playGame();
 	}
 
-
+/**
+ * @author Unknown
+ * 
+ * Method is used to pass on the turn to the next player and keep the players who are not broke and keep the flow going
+ */
 	public void playGame() {
 		ArrayList<Player> players = game.getPlayers();
 		Player currentPlayer = game.getCurrentPlayer();
@@ -646,7 +669,9 @@ public class GameController {
 		int currentIndex= game.getPlayers().indexOf(currentPlayer);
 
 		boolean noWinner=true;
+		//Dette loop fastholder at spillet kører indtil der er fundet en vinder
 		while(noWinner) {
+			//Loop fjerner spillere fra spillet hvis de er bankerot
 			for(int i = 0; i<players.size(); i++) {
 				if(players.get(i).isBroke()) {
 					removePlayerFromGame(players.get(i));
@@ -655,45 +680,60 @@ public class GameController {
 
 
 			currentPlayer = game.getCurrentPlayer();
+			
+			//Hvis nuværende spiller ikke er bankerot er det hans tur
 			if(!currentPlayer.isBroke()) {
 				playerTurn(currentPlayer);
 				System.out.println(getAssetValue(currentPlayer));
 			}
 
+			//Sikrer at turen kan gå rundt selvom antallet af spillere tilbage i spillet kan blive mindre.
 			currentIndex = (currentIndex+1)%players.size();
 			game.setCurrentPlayer(players.get(currentIndex));
 		}
 	}
-
+/**
+ * @author unknown
+ * 
+ * Method is invoked when it is a players turn.
+ * @param player - The player who is about to use its turn
+ */
 	public void playerTurn(Player player) {
 		boolean throwDouble=false;
 		int doubleCount=0;
+		//Hvis spilleren ikke er bankerot:
 		if(!player.isBroke()) {
 			do {
 				if(player.getInPrison()>0) {
 					playerInPrison(player);
 				}
-
+				
 				game.getDice().setRolled(false);
+				
+				//Giv spiller muligheder for at håndtere ejendomme m.m.
 				if(player.getInPrison()==0) {
 					generateCash(game.getCurrentPlayer(), 0);
 				}
 
+				// Terninger kastes
 				game.getDice().rollDice();
 				int[] faceValue = game.getDice().getFaceValue();
 				gui.setDice(faceValue[0], faceValue[1]);
 				gui.showMessage(player.getName() + ", du har slået " + game.getDice().getSum());
 				throwDouble = (game.getDice().isEqual(faceValue));
 
+				//Kaster ens terninger
 				if(throwDouble) {
 					doubleCount++;
 				}
 
+				// Slår dobbelt i fængsel
 				if(throwDouble && player.getInPrison()>0) {
 					player.setInPrison(0);
 					gui.showMessage(player.getName() + ", du har kastet to ens, mens du var i fængsel, og kan "
 							+ "forstætte ved at rykke " +game.getDice().getSum() + " felter frem");
 				}
+				//slår dobbelt for 3. gang
 				else if(doubleCount>2) {
 					gui.showMessage(player.getName() + ", du har kastet to ens tre gange i træk, og skal derfor "
 							+ "i fængsel");
@@ -701,16 +741,19 @@ public class GameController {
 					player.setPosition(10);
 					return;
 				}
+				//slår ikke ens mens man er i fængsel
 				else if(player.getInPrison()>0 && player.getInPrison()<3) {
 					gui.showMessage(player.getName() + ", du slog ikke to ens, og forbliver i fængsel en runde til");
 					player.setInPrison(player.getInPrison()+1);
 					return;
 				}
+				//Slog ikke ens for tredje gang mens spilleren er i fængsel. Skal betale 1000 til banken.
 				else if(player.getInPrison()>=3){
 					gui.showMessage(player.getName() + ", du slog ikke to ens, og har allerede prøvet at slå med terningerne 3 gange. Du må nu betale 1000 kr for at komme ud og rykke " + game.getDice().getSum());
 					payMoneyToBank(player, 1000);
 					player.setInPrison(0);
 				}
+				//Flytter til felt
 				int position = player.getPosition() + game.getDice().getSum();
 				moveToField(player, position, false);
 
@@ -723,6 +766,7 @@ public class GameController {
 				}
 			}while(throwDouble);
 
+			//Gemmer spillet
 			try {
 				gameDAO.updatePlayer(game);
 				gameDAO.updateProperties(game);
@@ -739,34 +783,44 @@ public class GameController {
 	/**
 	 * This method moves the player to another field.
 	 * The method is used in the "cardMoveToField" and the "moveToFerryDouble" methods. 
-	 * @author 
-	 * @param player
-	 * @param position
+	 * @author unknown
+	 * @param player - the player whose turn it is
+	 * @param position - new position of player
+	 * @param moveBack - is true if a player is to move in the opposite direction of the normal flow
 	 */
 	public void moveToField(Player player, int position, boolean moveBack) {
 		position = position % game.getFields().size();
+		//rykker tilbage hvis moveBack er sand
 		if(moveBack) {
 			player.setPosition(position % game.getFields().size());
 		}
+		//Rykker over start
 		else if(position<player.getPosition() && player.getInPrison()==0) {
 			player.setPosition(position % game.getFields().size());
 			gui.showMessage(player.getName() + ", du har passeret start, og modtager 4000 kr");
 			receiveMoney(player, 4000);
 		}
+		//rykker frem
 		else {
 			player.setPosition(position % game.getFields().size());
 		}
 		gui.showMessage(player.getName() + " har landet på " + game.getFields().get(player.getPosition()).getFieldName());
 		game.getFields().get(player.getPosition()).landOnField(this);
 	}
-
+	
+	/**
+	 * @author unknown
+	 * 
+	 * method is invoked when the player is in prison and it is that players turn
+	 * @param player - Player who is in prison
+	 */
 	public void playerInPrison(Player player) {
 		String choice="";
 		// if the player is in prison and has a get out of jail free card. 
 		ArrayList<String> options = new ArrayList<>();
 		// if the player is in prison and has a get out of jail free card. 		
 
-
+		//Tilføjer muligheder for player til arrayList
 		if(player.getAccount().getPrisonCard()>0) {
 			options.add("Brug fængselskort");
 		}
@@ -778,9 +832,10 @@ public class GameController {
 		String[] option = new String[options.size()];
 		option = options.toArray(option);
 
+		
 		choice = gui.getUserButtonPressed(player.getName() + ", du er i fængsel. Du har følgende muligheder for at komme ud af fængslet", option);
 
-
+		//Vælger en af følgende muligheder alt efter spillerens valg
 		switch(choice) {
 		case "Betal 1000 kr": 	payMoneyToBank(player, 1000);
 		player.setInPrison(0);						
@@ -797,7 +852,11 @@ public class GameController {
 		}
 
 	}
-
+/**
+ * @author unknown
+ * 
+ *method is invoked when the program is started. It gives the players the options to load a game or start a new one.
+ */
 	private void setUpGame() {
 
 
@@ -846,7 +905,14 @@ public class GameController {
 		}
 		player.getAccount().updateCash(-amount);
 	}
-
+/**
+ * @author unknown
+ * 
+ * Method is invoked when one player owes another player money.
+ * @param payingPlayer - player who owes another player money
+ * @param amount ammount - payingPlayer owes receiving player
+ * @param receivingPlayer - player who is owed money
+ */
 	public void payMoneyToPlayer(Player payingPlayer, int amount, Player receivingPlayer) {
 		if(payingPlayer.getAccount().getCash()<amount) {
 			boolean bankrupt = generateCash(payingPlayer, amount);
@@ -870,11 +936,23 @@ public class GameController {
 		player.getAccount().updateCash(amount);
 	}
 
-
+/**
+ * @author unknown
+ * 
+ * Method to add properties to a players "account".
+ * 
+ * @param player - player who buys the property
+ * @param property - the property bought
+ */
 	public void addOwnedProperties(Player player, Property property) {
 		player.addOwnedProperties(property);
 	}
 
+	/**
+	 * @author unknown
+	 * Method is invoked if a player wants to buy a field that player lands on.
+	 * @param property - property that can be bought
+	 */
 	public void offerToBuyProperty(Property property) {
 		Player player = game.getCurrentPlayer();
 		if (property.isForSale()) {
@@ -882,7 +960,7 @@ public class GameController {
 
 			if(player.getAccount().getCash()>=property.getPrice()) {
 				String playerChoice = gui.getUserButtonPressed(player.getName()+ " vil du købe " + property.getFieldName() + " for " + property.getPrice(), "Nej", "Ja");
-
+				//Spilleren vil købe ejendommen
 				if (playerChoice.equals("Ja")) {
 					property.setForSale(false);
 					property.setOwner(player);
@@ -897,22 +975,24 @@ public class GameController {
 			}
 		}
 
+
+		
+
 		//Hvis grunden ikke er til salg
-		//Spilleren kan, når han lander på grunden:
-		//Betale leje 
-		//Ikke betale leje (Hvis ejeren er i fængsel, eller ved pansætning
-		//Sætte ejendommen på auktion. 
 		else {
+			//spilleren ejer allerede felt
 			if (property.getOwner().equals(player)) {
 				gui.showMessage(property.toString() + ", du er selv ejer af dette felt, og skal selvfølgelig ikke betale");
 			}
+			//Ejeren er i fængsel
 			else if (property.getOwner().getInPrison()!= 0) { 
 				gui.showMessage(property.toString() + ", ejeren er i fængsel, du slipper denne gang!");
 			}
+			//ejendommen er pantsat
 			else if (property.getMortgage()) {
 				gui.showMessage(property.toString() + ", grunden er pantsat, du slipper denne gang!");
 			}
-			else {
+			else {//hvis ejendommen er af typen utility /færge eller bryggeri
 				if(property instanceof Utility) {
 					int[] count = ownedUtilitiesSameType((Utility) property, player);
 					paySameTypeUtility(property, player, count);
@@ -921,7 +1001,7 @@ public class GameController {
 					if(ownedRealEstateSameColour((RealEstate) property, player)) {
 
 						paySameTypeRealEstate((RealEstate)property, player);
-
+						//betal leje
 					} else { 
 						gui.showMessage(player.getName() + ", du er landet på " + property.getOwner().getName() +"'s ejendom og skal betale " + rent[property.getFieldNumber()][0] + " i leje");
 						payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
@@ -930,7 +1010,15 @@ public class GameController {
 			}
 		}
 	}
-
+/**
+ * @author unknown
+ * 
+ * method is invoked when a player lands on a utility owned by another player
+ * 
+ * @param property - the property a player has landed on
+ * @param player - the player whose turn it is
+ * @param count - ammount of utilities of that type and how many a player owns
+ */
 	public void paySameTypeUtility(Property property, Player player, int[] count) {
 		// If there only exist two types of this utility, it is a "bryggeri"
 		if (count[0] == 2) {
@@ -943,7 +1031,7 @@ public class GameController {
 			break;
 			}
 		}
-		// else it is a "rederi".
+		// ellers er det et "rederi". og kalkulerer prisen
 		else {
 			switch(count[1]){
 			case 1: payMoneyToPlayer(player, rent[property.getFieldNumber()][0], property.getOwner());
@@ -958,11 +1046,17 @@ public class GameController {
 			case 4: payMoneyToPlayer(player, rent[property.getFieldNumber()][3], property.getOwner());
 			gui.showMessage("Du er landet på" + property.getOwner().getName() +"s ejendom og skal betale " + rent[property.getFieldNumber()][3]);
 			break;
-			} // skal opdateret fra txt filen af rederileje ^^VIGTIGT
+			} 
 		}
 	}
 
-
+/**
+ * @author unknown
+ * 
+ * Method is invoked when a player lands on field of type RealEstate owned by another player
+ * @param realEstate the realEstate a player has landed on
+ * @param player the player whose turn it is
+ */
 	public void paySameTypeRealEstate(RealEstate realEstate, Player player) {
 		switch(realEstate.getHouses()){
 		case 0: payMoneyToPlayer(player, rent[realEstate.getFieldNumber()][0]*2, realEstate.getOwner());
@@ -985,6 +1079,12 @@ public class GameController {
 		break;
 		}
 	}
+	/**
+	 * @author unknown
+	 * 
+	 * Method is invoked when a player goes bankrupt and does not owe another player money
+	 * @param player
+	 */
 	public void bankruptToBank(Player player) {
 		//Invoke Auction on properties owned by bankrupt Player.
 		player.setBroke(true);
@@ -994,11 +1094,18 @@ public class GameController {
 			propertiesForAuction.get(i).setOwner(null);
 			auction(player, propertiesForAuction.get(i));
 
-
-			//Evt. game.getPlayersArrayList.remove(player).
 		}
 		player.removeAllOwnedProperties();
 	}
+	
+	
+	/**
+	 * @author unknown
+	 * 
+	 * Method is invoked when a player goes bankrupt by not being able to pay another player the full ammount they owe.
+	 * @param bankruptPlayer - player that has gone bankrupt
+	 * @param receivingPlayer - player who bankruptPlayer owes money.
+	 */
 	public void bankruptToPlayer(Player bankruptPlayer, Player receivingPlayer) {
 		ArrayList<Property> propsForTransfers = bankruptPlayer.getOwnedProperties();
 		int cashForReceiver = bankruptPlayer.getAccount().getCash();
@@ -1017,13 +1124,20 @@ public class GameController {
 		payMoneyToPlayer(bankruptPlayer, cashForReceiver, receivingPlayer);
 
 	}
-
+/** 
+ * @author unknwon
+ * 
+ * method is used to remove player from game
+ * @param player - the player that is to be removed
+ */
 	public void removePlayerFromGame(Player player) {
 		game.getPlayers().remove(player);
 	}
 
 
 	/**
+	 * @author unknown
+	 * 
 	 * Method, to find out, if an owner of a real estate, also owns
 	 * the other real estates in the same color.
 	 * 
@@ -1052,6 +1166,8 @@ public class GameController {
 	 * 
 	 * @param property the real estate the player has landed on
 	 * @param player the player that has landed on the real estate
+	 * 
+	 * @return the ammount properties of a type (either 4 or 2) and the ammount a player owns in position [1]
 	 */
 	public int[] ownedUtilitiesSameType(Utility utility, Player player) {
 		int colourCount = 0;
@@ -1069,10 +1185,9 @@ public class GameController {
 		int[] count = {colourCount, ownerCount}; 
 		return count;
 	}
-//	public Game getGame() {
-//		return game;
-//	}
+
 	/**
+	 * @author
 	 * Method which is invoked if a player do not have the funds to pay what set person owes.
 	 * It enables you to trade with , mortgage properties and sell houses/hotels
 	 * @param payingPlayer: the player who needs to generate cash to pay
@@ -1108,19 +1223,10 @@ public class GameController {
 						endTurn = true;
 					else
 						endTurn = false;
-				}
+				} 
 
 				// If the player has properties
 				if(player.getOwnedProperties().size()>0) {  
-
-					// Player can mortgage property and trade with other players
-					//				for(int i = 0; i<game.getPlayers().size(); i++) {
-					//					if(game.getPlayers().get(i).getOwnedProperties().size()>0 && !game.getPlayers().get(i).equals(player)) {
-					//						trade = true;
-					//						break;
-					//					}
-					//				}
-
 
 
 					for(int i=0; i<player.getOwnedProperties().size(); i++) {
@@ -1154,11 +1260,11 @@ public class GameController {
 				}
 
 
-
+				//Tilføjer muligheder spilleren kan.
 				ArrayList<String> option = new ArrayList<>();
 				if(player.getAccount().getCash()<ammount) {
 					option.add("Afslut og erklær dig konkurs");
-					//				option.remove("Afslut tur");
+
 				}
 				if(buyHouses) {
 					option.add("Køb hus");
@@ -1193,10 +1299,10 @@ public class GameController {
 					choice = gui.getUserButtonPressed(game.getCurrentPlayer().getName() + ", hvordan vil du fortsætte?", optionStrings);
 				}
 
-
+				
 				switch(choice) {
 				case "Sælg hus/hotel": 
-					sellHousesAndHotels(player, ammount);
+					sellHousesAndHotels(player);
 					break;
 				case "Køb hus":
 					buyHousesAndHotels(player);
@@ -1212,13 +1318,7 @@ public class GameController {
 					break;
 				case "Afslut og erklær dig konkurs":
 					player.setBroke(true);
-
-					//				if(bankruptToBank)
-					//				bankruptToBank(player);
-					//				else
 					return true;
-
-					//				break;
 				case "Kast med terningen":
 					done = true;
 					break;
@@ -1233,15 +1333,21 @@ public class GameController {
 
 
 	}
+	/**
+	 * @author unknown
+	 * 
+	 *Method is used when a player owns all the real estates of a given color and wants to build on one or more of the properties.
+	 * @param player - player who owns all the RealEstates in a given color
+	 */
 	public void buyHousesAndHotels(Player player) {
 		String choice = "";
 		boolean done = false;
 
+		//Holder spilleren fast i loopet indtil de selv vælger at være færdige
 		while(!done) {
 			ArrayList<Property> ownedFields = player.getOwnedProperties();
 			HashSet<String> fieldColors = new HashSet<String>();
 
-			//
 			for (int i = 0; i<ownedFields.size(); i++) {
 				//Hvis spilleren ejer alle felter i samme farve
 				if(ownedFields.get(i) instanceof RealEstate) {
@@ -1379,8 +1485,14 @@ public class GameController {
 			}
 		}
 	}
-
-	public void sellHousesAndHotels(Player player, int ammount) {
+/**
+ * @author unknown
+ * 
+ * Method is invoked when a player wants to sell houses and hotels on a property
+ * @param player - player who wants to sell a house/hotel
+ * 
+ */
+	public void sellHousesAndHotels(Player player) {
 		String choice = "";
 		boolean done = false;
 
@@ -1452,33 +1564,17 @@ public class GameController {
 					}
 				}
 
-
-				for(int i = 0; i<fieldsWithHouses.size(); i++) {
-					System.out.println("Navn : " + fieldsWithHouses.get(i).getFieldName() + ", antal huse: " + ((RealEstate) fieldsWithHouses.get(i)).getHouses());
-
-				}
-
-
+				//tjekker om du kan fjerne hus/hotel på valgte grund, hvis du kan så fjernes det
 				if (h1 >= (h2/sameTypePropertiesFields.size()) && (((RealEstate) fieldsWithHouses.get(chosen)).getHouses() >0)) {
 
-					//remove house on Fields that player owns
-					System.out.println(h1); 
 					((RealEstate)sameTypePropertiesFields.get(chosen)).sellHouse();
-					//remove houses from the array the used to sell houses from:
-					//((RealEstate) sameTypePropertiesFields.get(h1)).sellHouse();
-					//remove house on players houseArray()
-					//					game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber()).sellHouse();
-					// remove getHouseBuildingPrice from players account (assets)
-					//					player.getAccount().updateAssetValue(-(((RealEstate) game.getFields().get(sameTypePropertiesFields.get(h1).getFieldNumber())).getBuildingPrice()));
-					//return half of HouseBuildingPrice to Players cash in account.
-
-					System.out.println("Kom her til"); //ReceiveMoney
+					
 					player.getAccount().updateCash((((RealEstate) game.getFields().get(sameTypePropertiesFields.get(chosen).getFieldNumber())).getBuildingPrice())/2);
-
 
 					ableToSell = true;
 
 				}
+				//Hvis der ikek er flere huse at sælge
 				else {
 					gui.showMessage("Du kan enten ikke sælge flere huse i denne farve eller ikke sælge hus på denne grund før du har solgt på anden grund. \n Huse og hoteller på ejendomme skal fordeles jævnt.");
 				}
@@ -1518,6 +1614,14 @@ public class GameController {
 		game.getCurrentPlayer().setPosition(10);
 		game.getCurrentPlayer().setInPrison(1);
 	}
+	
+	/**
+	 * @author unknown
+	 * Method is invoked when a player lands on a Tax field.
+	 * Gives the player the opportunity to pay 10% of all owned or 4000.
+	 * 
+	 * @param tax - tax field
+	 */
 	public void payTax(Tax tax) {
 		if(tax.getPrice() == 4000) {
 			String playerChoice = gui.getUserButtonPressed(game.getCurrentPlayer().getName()+ tax.toString() +tax.getPrice() + "?", "4000", "10%");
@@ -1532,11 +1636,22 @@ public class GameController {
 		}
 	}
 
+	/**
+	 *@author
+	 *
+	 *Method is invoked when a player lands on a neutral field
+	 * @param field a neutral field (no action)
+	 */
 	public void neutralField(Fields field) {
 		gui.showMessage(game.getCurrentPlayer().getName() + field.toString());
 	}
 
-
+	/**
+	 * @author unknown
+	 * 
+	 * method is invoked when a player lands on a chance field and receives a chanceCard of a type that moves a player.
+	 * @param chanceCard - chanceCard that is picked from a deck.
+	 */
 	public void cardMoveToField(ChanceCard chanceCard) {
 		gui.displayChanceCard(chanceCard.toString());
 		gui.showMessage(chanceCard.toString());
@@ -1544,6 +1659,7 @@ public class GameController {
 			//nearest ferry + double rent
 			moveToFerryDouble();
 		}
+		
 		else if(chanceCard.getCardNumber()<=23) {
 			//Move -3
 			if(game.getCurrentPlayer().getPosition()==2) {
@@ -1579,7 +1695,11 @@ public class GameController {
 		}
 
 	}
-
+/**
+ * @author unknown
+ * 
+ * method is invoked when a chancecard dictates that a player has to move to closest ferry
+ */
 	private void moveToFerryDouble() {
 		int position = game.getCurrentPlayer().getPosition();
 
@@ -1608,12 +1728,23 @@ public class GameController {
 			moveToField(game.getCurrentPlayer(), arrayPositionOfFerry, false);
 		}
 	}
+	/**
+	 * @author unknown
+	 * 
+	 * method is invoked when a player picks a chancecard which gives set player a getOutOfJail card
+	 * @param chanceCard - chancecard picked from deck
+	 */
 
 	public void playerGetsPrisonCard(ChanceCard chanceCard) {
 		gui.displayChanceCard(chanceCard.toString());
 		gui.showMessage(chanceCard.toString());
 		game.getCurrentPlayer().getAccount().updatePrisonCard(1);
 	}
+	/**
+	 * @author unknown
+	 * Method is invoked when the chancecard picked dictates that the current player has to go to jail
+	 * @param chanceCard - chancecard picked from deck
+	 */
 
 	public void cardGoToJail(ChanceCard chanceCard) {
 		gui.displayChanceCard(chanceCard.toString());
@@ -1622,6 +1753,11 @@ public class GameController {
 		game.getCurrentPlayer().setPosition(10);
 	}
 
+	/**
+	 * @author unknown
+	 * method is invoked when a chancecard that makes the player pay an ammount to the bank/game
+	 * @param chanceCard - chancecard picked from deck
+	 */
 	public void cardPay(ChanceCard chanceCard) {
 		gui.displayChanceCard(chanceCard.toString());
 		gui.showMessage(chanceCard.toString());
@@ -1643,6 +1779,14 @@ public class GameController {
 			payMoneyToBank(game.getCurrentPlayer(),chanceCard.getAmount());
 
 	}
+	/**
+	 * @author unknown
+	 * 
+	 * method is invoked when a chancecard dictates that the player has to pay per house and hotel.
+	 * @param housePrice - price a player has to pay per house owned
+	 * @param hotelPrice - price a player has to pay per hotel owned
+	 * @return the price a player has to pay dependent on ammount of houses and hotels the player owns.
+	 */
 
 	private int payPerHouseAndHotel( int housePrice, int hotelPrice) {
 		int houses=0;
@@ -1666,8 +1810,13 @@ public class GameController {
 		}
 		return (houses*housePrice + hotels*hotelPrice);
 	}
-
-
+	
+	/**
+	 * @author unknown
+	 * method is invoked when a player picks a chancecard that dictates the player is to receive money either from bank or other players.
+	 * 
+	 * @param chanceCard - chancecard picked from deck
+	 */
 	public void cardReceiveMoney(ChanceCard chanceCard) {
 		gui.displayChanceCard(chanceCard.toString());
 		gui.showMessage(chanceCard.toString());
@@ -1693,6 +1842,13 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * @author unknown
+	 * 
+	 * Method is invoked everytime it is necessary  to know the total ammount of assets and cash a player has.
+	 * @param player - the player whose assets and cash it is needed to know
+	 * @return the total ammount of assets and cash a player has.
+	 */
 	public int getAssetValue(Player player) {
 		int asset = 0;
 		for(int i = 0; i<player.getOwnedProperties().size(); i++) {
